@@ -46,6 +46,10 @@ describe("UserTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");
 
+    const staffButton = screen.getByTestId(`${testId}-cell-row-0-col-Staff-button`);
+    expect(staffButton).toBeInTheDocument();
+    expect(staffButton).toHaveClass("btn-primary");
+
     const editButton = screen.queryByTestId(`${testId}-cell-row-0-col-Edit-button`);
     expect(editButton).not.toBeInTheDocument();
 
@@ -114,6 +118,10 @@ describe("UserTable tests", () => {
 
     expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");
+
+    const staffButton = screen.getByTestId(`${testId}-cell-row-0-col-Staff-button`);
+    expect(staffButton).toBeInTheDocument();
+    expect(staffButton).toHaveClass("btn-primary");
 
     const editButton = screen.getByTestId(`${testId}-cell-row-0-col-Edit-button`);
     expect(editButton).toBeInTheDocument();

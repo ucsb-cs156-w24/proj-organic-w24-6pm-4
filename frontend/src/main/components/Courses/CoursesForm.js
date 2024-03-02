@@ -110,7 +110,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                 </Col>
                 <Col>
                     <Form.Group className="mb-3" >
-                        <Form.Label htmlFor="">EndDate(iso format)</Form.Label>
+                        <Form.Label htmlFor="endDate">EndDate(iso format)</Form.Label>
                         <Form.Control
                             data-testid="CoursesForm-endDate"
                             id="endDate"

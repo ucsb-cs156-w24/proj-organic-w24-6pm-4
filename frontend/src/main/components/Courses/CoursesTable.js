@@ -9,6 +9,10 @@ import React from "react";
 
      const navigate = useNavigate();
 
+     const staffCallback = (cell) => {
+        navigate(`/courses/${cell.row.values.id}/staff`);
+    };
+
      const editCallback = (cell) => {
          navigate(`/courses/edit/${cell.row.values.id}`);
      };
@@ -55,6 +59,8 @@ import React from "react";
              accessor: 'githubOrg',
          },
      ];
+
+     columns.push(ButtonColumn("Staff", "primary", staffCallback, "CoursesTable"));
 
      if (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR")) {
          columns.push(ButtonColumn("Edit", "primary", editCallback, "CoursesTable"));

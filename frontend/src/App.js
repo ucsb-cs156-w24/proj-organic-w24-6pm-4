@@ -15,6 +15,7 @@ import CourseIndexPage from "main/pages/CourseIndexPage";
 
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 import NotFoundPage from "main/pages/NotFoundPage";
+import StaffIndexPage from "main/pages/StaffIndexPage";
 
 function App() {
   const { data: currentUser } = useCurrentUser();
@@ -37,6 +38,12 @@ function App() {
       <Route path="/courses/create" element={<CoursesCreatePage />} />
       <Route path="/courses" element={<CourseIndexPage />} />
       <Route path="/courses/edit/:id" element={<CoursesEditPage />} />
+    </>
+  ) : null;
+
+  const staffRoutes = hasRole(currentUser, "ROLE_USER") ? (
+    <>
+      <Route path="/courses/:id/staff" element={<StaffIndexPage />} />
     </>
   ) : null;
 
@@ -79,6 +86,7 @@ function App() {
           {adminRoutes}
           {userRoutes}
           {courseRoutes}
+          {staffRoutes}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       )}
