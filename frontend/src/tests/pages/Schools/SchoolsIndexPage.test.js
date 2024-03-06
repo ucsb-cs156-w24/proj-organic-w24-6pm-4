@@ -107,7 +107,7 @@ describe("SchoolsIndexPage tests", () => {
 
         const name = screen.getByText("UC Santa Barbara");
         expect(name).toBeInTheDocument();
-        const termRegex = screen.getAllByText("[WSMF]\\\d\\\d")[0];
+        const termRegex = screen.getAllByText("[WSMF]\\d\\d")[0];
         expect(termRegex).toBeInTheDocument();
         const termDescription = screen.getAllByText("Enter quarter, e.g. F23, W24, S24, M24")[0];
         expect(termDescription).toBeInTheDocument();
