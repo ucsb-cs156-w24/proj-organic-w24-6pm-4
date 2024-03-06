@@ -89,6 +89,7 @@ function App() {
         <Routes>
           {homeRoute}
           {adminRoutes}
+          {schoolRoutes}
           {userRoutes}
           {courseRoutes}
           <Route path="*" element={<NotFoundPage />} />
