@@ -1,0 +1,127 @@
+import { Button, Form, Row, Col } from 'react-bootstrap';
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+
+function SchoolsForm({ initialContents, submitAction, buttonLabel = "Create" }) {
+
+    // Stryker disable all
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+    } = useForm(
+        { defaultValues: initialContents || {}, }
+    );
+    // Stryker restore all
+
+    const navigate = useNavigate();
+
+    return (
+
+        <Form onSubmit={handleSubmit(submitAction)}>
+            <Row>
+                {initialContents && (
+                <Col>
+                    <Form.Group className="mb-3" >
+                        <Form.Label htmlFor="abbrev">Abbreviation</Form.Label>
+                        <Form.Control
+                            data-testid="SchoolsForm-abbrev"
+                            id="abbrev"
+                            type="text"
+                            {...register("abbrev")}
+                            value={initialContents.id}
+                            disabled
+                        />
+                    </Form.Group>
+                </Col>
+                )}
+                <Col>
+                    <Form.Group className="mb-3" >
+                        <Form.Label htmlFor="name">Name</Form.Label>
+                        <Form.Control
+                            data-testid="SchoolsForm-name"
+                            id="name"
+                            type="text"
+                            isInvalid={Boolean(errors.name)}
+                            {...register("name", { required: true })}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {errors.name && 'Name is required. '}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group className="mb-3" >
+                        <Form.Label htmlFor="termRegex">Term Regex</Form.Label>
+                        <Form.Control
+                            data-testid="SchoolsForm-termRegex"
+                            id="termRegex"
+                            type="text"
+                            isInvalid={Boolean(errors.termRegex)}
+                            {...register("termRegex", { required: true })}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {errors.termRegex && 'Term Regex is required. '}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                </Col>
+            </Row>
+
+            <Row>
+                <Col>
+                    <Form.Group className="mb-3" >
+                        <Form.Label htmlFor="termDescription">Term Description</Form.Label>
+                        <Form.Control
+                            data-testid="SchoolsForm-termDescription"
+                            id="termDescription"
+                            type="text"
+                            isInvalid={Boolean(errors.termDescription)}
+                            {...register("termDescription", { required: true})}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {errors.termDescription && 'Term Description is required.'}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                </Col>
+            </Row>
+
+            <Row>
+                <Col>
+                    <Form.Group className="mb-3" >
+                        <Form.Label htmlFor="termError">Term Error</Form.Label>
+                        <Form.Control
+                            data-testid="SchoolsForm-termError"
+                            id="termError"
+                            type="text"
+                            isInvalid={Boolean(errors.termError)}
+                            {...register("termError", { required: true})}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {errors.termError && 'Term Error is required.'}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                </Col>
+            </Row>
+
+            <Row>
+                <Col>
+                    <Button
+                        type="submit"
+                        data-testid="SchoolsForm-submit"
+                    >
+                        {buttonLabel}
+                    </Button>
+                    <Button
+                        variant="Secondary"
+                        onClick={() => navigate(-1)}
+                        data-testid="SchoolsForm-cancel"
+                    >
+                        Cancel
+                    </Button>
+                </Col>
+            </Row>
+        </Form>
+    )
+}
+
+export default SchoolsForm;
