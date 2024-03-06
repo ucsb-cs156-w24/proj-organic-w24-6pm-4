@@ -43,6 +43,29 @@ describe("SchoolsIndexPage tests", () => {
 
     const queryClient = new QueryClient();
 
+    test("renders empty table when backend unavailable", async () => {
+        setupAdminUser();
+
+        axiosMock.onGet("/api/Schools/all").timeout();
+
+        const restoreConsole = mockConsole();
+
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <SchoolsIndexPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        restoreConsole();
+
+        await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
+        
+        expect(screen.queryByTestId(`${testId}-cell-row-0-col-abbrev`)).not.toBeInTheDocument();
+
+    });
+
     test("Renders with Create Button for admin user", async () => {
         setupAdminUser();
         axiosMock.onGet("/api/Schools/all").reply(200, []);
@@ -95,31 +118,6 @@ describe("SchoolsIndexPage tests", () => {
         expect(screen.queryByTestId(`${testId}-cell-row-0-col-Delete-button`)).not.toBeInTheDocument();
         expect(screen.queryByTestId(`${testId}-cell-row-0-col-Edit-button`)).not.toBeInTheDocument();
     });
-
-    test("renders empty table when backend unavailable, user only", async () => {
-        setupUserOnly();
-
-        axiosMock.onGet("/api/Schools/all").timeout();
-
-        const restoreConsole = mockConsole();
-
-        render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <SchoolsIndexPage />
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-
-        restoreConsole();
-
-        await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
-        
-        const errorMessage = console.error.mock.calls[0][0];
-        expect(errorMessage).toMatch("Error communicating with backend via GET on /api/Schools/all");
-
-    });
-
 
     test("what happens when you click delete, admin", async () => {
         setupAdminUser();

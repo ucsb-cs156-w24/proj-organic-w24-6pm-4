@@ -3,8 +3,8 @@ import { useBackend } from 'main/utils/useBackend';
 
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import SchoolsTable from 'main/components/Schools/SchoolsTable';
-import { useCurrentUser , hasRole} from 'main/utils/currentUser'
 import { Button } from 'react-bootstrap';
+import { useCurrentUser , hasRole} from 'main/utils/currentUser'
 
 export default function SchoolsIndexPage() {
 
@@ -14,8 +14,8 @@ export default function SchoolsIndexPage() {
         useBackend(
             // Stryker disable next-line all : don't test internal caching of React Query
             ["/api/Schools/all"],
-            { method: "GET", url: "/api/Schools/all" },
             // Stryker disable next-line all : don't test default value of empty list
+            { method: "GET", url: "/api/Schools/all" },
             []
         );
 
