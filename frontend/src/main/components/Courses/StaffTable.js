@@ -1,11 +1,11 @@
 import React from "react";
  import OurTable, { ButtonColumn } from "main/components/OurTable"
  import { useBackendMutation } from "main/utils/useBackend";
- import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/components/Utils/StaffsUtils"
+ import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/components/Utils/StaffUtils"
  import { useNavigate } from "react-router-dom";
  import { hasRole } from "main/utils/currentUser";
 
- export default function StaffsTable({ staffs, currentUser }) {
+ export default function StaffTable({ staffs, currentUser }) {
 
      const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ import React from "react";
      const deleteMutation = useBackendMutation(
          cellToAxiosParamsDelete,
          { onSuccess: onDeleteSuccess },
-         [`/api/courses/${cell.row.values.id}/staff`]
+         [`/api/course/${cell.row.values.id}/staff`]
      );
      // Stryker restore all 
 
@@ -37,11 +37,11 @@ import React from "react";
      ];
 
      if (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR")) {
-         columns.push(ButtonColumn("Delete", "danger", deleteCallback, "StaffsTable"));
+         columns.push(ButtonColumn("Delete", "danger", deleteCallback, "StaffTable"));
      }
 
      return <OurTable
          data={staffs}
          columns={columns}
-         testid={"StaffsTable"} />;
+         testid={"StaffTable"} />;
     };

@@ -1,4 +1,4 @@
-import React from "react";
+ import React from "react";
  import OurTable, { ButtonColumn } from "main/components/OurTable"
  import { useBackendMutation } from "main/utils/useBackend";
  import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/components/Utils/CourseUtils"
@@ -10,7 +10,7 @@ import React from "react";
      const navigate = useNavigate();
 
      const staffCallback = (cell) => {
-        navigate(`/courses/${cell.row.values.id}/staff`);
+        navigate(`/course/${cell.row.values.id}/staff`);
     };
 
      const editCallback = (cell) => {
