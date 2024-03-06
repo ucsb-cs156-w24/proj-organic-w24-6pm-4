@@ -151,34 +151,37 @@ describe("SchoolsEditPage tests", () => {
             render(
                 <QueryClientProvider client={queryClient}>
                     <MemoryRouter>
-                        <UCSBOrganizationEditForm />
+                        <SchoolsEditPage />
                     </MemoryRouter>
                 </QueryClientProvider>
             );
 
-            await screen.findByTestId("UCSBOrganizationForm-orgCode");
+            await screen.findByTestId("SchoolsForm-abbrev");
 
-            const orgCodeField = screen.getByTestId("UCSBOrganizationForm-orgCode");
-            const orgTranslationShortField = screen.getByTestId("UCSBOrganizationForm-orgTranslationShort");
-            const orgTranslationField = screen.getByTestId("UCSBOrganizationForm-orgTranslation");
-            const inactiveCheck = screen.getByTestId("UCSBOrganizationForm-inactive");
-            const submitButton = screen.getByTestId("UCSBOrganizationForm-submit");
+            const abbrevField = screen.getByTestId("SchoolsForm-abbrev");
+            const nameField = screen.getByTestId("SchoolsForm-name");
+            const termRegexField = screen.getByTestId("SchoolsForm-termRegex");
+            const termDescriptionField = screen.getByTestId("SchoolsForm-termDescription");
+            const termErrorField = screen.getByTestId("SchoolsForm-termError");
+            const submitButton = screen.getByTestId("SchoolsForm-submit");
 
-            expect(orgCodeField).toHaveValue("SKY");
-            expect(orgTranslationShortField).toHaveValue("SKYDIVING CLUB");
-            expect(orgTranslationField).toHaveValue("SKYDIVING CLUB AT UCSB");
-            expect(inactiveCheck).not.toBeChecked();
+            expect(abbrevField).toHaveValue("ucsb");
+            expect(nameField).toHaveValue("UC Santa Barbara");
+            expect(termRegexField).toHaveValue("[WSMF]\\d\\d");
+            expect(termDescriptionField).toHaveValue("Enter quarter, e.g. F23, W24, S24, M24");
+            expect(termErrorField).toHaveValue("Quarter must be entered in the correct format");
             expect(submitButton).toBeInTheDocument();
 
-            fireEvent.change(orgTranslationShortField, { target: { value: 'SKYWATCHING CLUB' } })
-            fireEvent.change(orgTranslationField, { target: { value: 'SKYWATCHING CLUB AT UCSB' } })
-            fireEvent.click(inactiveCheck);
+            fireEvent.change(nameField, { target: { value: 'UC Santa Barbie' } });
+            fireEvent.change(termRegexField, { target: { value: '[FS]\\d\\d' } });
+            fireEvent.change(termDescriptionField, { target: { value: 'Enter semester, e.g. F23, S24' } });
+            fireEvent.change(termErrorField, { target: { value: 'Semester must be entered in the correct format' } });
 
             fireEvent.click(submitButton);
 
             await waitFor(() => expect(mockToast).toBeCalled());
-            expect(mockToast).toBeCalledWith("Organization Updated - orgCode: SKY orgTranslationShort: SKYWATCHING CLUB");
-            expect(mockNavigate).toBeCalledWith({ "to": "/UCSBOrganization" });
+            expect(mockToast).toBeCalledWith("School Updated - abbrev: ucsb name: UC Santa Barbie");
+            expect(mockNavigate).toBeCalledWith({ "to": "/Schools" });
         });
 
        
