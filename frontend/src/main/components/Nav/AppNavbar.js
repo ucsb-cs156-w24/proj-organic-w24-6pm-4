@@ -53,7 +53,7 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
 
           <Nav className="me-auto">
             {
-              (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR")) && (
+              (hasRole(currentUser, "ROLE_ADMIN")) && (
                 <>
                   <Nav.Link href="/Schools">Schools</Nav.Link>
                 </>
