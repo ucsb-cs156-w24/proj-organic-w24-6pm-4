@@ -8,7 +8,7 @@ import { Button } from 'react-bootstrap';
 
 export default function SchoolsIndexPage() {
 
-    const currentUser = useCurrentUser();
+    const {data: currentUser} = useCurrentUser();
 
     const { data: schools, error: _error, status: _status } =
         useBackend(
