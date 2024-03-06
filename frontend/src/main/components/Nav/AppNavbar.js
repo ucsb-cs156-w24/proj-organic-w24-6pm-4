@@ -51,6 +51,16 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
             }
           </Nav>
 
+          <Nav className="me-auto">
+            {
+              (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR")) && (
+                <>
+                  <Nav.Link href="/Schools">Schools</Nav.Link>
+                </>
+              )
+            }
+          </Nav>
+
           <Navbar.Collapse className="justify-content-between">
             <Nav className="mr-auto">
               {
