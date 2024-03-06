@@ -1,16 +1,16 @@
 import React from 'react';
-import CoursesForm from 'main/components/Courses/CoursesForm';
-import { coursesFixtures } from 'fixtures/coursesFixtures';
+import CourseForm from 'main/components/Courses/CourseForm';
+import { courseFixtures } from 'fixtures/courseFixtures';
 
 export default {
-    title: 'components/Courses/CoursesForm',
-    component: CoursesForm
+    title: 'components/Courses/CourseForm',
+    component: CourseForm
 };
 
 
 const Template = (args) => {
     return (
-        <CoursesForm {...args} />
+        <CourseForm {...args} />
     )
 };
 
@@ -27,7 +27,7 @@ Create.args = {
 export const Update = Template.bind({});
 
 Update.args = {
-    initialContents: coursesFixtures.oneCourse,
+    initialContents: courseFixtures.oneCourse,
     buttonLabel: "Update",
     submitAction: (data) => {
         console.log("Submit was clicked with data: ", data); 

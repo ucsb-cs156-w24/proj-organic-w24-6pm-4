@@ -1,6 +1,6 @@
 import { render, waitFor, fireEvent, screen } from "@testing-library/react";
-import CoursesForm from "main/components/Courses/CoursesForm";
-import { coursesFixtures } from "fixtures/coursesFixtures";
+import CourseForm from "main/components/Courses/CourseForm";
+import { courseFixtures } from "fixtures/courseFixtures";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const mockedNavigate = jest.fn();
@@ -11,13 +11,13 @@ jest.mock('react-router-dom', () => ({
 }));
 
 
-describe("CoursesForm tests", () => {
+describe("CourseForm tests", () => {
 
     test("renders correctly", async () => {
 
         render(
             <Router  >
-                <CoursesForm />
+                <CourseForm />
             </Router>
         );
         await screen.findByText(/Name/);
@@ -29,12 +29,12 @@ describe("CoursesForm tests", () => {
 
         render(
             <Router  >
-                <CoursesForm initialContents={coursesFixtures.oneCourse} />
+                <CourseForm initialContents={courseFixtures.oneCourse} />
             </Router>
         );
-        await screen.findByTestId(/CoursesForm-id/);
+        await screen.findByTestId(/CourseForm-id/);
         expect(screen.getByText(/Id/)).toBeInTheDocument();
-        expect(screen.getByTestId(/CoursesForm-id/)).toHaveValue("1");
+        expect(screen.getByTestId(/CourseForm-id/)).toHaveValue("1");
     });
 
 
@@ -42,11 +42,11 @@ describe("CoursesForm tests", () => {
 
         render(
             <Router  >
-                <CoursesForm />
+                <CourseForm />
             </Router>
         );
-        await screen.findByTestId("CoursesForm-submit");
-        const submitButton = screen.getByTestId("CoursesForm-submit");
+        await screen.findByTestId("CourseForm-submit");
+        const submitButton = screen.getByTestId("CourseForm-submit");
 
         fireEvent.click(submitButton);
 
@@ -66,18 +66,18 @@ describe("CoursesForm tests", () => {
 
         render(
             <Router  >
-                <CoursesForm submitAction={mockSubmitAction} />
+                <CourseForm submitAction={mockSubmitAction} />
             </Router>
         );
-        await screen.findByTestId("CoursesForm-name");
+        await screen.findByTestId("CourseForm-name");
 
-        const nameField = screen.getByTestId("CoursesForm-name");
-        const schoolField = screen.getByTestId("CoursesForm-school");
-        const termField = screen.getByTestId("CoursesForm-term");
-        const startDateField = screen.getByTestId("CoursesForm-startDate");
-        const endDateField = screen.getByTestId("CoursesForm-endDate");
-        const githubOrgField = screen.getByTestId("CoursesForm-githubOrg")
-        const submitButton = screen.getByTestId("CoursesForm-submit");
+        const nameField = screen.getByTestId("CourseForm-name");
+        const schoolField = screen.getByTestId("CourseForm-school");
+        const termField = screen.getByTestId("CourseForm-term");
+        const startDateField = screen.getByTestId("CourseForm-startDate");
+        const endDateField = screen.getByTestId("CourseForm-endDate");
+        const githubOrgField = screen.getByTestId("CourseForm-githubOrg")
+        const submitButton = screen.getByTestId("CourseForm-submit");
 
         fireEvent.change(nameField, { target: { value: "CMPSC 156" } });
         fireEvent.change(schoolField, { target: { value: 'ucsb' } });
@@ -99,11 +99,11 @@ describe("CoursesForm tests", () => {
 
         render(
             <Router  >
-                <CoursesForm />
+                <CourseForm />
             </Router>
         );
-        await screen.findByTestId("CoursesForm-cancel");
-        const cancelButton = screen.getByTestId("CoursesForm-cancel");
+        await screen.findByTestId("CourseForm-cancel");
+        const cancelButton = screen.getByTestId("CourseForm-cancel");
 
         fireEvent.click(cancelButton);
 
