@@ -2,6 +2,7 @@ import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
+
 function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
     // Stryker disable all
@@ -13,6 +14,9 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
         { defaultValues: initialContents || {}, }
     );
     // Stryker restore all
+
+
+
 
     const navigate = useNavigate();
 
