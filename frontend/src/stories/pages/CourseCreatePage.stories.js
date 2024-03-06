@@ -3,14 +3,14 @@ import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import { rest } from "msw";
 
-import CoursesCreatePage from "main/pages/CoursesCreatePage";
+import CourseCreatePage from "main/pages/CourseCreatePage";
 
 export default {
-    title: 'pages/Courses/CoursesCreatePage',
-    component: CoursesCreatePage
+    title: 'pages/Courses/CourseCreatePage',
+    component: CourseCreatePage
 };
 
-const Template = () => <CoursesCreatePage storybook={true} />;
+const Template = () => <CourseCreatePage storybook={true} />;
 
 export const Default = Template.bind({});
 Default.parameters = {
@@ -21,7 +21,7 @@ Default.parameters = {
         rest.get('/api/systemInfo', (_req, res, ctx) => {
             return res(ctx.json(systemInfoFixtures.showingNeither));
         }),
-        rest.post('/api/courses/post', (req, res, ctx) => {
+        rest.post('/api/course/create', (req, res, ctx) => {
             window.alert("POST: " + JSON.stringify(req.url));
             return res(ctx.status(200),ctx.json({}));
         }),
