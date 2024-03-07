@@ -1,9 +1,25 @@
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { useBackend } from 'main/utils/useBackend';
+
+import { useState } from "react";
+
+import SchoolsDropdown from '../Schools/SchoolsDropdown';
 
 function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
+    const [activeSchool, setActiveSchool] = useState("")
+
+    const {data: schools, error: _error, status: _status} = 
+        useBackend(
+        // Stryker disable next-line all : don't test internal caching of React Query
+        ["/api/Schools/all"],
+        // Stryker disable next-line all : GET is the default
+        { method: "GET", url: "/api/Schools/all" },
+        []
+        );
+    
     // Stryker disable all
     const {
         register,
@@ -16,13 +32,17 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
 
     const navigate = useNavigate();
 
+    let initialSchool = null;
+
+    if(initialContents){
+        initialSchool = initialContents.school;
+    }
+
     // Stryker disable next-line Regex
     const isodate_regex = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
 
     return (
-
-        <Form onSubmit={handleSubmit(submitAction)}>
-
+        <Form id = "form" onSubmit={handleSubmit(submitAction)}>
 
             <Row>
 
@@ -61,19 +81,24 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
 
             <Row>
                 <Col>
-                    <Form.Group className="mb-3" >
-                        <Form.Label htmlFor="school">School</Form.Label>
-                        <Form.Control
-                            data-testid="CoursesForm-school"
-                            id="school"
-                            type="text"
-                            isInvalid={Boolean(errors.school)}
-                            {...register("school", { required: true })}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.school && 'School is required. '}
-                        </Form.Control.Feedback>
-                    </Form.Group>
+        <Form.Group className="mb-3" onChange={() => {
+            setActiveSchool(document.getElementById("FormSelect").value)
+            }}>
+            <Form.Label htmlForm="school">School</Form.Label>
+            <Form.Control
+                id = "school"
+                data-testid = "CoursesForm-school"
+                value = { activeSchool || initialSchool }
+                input = { activeSchool || initialSchool }
+                type = "text"
+                {...register("school", { required: true })}
+            >
+            </Form.Control>
+            <SchoolsDropdown schools={schools} initialContents={initialContents}></SchoolsDropdown>
+            <Form.Control.Feedback type="invalid">
+                {'School is required.'}
+            </Form.Control.Feedback>
+        </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group className="mb-3" >
@@ -91,7 +116,6 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     </Form.Group>
                 </Col>
             </Row>
-
             <Row>
                 <Col>
                     <Form.Group className="mb-3" >

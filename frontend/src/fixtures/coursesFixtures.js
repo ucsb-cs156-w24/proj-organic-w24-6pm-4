@@ -2,7 +2,7 @@ const coursesFixtures = {
     oneCourse: {
         "id": 1,
         "name": "CS156",
-        "school": "UCSB",
+        "school": "ucsb",
         "term": "F23",
         "startDate": "2023-09-24T12:00:00",
         "endDate": "2023-12-15T12:00:00",
@@ -12,7 +12,7 @@ const coursesFixtures = {
         { 
             "id": 1,
             "name": "CS156",
-            "school": "UCSB",
+            "school": "ucsb",
             "term": "F23",
             "startDate": "2023-09-24T12:00:00",
             "endDate": "2023-12-15T12:00:00",
@@ -21,7 +21,7 @@ const coursesFixtures = {
         {
             "id": 2,
             "name": "CS185",
-            "school": "UCSB",
+            "school": "ucsb",
             "term": "W24",
             "startDate": "2024-01-08T12:00:00",
             "endDate": "2024-03-22T12:00:00",
@@ -30,7 +30,7 @@ const coursesFixtures = {
         {
             "id": 3,
             "name": "CS170",
-            "school": "UCSB",
+            "school": "ucsb",
             "term": "S24",
             "startDate": "2024-04-01T12:00:00",
             "endDate": "2024-06-14T12:00:00",
