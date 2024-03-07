@@ -6,7 +6,6 @@ import React from "react";
  import { hasRole } from "main/utils/currentUser";
 
  export default function CoursesTable({ courses, currentUser }) {
-
      const navigate = useNavigate();
 
      const editCallback = (cell) => {
@@ -60,9 +59,18 @@ import React from "react";
          columns.push(ButtonColumn("Edit", "primary", editCallback, "CoursesTable"));
          columns.push(ButtonColumn("Delete", "danger", deleteCallback, "CoursesTable"));
      }
-
-     return <OurTable
-         data={courses}
-         columns={columns}
-         testid={"CoursesTable"} />;
+     if(hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR")){
+        return <OurTable
+            data={courses}
+            columns={columns}
+            testid={"CoursesTable"} />;
+     }
+     if(hasRole(currentUser, "ROLE_USER")){
+        return <OurTable
+            columns={columns}
+            testid={"CoursesTable"}
+            data={courses}
+            /*NEED TO FIX STILL, data has to query database such that only courses which the student is enrolled in is listed, not everything. */
+        />;
+     }
     };
