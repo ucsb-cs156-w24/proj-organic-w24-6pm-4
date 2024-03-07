@@ -16,10 +16,10 @@ export default function StaffIndexPage() {
       return (
           <Button
               variant="primary"
-              href="/course/staff/create"
+              href={`/course/${id}/staff/create`}
               style={{ float: "right" }}
           >
-              Create Staff 
+              Add Staff Member
           </Button>
       )
     
