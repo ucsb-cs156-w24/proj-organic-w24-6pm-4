@@ -8,6 +8,7 @@ import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
+import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
 
 const mockToast = jest.fn();
 jest.mock('react-toastify', () => {
@@ -53,18 +54,18 @@ describe("CourseCreatePage tests", () => {
     });
 
     test("on submit, makes request to backend", async () => {
-
         const queryClient = new QueryClient();
         const course = {
             id: 1,
             name: "CS156",
-            school: "UCSB",
+            school: "ucsb",
             term: "F23",
             startDate: "2023-09-24T12:00:00",
             endDate: "2023-12-15T12:00:00",
             githubOrg: "ucsb-cs156-f23"
         };
 
+        axiosMock.onGet("/api/Schools/all").reply(SchoolsFixtures.threeSchools);
         axiosMock.onPost("/api/courses/post").reply(202, course);
 
         render(
@@ -88,14 +89,14 @@ describe("CourseCreatePage tests", () => {
         const submitButton = screen.getByTestId("CoursesForm-submit");
 
         fireEvent.change(nameField, { target: { value: 'CS156' } });
-        fireEvent.change(schoolField, { target: { value: 'UCSB' } });
+        fireEvent.change(schoolField, { target: { value: 'ucsb' } });
         fireEvent.change(termField, { target: { value: 'F23' } });
         fireEvent.change(startDateField, { target: { value: '2023-09-24T12:00:00' } });
         fireEvent.change(endDateField, { target: { value: '2023-12-15T12:00:00' } });
         fireEvent.change(githubOrgField, { target: { value: 'ucsb-cs156-f23' } });
 
         expect(submitButton).toBeInTheDocument();
-
+        
         fireEvent.click(submitButton);
 
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
@@ -103,7 +104,7 @@ describe("CourseCreatePage tests", () => {
         expect(axiosMock.history.post[0].params).toEqual(
             {
                 "name": "CS156",
-                "school": "uscb",
+                "school": "ucsb",
                 "term": "F23",
                 "startDate": "2023-09-24T12:00",
                 "endDate": "2023-12-15T12:00",

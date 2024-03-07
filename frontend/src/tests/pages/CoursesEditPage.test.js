@@ -77,7 +77,7 @@ describe("CoursesEditPage tests", () => {
             axiosMock.onGet("/api/courses/get", { params: { id: 17 } }).reply(200, {
                 id: 17,
                 name: "CS 156",
-                school: "UCSB",
+                school: "ucsb",
                 term: "f23",
                 startDate: "2023-09-29T00:00",
                 endDate: "2023-12-15T00:00",
@@ -86,7 +86,7 @@ describe("CoursesEditPage tests", () => {
             axiosMock.onPut('/api/courses/update').reply(200, {
                 id: "17",
                 name: "CS 148",
-                school: "UCSB",
+                school: "ucsb",
                 term: "w23",
                 startDate: "2024-01-10T00:00",
                 endDate: "2023-03-12T00:00",

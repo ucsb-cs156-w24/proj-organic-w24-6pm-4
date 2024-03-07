@@ -3,6 +3,11 @@ import CoursesForm from "main/components/Courses/CoursesForm";
 import { coursesFixtures } from "fixtures/coursesFixtures";
 import { BrowserRouter as Router } from "react-router-dom";
 
+import { QueryClient, QueryClientProvider } from "react-query";
+import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
+import axios from "axios";
+import AxiosMockAdapter from "axios-mock-adapter";
+
 const mockedNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
@@ -13,12 +18,23 @@ jest.mock('react-router-dom', () => ({
 
 describe("CoursesForm tests", () => {
 
+    const axiosMock = new AxiosMockAdapter(axios);
+
+    const setup = () => {
+        axiosMock.reset();
+        axiosMock.resetHistory();
+    }
+
+    const queryClient = new QueryClient();
+
     test("renders correctly", async () => {
 
         render(
-            <Router  >
-                <CoursesForm />
-            </Router>
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <CoursesForm />
+                </Router>
+            </QueryClientProvider>
         );
         await screen.findByText(/Name/);
         await screen.findByText(/Create/);
@@ -26,24 +42,38 @@ describe("CoursesForm tests", () => {
 
 
     test("renders correctly when passing in a Courses", async () => {
+        setup();
+        axiosMock.onGet("/api/Schools/all").reply(200, SchoolsFixtures.threeSchools);
 
         render(
-            <Router  >
-                <CoursesForm initialContents={coursesFixtures.oneCourse} />
-            </Router>
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <CoursesForm initialContents={coursesFixtures.oneCourse}/>
+                </Router>
+            </QueryClientProvider>
         );
+
         await screen.findByTestId(/CoursesForm-id/);
+        
+        expect(screen.getByTestId("CoursesForm-school")).toHaveValue("ucsb");
+        
+        await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
+
         expect(screen.getByText(/Id/)).toBeInTheDocument();
         expect(screen.getByTestId(/CoursesForm-id/)).toHaveValue("1");
+        expect(screen.getByTestId("FormSelect-option-ucsb")).toBeInTheDocument();
     });
 
 
     test("Correct Error messsages on missing input", async () => {
+        setup();
 
         render(
-            <Router  >
-                <CoursesForm />
-            </Router>
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <CoursesForm />
+                </Router>
+            </QueryClientProvider>
         );
         await screen.findByTestId("CoursesForm-submit");
         const submitButton = screen.getByTestId("CoursesForm-submit");
@@ -63,13 +93,16 @@ describe("CoursesForm tests", () => {
 
         const mockSubmitAction = jest.fn();
 
-
         render(
-            <Router  >
-                <CoursesForm submitAction={mockSubmitAction} />
-            </Router>
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <CoursesForm submitAction={mockSubmitAction}/>
+                </Router>
+            </QueryClientProvider>
         );
         await screen.findByTestId("CoursesForm-name");
+
+        await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
 
         const nameField = screen.getByTestId("CoursesForm-name");
         const schoolField = screen.getByTestId("CoursesForm-school");
@@ -91,16 +124,17 @@ describe("CoursesForm tests", () => {
 
         expect(screen.queryByText(/StartDate date is required./)).not.toBeInTheDocument();
         expect(screen.queryByText(/EndDate date is required./)).not.toBeInTheDocument();
-
     });
 
 
     test("that navigate(-1) is called when Cancel is clicked", async () => {
 
         render(
-            <Router  >
-                <CoursesForm />
-            </Router>
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <CoursesForm />
+                </Router>
+            </QueryClientProvider>
         );
         await screen.findByTestId("CoursesForm-cancel");
         const cancelButton = screen.getByTestId("CoursesForm-cancel");

@@ -3,16 +3,17 @@ import { Form } from "react-bootstrap";
 
 function SchoolsDropdown({ schools , initialContents}){
     // Stryker disable next-line all : don't test useState
-    const [isActive, setIsActive] = useState("");
+    const [isActive, setIsActive] = useState();
 
     const testId = "FormSelect";
 
     let initialSchool = null;
-    let schoolOptions = null;
 
     if(initialContents){
         initialSchool = initialContents.school;
     }
+
+    let schoolOptions = null;
 
     if(schools){
         schoolOptions = schools.map((school) => 
@@ -24,11 +25,12 @@ function SchoolsDropdown({ schools , initialContents}){
             </option>);
     }
 
+
     return(
         <Form.Select 
             id = "FormSelect"
+            data-testid = "FormSelect"
             value = { isActive || initialSchool || "No school selected" } 
-            key = { isActive || "No school selected" } 
             onChange = { option => setIsActive(option.target.value)} 
             >
             <option 

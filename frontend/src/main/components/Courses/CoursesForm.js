@@ -88,8 +88,9 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
             <Form.Control
                 id = "school"
                 data-testid = "CoursesForm-school"
+                // behavior is buggy, may just be storybook
+                // only updates after textbox is selected
                 value = { activeSchool || initialSchool }
-                input = { activeSchool || initialSchool }
                 type = "text"
                 {...register("school", { required: true })}
             >
