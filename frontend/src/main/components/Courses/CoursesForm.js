@@ -10,6 +10,7 @@ import SchoolsDropdown from '../Schools/SchoolsDropdown';
 function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
     const [activeSchool, setActiveSchool] = useState("")
+    const [termDescription, setTermDescription] = useState("Term")
 
     const {data: schools, error: _error, status: _status} = 
         useBackend(
@@ -26,7 +27,9 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
         formState: { errors },
         handleSubmit,
     } = useForm(
-        { defaultValues: initialContents || {}, }
+        { defaultValues: initialContents || {}, 
+        mode: "onChange", 
+        }
     );
     // Stryker restore all
 
@@ -34,15 +37,34 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
 
     let initialSchool = null;
 
-    if(initialContents){
-        initialSchool = initialContents.school;
+    const updateSchool = () => {
+            setActiveSchool(document.getElementById("FormSelect").value)
+            let currSchool = document.getElementById("FormSelect").value
+            for(let i of schools){
+                if(i.abbrev == currSchool){
+                    setTermDescription(i.termDescription);
+                }
+            }
+    }
+
+
+    const preload = async function (){
+        if(initialContents){
+            await initialContents;
+            initialSchool = initialContents.school;
+            for(let i of schools){
+                if(i.abbrev == initialSchool){
+                    setTermDescription(i.termDescription);
+                }
+            }
+        }
     }
 
     // Stryker disable next-line Regex
     const isodate_regex = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
 
     return (
-        <Form id = "form" onSubmit={handleSubmit(submitAction)}>
+        <Form id = "form" onLoad={() => preload()} onSubmit={handleSubmit(submitAction)}>
 
             <Row>
 
@@ -81,9 +103,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
 
             <Row>
                 <Col>
-        <Form.Group className="mb-3" onChange={() => {
-            setActiveSchool(document.getElementById("FormSelect").value)
-            }}>
+        <Form.Group className="mb-3" onChange={() => { updateSchool() }}>
             <Form.Label htmlForm="school">School</Form.Label>
             <Form.Control
                 id = "school"
@@ -92,18 +112,19 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                 // only updates after textbox is selected
                 value = { activeSchool || initialSchool }
                 type = "text"
+                isInvalid={Boolean(errors.school)}
                 {...register("school", { required: true })}
             >
             </Form.Control>
             <SchoolsDropdown schools={schools} initialContents={initialContents}></SchoolsDropdown>
             <Form.Control.Feedback type="invalid">
-                {'School is required.'}
+                {errors.school && 'School is required.'}
             </Form.Control.Feedback>
         </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group className="mb-3" >
-                        <Form.Label htmlFor="term">Term</Form.Label>
+                        <Form.Label htmlFor="term">{termDescription}</Form.Label>
                         <Form.Control
                             data-testid="CoursesForm-term"
                             id="term"
