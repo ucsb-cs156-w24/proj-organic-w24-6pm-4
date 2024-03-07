@@ -107,9 +107,38 @@ describe("AdminUsersPage tests",  () => {
         expect(toggleInstructorButton).toBeInTheDocument();
   
         fireEvent.click(toggleInstructorButton);
+        jest.spyOn(window, 'confirm').mockImplementation(() => true);
+
 
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
         expect(axiosMock.history.post[0].url).toBe("/api/admin/users/toggleInstructor");
         expect(axiosMock.history.post[0].params).toEqual({githubId:11111});
+        window.confirm.mockRestore();
+
+    });
+
+    test("user table toggle instructor tests and says no", async ()=>{
+        axiosMock.onPost("/api/admin/users/toggleInstructor").reply(200, "User with id 1 has toggled instructor status");
+        
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AdminUsersPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+        const title = await screen.findByText("Users");
+        expect(title).toBeInTheDocument();
+
+        const toggleInstructorButton = screen.getByTestId(`${testId}-cell-row-0-col-toggle-instructor-button`);
+        expect(toggleInstructorButton).toBeInTheDocument();
+  
+        fireEvent.click(toggleInstructorButton);
+        jest.spyOn(window, 'confirm').mockImplementation(() => false);
+
+
+        await waitFor(() => expect(axiosMock.history.post.length).toBe(0));
+        window.confirm.mockRestore();
+
     });
 });

@@ -37,12 +37,20 @@ export default function UsersTable({ users, showToggleButtons = false }) {
 
     // toggleInstructor
     function cellToAxiosParamsToggleInstructor(cell) {
-        return {
-            url: "/api/admin/users/toggleInstructor",
-            method: "POST",
-            params: {
-                githubId: cell.row.values.githubId
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm("Are you sure you want to toggle Instructor?") == true)
+        {
+            return {
+                url: "/api/admin/users/toggleInstructor",
+                method: "POST",
+                params: {
+                    githubId: cell.row.values.githubId
+                }
             }
+        }
+        else
+        {
+            return null;
         }
     }
 
