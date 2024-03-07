@@ -43,7 +43,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
             setActiveSchool(document.getElementById("FormSelect").value)
             let currSchool = document.getElementById("FormSelect").value
             for(let i of schools){
-                if(i.abbrev === currSchool){
+                if(i.abbrev == currSchool){
                     setTermRegex(i.termRegex);
                     setTermDescription(i.termDescription);
                     setTermError(i.termError);
@@ -58,7 +58,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
         if(initialContents){
             initialSchool = initialContents.school;
             for(let i of schools){
-                if(i.abbrev === initialSchool){
+                if(i.abbrev == initialSchool){
                     setTermRegex(i.termRegex);
                     setTermDescription(i.termDescription);
                     setTermError(i.termError);
@@ -71,8 +71,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
     const isodate_regex = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
 
     return (
-        <div onLoad={() => preload()}>
-        <Form id = "form" onSubmit={handleSubmit(submitAction)}>
+        <Form id = "form" onLoad={() => preload()} onSubmit={handleSubmit(submitAction)}>
             <Row>
                 {initialContents && (
                     <Col>
@@ -215,7 +214,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                 </Col>
             </Row>
         </Form>
-    </div>
+
     )
 }
 
