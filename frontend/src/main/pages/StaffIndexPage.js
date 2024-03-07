@@ -2,9 +2,9 @@ import React from 'react'
 import { useBackend } from 'main/utils/useBackend';
 import { useParams } from "react-router-dom";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import CoursesTable from 'main/components/Courses/CoursesTable';
 import { Button } from 'react-bootstrap';
 import { useCurrentUser} from 'main/utils/currentUser';
+import StaffTable from 'main/components/Courses/StaffTable';
 
 export default function StaffIndexPage() {
   let { id } = useParams();
@@ -16,7 +16,7 @@ export default function StaffIndexPage() {
       return (
           <Button
               variant="primary"
-              href="/course/:id/staff/create"
+              href="/course/staff/create"
               style={{ float: "right" }}
           >
               Create Staff 
@@ -25,16 +25,16 @@ export default function StaffIndexPage() {
     
   }
   
-  const { data: courses, error: _error, status: _status } =
+  const { data: staffs, error: _error, status: _status } =
     useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
-      [`/api/course?courseId=${id}`],
+      [`/api/course/staff/all?courseId=${id}`],
       // Stryker disable next-line all : GET is the default
       { 
         method: "GET", 
-        url: `/api/course/getStaff`,
+        url: `/api/course/staff/all`,
         params: {
-          id
+          courseId: id
         } 
       },
       []
@@ -45,7 +45,7 @@ export default function StaffIndexPage() {
         <div className="pt-2">
           {createButton()}
           <h1>Staff</h1>
-          <CoursesTable courses={courses} currentUser={currentUser} />
+          <StaffTable staffs={staffs} currentUser={currentUser} />
         </div>
       </BasicLayout>
     )

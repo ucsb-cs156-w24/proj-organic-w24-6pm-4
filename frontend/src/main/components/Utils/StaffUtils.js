@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
  export function cellToAxiosParamsDelete(cell) {
      return {
-         url: "/api/course/delete",
+         url: "/api/course/staff",
          method: "DELETE",
          params: {
              id: cell.row.values.id
