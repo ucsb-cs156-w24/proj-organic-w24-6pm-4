@@ -10,7 +10,9 @@ import SchoolsDropdown from '../Schools/SchoolsDropdown';
 function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
     const [activeSchool, setActiveSchool] = useState("")
+    const [termRegex, setTermRegex] = useState("[A-Z][0-9]")
     const [termDescription, setTermDescription] = useState("Term")
+    const [termError, setTermError] = useState("Term is required")
 
     const {data: schools, error: _error, status: _status} = 
         useBackend(
@@ -41,20 +43,25 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
             setActiveSchool(document.getElementById("FormSelect").value)
             let currSchool = document.getElementById("FormSelect").value
             for(let i of schools){
-                if(i.abbrev == currSchool){
+                if(i.abbrev === currSchool){
+                    setTermRegex(i.termRegex);
                     setTermDescription(i.termDescription);
+                    setTermError(i.termError);
                 }
             }
     }
 
 
-    const preload = async function (){
+    const preload = function (){
+        console.log("A");
+
         if(initialContents){
-            await initialContents;
             initialSchool = initialContents.school;
             for(let i of schools){
-                if(i.abbrev == initialSchool){
+                if(i.abbrev === initialSchool){
+                    setTermRegex(i.termRegex);
                     setTermDescription(i.termDescription);
+                    setTermError(i.termError);
                 }
             }
         }
@@ -64,10 +71,9 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
     const isodate_regex = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
 
     return (
-        <Form id = "form" onLoad={() => preload()} onSubmit={handleSubmit(submitAction)}>
-
+        <div onLoad={() => preload()}>
+        <Form id = "form" onSubmit={handleSubmit(submitAction)}>
             <Row>
-
                 {initialContents && (
                     <Col>
                         <Form.Group className="mb-3" >
@@ -129,11 +135,13 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                             data-testid="CoursesForm-term"
                             id="term"
                             type="text"
+                            pattern = {termRegex}
+                            title = {termError}
                             isInvalid={Boolean(errors.term)}
-                            {...register("term", { required: true })}
+                            {...register("term", { required: true, pattern: termRegex})}
                         />
                         <Form.Control.Feedback type="invalid">
-                            {errors.term && 'Term is required. '}
+                            {errors.term && 'Term is required '}
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Col>
@@ -207,7 +215,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                 </Col>
             </Row>
         </Form>
-
+    </div>
     )
 }
 
