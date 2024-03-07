@@ -43,7 +43,7 @@ export default function CourseCreatePage({storybook=false}) {
         <div className="pt-2">
             <h1>Add Staff Member</h1>
 
-            <StaffForm submitAction={onSubmit} />
+            <StaffForm submitAction={onSubmit} courseId={id} />
 
         </div>
         </BasicLayout>

@@ -1,12 +1,14 @@
+// import { useEffect } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-function StaffForm({ initialContents, submitAction, buttonLabel = "Create" }) {
+function StaffForm({ initialContents, submitAction, buttonLabel = "Create", courseId }) {
 
     // Stryker disable all
     const {
         register,
+        // setValue,
         formState: { errors },
         handleSubmit,
     } = useForm(
@@ -15,6 +17,12 @@ function StaffForm({ initialContents, submitAction, buttonLabel = "Create" }) {
     // Stryker restore all
 
     const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     if(courseId) {
+    //         setValue("courseId", courseId, { shouldValidate: true });
+    //     }
+    // }, [courseId, setValue]);
 
     return (
 
@@ -39,29 +47,30 @@ function StaffForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     </Col>
                 )}
 
-                {/* <Col>
+                <Col>
                     <Form.Group className="mb-3" >
-                        <Form.Label htmlFor="courseId">courseId</Form.Label>
+                        <Form.Label htmlFor="courseId">Course ID</Form.Label>
                         <Form.Control
-                            type="hidden"
+                            type="text"
                             {...register("courseId")}
                             value={courseId}
+                            readOnly
                         />
                     </Form.Group>
-                </Col> */}
+                </Col>
 
                 <Col>
                 <Form.Group className="mb-3" >
-                        <Form.Label htmlFor="githubId">Github ID</Form.Label>
+                        <Form.Label htmlFor="githubLogin">Github Login</Form.Label>
                         <Form.Control
-                            data-testid="StaffForm-githubId "
-                            id="githubId"
+                            data-testid="StaffForm-githubLogin "
+                            id="githubLogin"
                             type="text"
-                            isInvalid={Boolean(errors.githubId)}
-                            {...register("githubId", { required: true })}
+                            isInvalid={Boolean(errors.githubLogin)}
+                            {...register("githubLogin", { required: true })}
                         />
                         <Form.Control.Feedback type="invalid">
-                            {errors.githubId && 'Github ID is required. '}
+                            {errors.githubLogin && 'Github Login is required. '}
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Col>
