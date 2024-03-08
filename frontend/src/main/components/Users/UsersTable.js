@@ -17,10 +17,6 @@ export default function UsersTable({ users, showToggleButtons = false }) {
                 }
             }
         }
-        else
-        {
-            return null;
-        }
         
     }
 
