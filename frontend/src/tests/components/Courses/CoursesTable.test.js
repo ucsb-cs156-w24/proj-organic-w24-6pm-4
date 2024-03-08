@@ -52,6 +52,10 @@ describe("UserTable tests", () => {
     const deleteButton = screen.queryByTestId(`${testId}-cell-row-0-col-Delete-button`);
     expect(deleteButton).not.toBeInTheDocument();
 
+    const joinButton = screen.getByTestId(`${testId}-cell-row-0-col-Join-button`);
+    expect(joinButton).toBeInTheDocument();
+    expect(joinButton).toHaveClass("btn-primary");
+
   });
 
   test("renders empty table correctly", () => {
@@ -122,6 +126,10 @@ describe("UserTable tests", () => {
     const deleteButton = screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`);
     expect(deleteButton).toBeInTheDocument();
     expect(deleteButton).toHaveClass("btn-danger");
+
+    const joinButton = screen.getByTestId(`${testId}-cell-row-0-col-Join-button`);
+    expect(joinButton).toBeInTheDocument();
+    expect(joinButton).toHaveClass("btn-primary");
 
   });
 

@@ -60,7 +60,10 @@ import React from "react";
          columns.push(ButtonColumn("Edit", "primary", editCallback, "CoursesTable"));
          columns.push(ButtonColumn("Delete", "danger", deleteCallback, "CoursesTable"));
      }
-
+     if(hasRole(currentUser, "ROLE_USER")){
+        columns.push(ButtonColumn("Join", "primary", null, "CoursesTable"));
+        /*Have to change from null to something else eventually.*/
+     }
      return <OurTable
          data={courses}
          columns={columns}
