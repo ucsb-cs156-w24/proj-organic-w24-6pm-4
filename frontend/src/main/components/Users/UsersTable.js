@@ -6,6 +6,7 @@ import { useBackendMutation } from "main/utils/useBackend";
 export default function UsersTable({ users, showToggleButtons = false }) {
     // toggleAdmin
     function cellToAxiosParamsToggleAdmin(cell) {
+        // Stryker disable next-line all
         // eslint-disable-next-line no-restricted-globals
         if (confirm("Are you sure you want to toggle Admin?") == true)
         {
@@ -33,6 +34,7 @@ export default function UsersTable({ users, showToggleButtons = false }) {
 
     // toggleInstructor
     function cellToAxiosParamsToggleInstructor(cell) {
+        // Stryker disable next-line all
         // eslint-disable-next-line no-restricted-globals
         if (confirm("Are you sure you want to toggle Instructor?") == true)
         {
