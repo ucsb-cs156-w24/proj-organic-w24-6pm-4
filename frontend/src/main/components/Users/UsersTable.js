@@ -17,11 +17,7 @@ export default function UsersTable({ users, showToggleButtons = false }) {
                 }
             }
         }
-        else
-        {
-            return null;
-        }
-        
+ 
     }
 
     // Stryker disable all : hard to test for query caching
@@ -47,10 +43,6 @@ export default function UsersTable({ users, showToggleButtons = false }) {
                     githubId: cell.row.values.githubId
                 }
             }
-        }
-        else
-        {
-            return null;
         }
     }
 

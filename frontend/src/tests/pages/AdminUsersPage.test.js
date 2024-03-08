@@ -86,7 +86,7 @@ describe("AdminUsersPage tests",  () => {
 
 
         await waitFor(() => expect(axiosMock.history.post.length).toBe(0));
-
+        expect(window.confirm).toHaveBeenCalledTimes(1);
         window.confirm.mockRestore();
     });
 
