@@ -119,18 +119,20 @@ public class SchoolsControllerTests extends ControllerTestCase {
         public void logged_in_user_can_get_all_schools() throws Exception {
 
                 // arrange
-                LocalDateTime dr1 = LocalDateTime.parse("2022-01-03T00:00:00");
-                LocalDateTime dn1 = LocalDateTime.parse("2022-01-03T00:00:00");
-                boolean done1 = true;
-
                 School school1 = School.builder()
-                                .name("University of California Santa Barbara")
                                 .abbrev("UCSB")
+                                .name("University of California Santa Barbara")
+                                .termRegex("regex1")
+                                .termDescription("desc1")
+                                .termError("error1")
                                 .build();
 
                 School school2 = School.builder()
-                                .name("University of California Los Angeles")
                                 .abbrev("UCLA")
+                                .name("University of California Los Angeles")
+                                .termRegex("regex2")
+                                .termDescription("desc2")
+                                .termError("error2")
                                 .build();
 
                 ArrayList<School> expectedSchools = new ArrayList<>();
@@ -171,15 +173,18 @@ public class SchoolsControllerTests extends ControllerTestCase {
                 // arrange
 
                 School school1 = School.builder()
-                                .name("University of California Santa Barbara")
                                 .abbrev("UCSB")
+                                .name("University of California Santa Barbara")
+                                .termRegex("regex1")
+                                .termDescription("desc1")
+                                .termError("error1")
                                 .build();
 
                 when(schoolRepository.save(eq(school1))).thenReturn(school1);
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/Schools/post?name=University of California Santa Barbara&abbrev=UCSB")
+                                post("/api/Schools/post?abbrev=UCSB&name=University of California Santa Barbara&termRegex=regex1&termDescription=desc1&termError=error1")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -204,8 +209,11 @@ public class SchoolsControllerTests extends ControllerTestCase {
 
                 // arrange
                 School school1 = School.builder()
-                                .name("University of California Santa Barbara")
                                 .abbrev("UCSB")
+                                .name("University of California Santa Barbara")
+                                .termRegex("regex1")
+                                .termDescription("desc1")
+                                .termError("error1")
                                 .build();
 
                 when(schoolRepository.findById(eq(123L))).thenReturn(Optional.of(school1));
@@ -251,8 +259,11 @@ public class SchoolsControllerTests extends ControllerTestCase {
                 // arrange
 
                 School school1 = School.builder()
-                                .name("University of California Santa Barbara")
                                 .abbrev("UCSB")
+                                .name("University of California Santa Barbara")
+                                .termRegex("regex1")
+                                .termDescription("desc1")
+                                .termError("error1")
                                 .build();
 
                 when(schoolRepository.findById(eq(123L))).thenReturn(Optional.of(school1));
@@ -299,14 +310,20 @@ public class SchoolsControllerTests extends ControllerTestCase {
                 // arrange
 
                 School schoolOrig = School.builder()
-                                .name("University of California Santa Barbara")
                                 .abbrev("UCSB")
+                                .name("University of California Santa Barbara")
+                                .termRegex("regex1")
+                                .termDescription("desc1")
+                                .termError("error1")
                                 .build();
 
 
                 School schoolEdit = School.builder()
-                                .name("University of California Los Angeles")
                                 .abbrev("UCLA")
+                                .name("University of California Los Angeles")
+                                .termRegex("regex2")
+                                .termDescription("desc2")
+                                .termError("error2")
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(schoolEdit);
@@ -336,8 +353,11 @@ public class SchoolsControllerTests extends ControllerTestCase {
                 // arrange
 
                 School schoolEdit = School.builder()
-                                .name("University of California Los Angeles")
                                 .abbrev("UCLA")
+                                .name("University of California Los Angeles")
+                                .termRegex("regex2")
+                                .termDescription("desc2")
+                                .termError("error2")
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(schoolEdit);

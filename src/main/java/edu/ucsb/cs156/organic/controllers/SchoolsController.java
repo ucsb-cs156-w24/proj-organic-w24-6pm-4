@@ -48,8 +48,11 @@ public class SchoolsController extends ApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public School postSchool(
+            @Parameter(name="abbrev") @RequestParam String abbrev,
             @Parameter(name="name") @RequestParam String name,
-            @Parameter(name="abbrev") @RequestParam String abbrev)
+            @Parameter(name="termRegex") @RequestParam String termRegex,
+            @Parameter(name="termDescription") @RequestParam String termDescription,
+            @Parameter(name="termError") @RequestParam String termError)
             throws JsonProcessingException {
 
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -58,8 +61,11 @@ public class SchoolsController extends ApiController {
         // log.info("localDateTime={}", localDateTime);
 
         School school = new School();
-        school.setName(name);
         school.setAbbrev(abbrev);
+        school.setName(name);
+        school.setTermRegex(termRegex);
+        school.setTermDescription(termDescription);
+        school.setTermError(termError);
 
         School savedSchool = schoolRepository.save(school);
 
@@ -99,8 +105,11 @@ public class SchoolsController extends ApiController {
                 School school = schoolRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(School.class, id));
 
-                school.setName(incoming.getName());
                 school.setAbbrev(incoming.getAbbrev());
+                school.setName(incoming.getName());
+                school.setTermRegex(incoming.getTermRegex());
+                school.setTermDescription(incoming.getTermDescription());
+                school.setTermError(incoming.getTermError());
 
         schoolRepository.save(school);
 
