@@ -7,7 +7,7 @@ import { useCurrentUser} from 'main/utils/currentUser';
 import StaffTable from 'main/components/Courses/StaffTable';
 
 export default function StaffIndexPage() {
-  let { id } = useParams();
+  let { courseId } = useParams();
 
   const { data: currentUser } = useCurrentUser();
 
@@ -16,10 +16,10 @@ export default function StaffIndexPage() {
       return (
           <Button
               variant="primary"
-              href="/course/staff/create"
+              href={`/course/${courseId}/staff/create`}
               style={{ float: "right" }}
           >
-              Create Staff 
+              Add Staff Member
           </Button>
       )
     
@@ -28,13 +28,12 @@ export default function StaffIndexPage() {
   const { data: staffs, error: _error, status: _status } =
     useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
-      [`/api/course/staff/all?courseId=${id}`],
-      // Stryker disable next-line all : GET is the default
-      { 
+      [`/api/course/staff/all?courseId=${courseId}`],
+      {   // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
         method: "GET", 
         url: `/api/course/staff/all`,
         params: {
-          courseId: id
+          courseId: courseId
         } 
       },
       []

@@ -58,6 +58,30 @@ describe("UserTable tests", () => {
 
   });
 
+  test("Staff button navigates to the staff page for ordinary user", async () => {
+
+    const currentUser = currentUserFixtures.userOnly;
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+            <CourseTable courses={courseFixtures.threeCourses} currentUser={currentUser} />
+        </MemoryRouter>
+      </QueryClientProvider>
+
+    );
+
+    await waitFor(() => { expect(screen.getByTestId(`CourseTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
+
+    const staffButton = screen.getByTestId(`CourseTable-cell-row-0-col-Staff-button`);
+    expect(staffButton).toBeInTheDocument();
+
+    fireEvent.click(staffButton);
+
+    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/course/1/staff'));
+
+  });
+
   test("renders empty table correctly", () => {
 
     // arrange
@@ -154,6 +178,30 @@ describe("UserTable tests", () => {
     fireEvent.click(editButton);
 
     await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/course/edit/1'));
+
+  });
+
+  test("Staff button navigates to the staff page for admin user", async () => {
+
+    const currentUser = currentUserFixtures.adminUser;
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+            <CourseTable courses={courseFixtures.threeCourses} currentUser={currentUser} />
+        </MemoryRouter>
+      </QueryClientProvider>
+
+    );
+
+    await waitFor(() => { expect(screen.getByTestId(`CourseTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
+
+    const staffButton = screen.getByTestId(`CourseTable-cell-row-0-col-Staff-button`);
+    expect(staffButton).toBeInTheDocument();
+
+    fireEvent.click(staffButton);
+
+    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/course/1/staff'));
 
   });
 
