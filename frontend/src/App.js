@@ -42,7 +42,7 @@ function App() {
     </>
   ) : null;
 
-  const staffRoutes = (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR")) ? (
+  const staffRoutes = (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR") || hasRole(currentUser, "ROLE_USER")) ? (
     <>
       <Route path="/course/:courseId/staff/create" element={<StaffCreatePage />} />
       <Route path="/course/:courseId/staff" element={<StaffIndexPage />} />
