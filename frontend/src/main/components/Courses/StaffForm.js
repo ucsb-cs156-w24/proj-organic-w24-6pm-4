@@ -3,7 +3,7 @@ import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-function StaffForm({ initialContents, submitAction, buttonLabel = "Create", courseId }) {
+function StaffForm({ initialContents, submitAction, buttonLabel = "Add", courseId }) {
 
     // Stryker disable all
     const {
@@ -17,12 +17,6 @@ function StaffForm({ initialContents, submitAction, buttonLabel = "Create", cour
     // Stryker restore all
 
     const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     if(courseId) {
-    //         setValue("courseId", courseId, { shouldValidate: true });
-    //     }
-    // }, [courseId, setValue]);
 
     return (
 
@@ -51,6 +45,8 @@ function StaffForm({ initialContents, submitAction, buttonLabel = "Create", cour
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="courseId">Course ID</Form.Label>
                         <Form.Control
+                            data-testid="StaffForm-courseId"
+                            id="courseId"
                             type="text"
                             {...register("courseId")}
                             value={courseId}

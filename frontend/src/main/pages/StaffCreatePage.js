@@ -5,8 +5,8 @@ import { useParams } from "react-router-dom";
 import { useBackendMutation } from "main/utils/useBackend";
 import { toast } from "react-toastify";
 
-export default function CourseCreatePage({storybook=false}) {
-    let { id } = useParams();
+export default function StaffCreatePage({storybook=false}) {
+    let { courseId } = useParams();
 
     const objectToAxiosParams = (staff) => ({
         url: "/api/course/staff/create",
@@ -18,7 +18,7 @@ export default function CourseCreatePage({storybook=false}) {
     });
 
     const onSuccess = (staff) => {
-        toast(`New staff created - id: ${staff.id}`);
+        toast(`New staff added - id: ${staff.id}`);
     }
 
     const mutation = useBackendMutation(
@@ -35,7 +35,7 @@ export default function CourseCreatePage({storybook=false}) {
     }
 
     if (isSuccess && !storybook) {
-        return <Navigate to={`/course/${id}/staff`} />
+        return <Navigate to={`/course/${courseId}/staff`} />
     }
 
     return (
@@ -43,7 +43,7 @@ export default function CourseCreatePage({storybook=false}) {
         <div className="pt-2">
             <h1>Add Staff Member</h1>
 
-            <StaffForm submitAction={onSubmit} courseId={id} />
+            <StaffForm submitAction={onSubmit} courseId={courseId} />
 
         </div>
         </BasicLayout>
