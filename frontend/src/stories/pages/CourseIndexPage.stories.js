@@ -26,7 +26,7 @@ Empty.parameters = {
         rest.get('/api/course/getAll', (_req, res, ctx) => {
             return res(ctx.json([]));
         }),
-        rest.delete('/api/course', (req, res, ctx) => {
+        rest.delete('/api/course/delete', (req, res, ctx) => {
             window.alert("DELETE: " + JSON.stringify(req.url));
             return res(ctx.status(200),ctx.json({}));
         }),
@@ -46,7 +46,7 @@ ThreeItemsOrdinaryUser.parameters = {
         rest.get('/api/course/getAll', (_req, res, ctx) => {
             return res(ctx.json(courseFixtures.threeCourses));
         }),
-        rest.delete('/api/course', (req, res, ctx) => {
+        rest.delete('/api/course/delete', (req, res, ctx) => {
             window.alert("DELETE: " + JSON.stringify(req.url));
             return res(ctx.status(200),ctx.json({}));
         }),
@@ -66,7 +66,7 @@ ThreeItemsInstructorUser.parameters = {
         rest.get('/api/course/getAll', (_req, res, ctx) => {
             return res(ctx.json(courseFixtures.threeCourses));
         }),
-        rest.delete('/api/course', (req, res, ctx) => {
+        rest.delete('/api/course/delete', (req, res, ctx) => {
             window.alert("DELETE: " + JSON.stringify(req.url));
             return res(ctx.status(200),ctx.json({}));
         }),
@@ -86,7 +86,7 @@ ThreeItemsAdminUser.parameters = {
         rest.get('/api/course/getAll', (_req, res, ctx) => {
             return res(ctx.json(courseFixtures.threeCourses));
         }),
-        rest.delete('/api/course', (req, res, ctx) => {
+        rest.delete('/api/course/delete', (req, res, ctx) => {
             window.alert("DELETE: " + JSON.stringify(req.url));
             return res(ctx.status(200),ctx.json({}));
         }),
