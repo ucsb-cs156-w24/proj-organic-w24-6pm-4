@@ -59,7 +59,7 @@ describe("StaffCreatePage tests", () => {
 
         const queryClient = new QueryClient();
         const staff = {
-            id: 1,
+            id: 3,
             courseId: 1,
             githubLogin: "cgaucho"
         };
@@ -97,7 +97,7 @@ describe("StaffCreatePage tests", () => {
                 "githubLogin": "cgaucho"
         });
 
-        expect(mockToast).toBeCalledWith("New staff added - id: 1");
+        expect(mockToast).toBeCalledWith("New staff added - id: 3");
         expect(mockNavigate).toBeCalledWith({ "to": "/course/1/staff" });
     });
 
