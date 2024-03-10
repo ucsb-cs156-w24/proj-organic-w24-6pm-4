@@ -18,8 +18,8 @@ export default function StaffTable({ staffs, currentUser }) {
 
     // Stryker disable next-line all : TODO try to make a good test for this
     const deleteCallback = async (cell) => {
-        deleteMutation.mutate(cell); 
-        // Stryker disable next-line all: Hard to test for list refresh
+        await deleteMutation.mutateAsync(cell);
+        // Stryker disable all : Not sure how to set up the complex behavior needed to test this
         queryClient.invalidateQueries(`/api/course/staff/all?courseId=${cell.row.values.courseId}`);
     }
 
