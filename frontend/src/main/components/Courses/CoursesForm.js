@@ -58,7 +58,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
         let currSchool = document.getElementById("FormSelect").value
 
         for(let i of schools){
-            if(i.abbrev == currSchool){
+            if(i.abbrev === currSchool){
                 setTermRegex(i.termRegex);
                 setTermDescription(i.termDescription);
                 setTermError(i.termError);
