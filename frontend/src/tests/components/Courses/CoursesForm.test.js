@@ -59,9 +59,9 @@ describe("CoursesForm tests", () => {
         await waitFor(() => {expect(screen.getByTestId("CoursesForm-school")).toHaveValue("ucsb")});
         await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
 
-        await waitFor(() => expect(screen.getByText(/Id/)).toBeInTheDocument());
+        expect(screen.getByText(/Id/)).toBeInTheDocument();
         await waitFor(() => expect(screen.getByTestId(/CoursesForm-id/)).toHaveValue("1"));
-        await waitFor(() => expect(screen.getByTestId("FormSelect-option-ucsb")).toBeInTheDocument());
+        expect(screen.getByTestId("FormSelect-option-ucsb")).toBeInTheDocument();
 
     });
 
