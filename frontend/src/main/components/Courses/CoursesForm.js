@@ -35,36 +35,24 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
 
     const navigate = useNavigate();
 
-    let initialSchool = null;
-
     const updateSchool = () => {
-            setActiveSchool(document.getElementById("FormSelect").value)
+            setActiveSchool(document.getElementById("FormSelect").value);
+            setValue("school", document.getElementById("FormSelect").value);
+
             let currSchool = document.getElementById("FormSelect").value
             for(let i of schools){
                 if(i.abbrev == currSchool){
                     setTermDescription(i.termDescription);
+                    break;
                 }
             }
-    }
-
-
-    const preload = async function (){
-        if(initialContents){
-            await initialContents;
-            initialSchool = initialContents.school;
-            for(let i of schools){
-                if(i.abbrev == initialSchool){
-                    setTermDescription(i.termDescription);
-                }
-            }
-        }
     }
 
     // Stryker disable next-line Regex
     const isodate_regex = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
 
     return (
-        <Form id = "form" onLoad={() => preload()} onSubmit={handleSubmit(submitAction)}>
+        <Form id = "form" onSubmit={handleSubmit(submitAction)}>
 
             <Row>
 
@@ -103,10 +91,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
 
             <Row>
                 <Col>
-        <Form.Group className="mb-3" onChange={() => { 
-            setActiveSchool(document.getElementById("FormSelect").value);
-            setValue("school", document.getElementById("FormSelect").value);
-            }}>
+        <Form.Group className="mb-3" onChange={() => { updateSchool() }}>
             <Form.Label htmlForm="school">School</Form.Label>
             <Form.Control
                 data-testid = "CoursesForm-school"

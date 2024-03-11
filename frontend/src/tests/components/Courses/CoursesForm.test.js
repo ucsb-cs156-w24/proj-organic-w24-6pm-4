@@ -23,6 +23,8 @@ describe("CoursesForm tests", () => {
     const setup = () => {
         axiosMock.reset();
         axiosMock.resetHistory();
+
+        axiosMock.onGet("/api/Schools/all").reply(200, SchoolsFixtures.threeSchools);
     }
 
     const queryClient = new QueryClient();
@@ -43,7 +45,6 @@ describe("CoursesForm tests", () => {
 
     test("renders correctly when passing in a Courses", async () => {
         setup();
-        axiosMock.onGet("/api/Schools/all").reply(200, SchoolsFixtures.threeSchools);
 
         render(
             <QueryClientProvider client={queryClient}>
@@ -91,6 +92,7 @@ describe("CoursesForm tests", () => {
     });
 
     test("No Error messsages on good input", async () => {
+        setup();
 
         const mockSubmitAction = jest.fn();
 
@@ -101,9 +103,11 @@ describe("CoursesForm tests", () => {
                 </Router>
             </QueryClientProvider>
         );
-        await screen.findByTestId("CoursesForm-name");
+        await screen.findByTestId("FormSelect-option-ucsb");
 
         await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
+
+        expect(screen.getByText("Term")).toBeInTheDocument();
 
         const nameField = screen.getByTestId("CoursesForm-name");
         const schoolField = screen.getByTestId("CoursesForm-school");
@@ -115,13 +119,14 @@ describe("CoursesForm tests", () => {
         const submitButton = screen.getByTestId("CoursesForm-submit");
 
         fireEvent.change(nameField, { target: { value: "CMPSC 156" } });
-        fireEvent.change(schoolSelect, {target : { value : 'ucsb'}});
+        fireEvent.change(schoolSelect, {target : { value : "umn"}});
         fireEvent.change(termField, { target: { value: 'f23' } });
         fireEvent.change(startDateField, { target: { value: '2022-01-02T12:00' } });
         fireEvent.change(endDateField, { target: { value: '2022-02-02T12:00' } });
         fireEvent.change(githubOrgField, { target: { value: 'cs156-f23'}})
 
-        expect(schoolField).toHaveValue("ucsb");
+        expect(schoolField).toHaveValue("umn");
+        expect(screen.getByText("Enter quarter, e.g. F24, W25, S25, M25")).toBeInTheDocument();
 
         fireEvent.click(submitButton);
 
@@ -132,10 +137,20 @@ describe("CoursesForm tests", () => {
         // expect(screen.getByText(/School is required./)).not.toBeInTheDocument();
         expect(screen.queryByText(/StartDate date is required./)).not.toBeInTheDocument();
         expect(screen.queryByText(/EndDate date is required./)).not.toBeInTheDocument();
-
-        expect(screen.getByText("Enter quarter, e.g. F25, W26, S26, M26")).toBeInTheDocument()
     });
 
+    test("preloads term info", async () => {
+        setup();
+
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <CoursesForm initialContents={coursesFixtures.oneCourse}/>
+                </Router>
+            </QueryClientProvider>
+        );
+
+    });
 
     test("that navigate(-1) is called when Cancel is clicked", async () => {
 
