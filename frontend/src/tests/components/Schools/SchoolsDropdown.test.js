@@ -61,7 +61,6 @@ describe("SchoolsDropdown tests", () => {
         );
 
         expect(screen.getByTestId(`${testId}-option-No school selected`)).toBeInTheDocument();
-
         expect(screen.getByTestId(`${testId}`)).toHaveValue("No school selected");
 
         let dropdown = screen.getByTestId(`${testId}`);
