@@ -10,17 +10,16 @@ import SchoolsDropdown from '../Schools/SchoolsDropdown';
 function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
     const [activeSchool, setActiveSchool] = useState("")
-    const [termRegex, setTermRegex] = useState("[A-Z][0-9]")
+    const [termRegex, setTermRegex] = useState()
     const [termDescription, setTermDescription] = useState("Term")
-    const [termError, setTermError] = useState("Term is required")
+    const [termError, setTermError] = useState("Term is required.")
 
     const {data: schools, error: _error, status: _status} = 
         useBackend(
         // Stryker disable next-line all : don't test internal caching of React Query
         ["/api/Schools/all"],
         // Stryker disable next-line all : GET is the default
-        { method: "GET", url: "/api/Schools/all" },
-        []
+        { method: "GET", url: "/api/Schools/all" }, []
         );
     
     // Stryker disable all
@@ -28,6 +27,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
         register,
         formState: { errors },
         handleSubmit,
+        setValue,
     } = useForm(
         { defaultValues: initialContents || {}, 
         mode: "onChange", 
@@ -37,32 +37,32 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
 
     const navigate = useNavigate();
 
-    let initialSchool = null;
+    const loadTermInitial = async () => {
+        await initialContents;
 
-    const updateSchool = () => {
-            setActiveSchool(document.getElementById("FormSelect").value)
-            let currSchool = document.getElementById("FormSelect").value
-            for(let i of schools){
-                if(i.abbrev == currSchool){
-                    setTermRegex(i.termRegex);
-                    setTermDescription(i.termDescription);
-                    setTermError(i.termError);
-                }
+        let currSchool = document.getElementById("FormSelect").value
+        for(let i of schools){
+            if(i.abbrev === currSchool){
+                setTermRegex(i.termRegex);
+                setTermDescription(i.termDescription);
+                setTermError(i.termError);
+                break;
             }
+        }
     }
 
+    const updateSchool = () => {
+        setActiveSchool(document.getElementById("FormSelect").value);
+        setValue("school", document.getElementById("FormSelect").value);
 
-    const preload = function (){
-        console.log("A");
+        let currSchool = document.getElementById("FormSelect").value
 
-        if(initialContents){
-            initialSchool = initialContents.school;
-            for(let i of schools){
-                if(i.abbrev == initialSchool){
-                    setTermRegex(i.termRegex);
-                    setTermDescription(i.termDescription);
-                    setTermError(i.termError);
-                }
+        for(let i of schools){
+            if(i.abbrev == currSchool){
+                setTermRegex(i.termRegex);
+                setTermDescription(i.termDescription);
+                setTermError(i.termError);
+                break;
             }
         }
     }
@@ -71,7 +71,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
     const isodate_regex = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
 
     return (
-        <Form id = "form" onLoad={() => preload()} onSubmit={handleSubmit(submitAction)}>
+        <Form id = "form" onLoad={loadTermInitial()} onSubmit={handleSubmit(submitAction)}>
             <Row>
                 {initialContents && (
                     <Col>
@@ -111,14 +111,12 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
         <Form.Group className="mb-3" onChange={() => { updateSchool() }}>
             <Form.Label htmlForm="school">School</Form.Label>
             <Form.Control
-                id = "school"
                 data-testid = "CoursesForm-school"
-                // behavior is buggy, may just be storybook
-                // only updates after textbox is selected
-                value = { activeSchool || initialSchool }
-                type = "text"
+                id = "school"
+                type = "hidden"
+                value = { activeSchool }
                 isInvalid={Boolean(errors.school)}
-                {...register("school", { required: true })}
+                {...register("school", {required: true})}
             >
             </Form.Control>
             <SchoolsDropdown schools={schools} initialContents={initialContents}></SchoolsDropdown>
@@ -140,7 +138,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                             {...register("term", { required: true, pattern: termRegex})}
                         />
                         <Form.Control.Feedback type="invalid">
-                            {errors.term && 'Term is required '}
+                            {errors.term && termError}
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Col>
@@ -214,7 +212,6 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                 </Col>
             </Row>
         </Form>
-
     )
 }
 

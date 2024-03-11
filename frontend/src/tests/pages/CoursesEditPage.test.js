@@ -8,6 +8,8 @@ import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
+import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
+
 import mockConsole from "jest-mock-console";
 
 const mockToast = jest.fn();
@@ -106,6 +108,7 @@ describe("CoursesEditPage tests", () => {
         });
 
         test("Is populated with the data provided", async () => {
+            axiosMock.onGet("/api/Schools/all").reply(200, SchoolsFixtures.threeSchools);
 
             render(
                 <QueryClientProvider client={queryClient}>
@@ -115,11 +118,11 @@ describe("CoursesEditPage tests", () => {
                 </QueryClientProvider>
             );
 
-            await screen.findByTestId("CoursesForm-name");
+            await screen.findByTestId("FormSelect-option-ucsb");
 
             const idField = screen.getByTestId("CoursesForm-id");
             const nameField = screen.getByTestId("CoursesForm-name");
-            const schoolField = screen.getByTestId("CoursesForm-school");
+            const schoolField = screen.getByTestId("FormSelect");
             const termField = screen.getByTestId("CoursesForm-term");
             const startField = screen.getByTestId("CoursesForm-startDate");
             const endField = screen.getByTestId("CoursesForm-endDate");
@@ -137,6 +140,7 @@ describe("CoursesEditPage tests", () => {
         });
 
         test("Changes when you click Update", async () => {
+            axiosMock.onGet("/api/Schools/all").reply(200, SchoolsFixtures.threeSchools);
 
             render(
                 <QueryClientProvider client={queryClient}>
@@ -146,11 +150,11 @@ describe("CoursesEditPage tests", () => {
                 </QueryClientProvider>
             );
 
-            await screen.findByTestId("CoursesForm-name");
+            await screen.findByTestId("FormSelect-option-ucsb");
 
             const idField = screen.getByTestId("CoursesForm-id");
             const nameField = screen.getByTestId("CoursesForm-name");
-            const schoolField = screen.getByTestId("CoursesForm-school");
+            const schoolField = screen.getByTestId("FormSelect");
             const termField = screen.getByTestId("CoursesForm-term");
             const startField = screen.getByTestId("CoursesForm-startDate");
             const endField = screen.getByTestId("CoursesForm-endDate");
