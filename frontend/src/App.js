@@ -42,13 +42,13 @@ function App() {
     </>
   ) : null;
 
-  const staffIndexPageRoutes = (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR") || hasRole(currentUser, "ROLE_USER")) ? (
+  const staffIndexPageRoute = (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR") || hasRole(currentUser, "ROLE_USER")) ? (
     <>
       <Route path="/course/:courseId/staff" element={<StaffIndexPage />} />
     </>
   ) : null;
 
-  const staffCreatePageRoutes = (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR")) ? (
+  const staffCreatePageRoute = (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR")) ? (
     <>
       <Route path="/course/:courseId/staff/create" element={<StaffCreatePage />} />
     </>
@@ -93,8 +93,8 @@ function App() {
           {adminRoutes}
           {userRoutes}
           {courseRoutes}
-          {staffIndexPageRoutes}
-          {staffCreatePageRoutes}
+          {staffIndexPageRoute}
+          {staffCreatePageRoute}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       )}
