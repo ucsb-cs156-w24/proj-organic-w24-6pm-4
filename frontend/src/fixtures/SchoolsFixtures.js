@@ -1,4 +1,4 @@
-const schoolsFixtures = {
+const SchoolsFixtures = {
     oneSchool: {
         "abbrev": "ucsb",
         "name": "UC Santa Barbara",
@@ -32,4 +32,4 @@ const schoolsFixtures = {
 };
 
 
-export { schoolsFixtures };
+export { SchoolsFixtures };
