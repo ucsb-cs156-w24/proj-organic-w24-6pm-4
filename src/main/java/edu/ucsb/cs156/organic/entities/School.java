@@ -8,8 +8,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-=======
-@NoArgsConstructor
+
 @Builder
 @Entity(name = "Schools")
 public class School {
