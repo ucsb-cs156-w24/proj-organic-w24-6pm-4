@@ -35,24 +35,36 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
 
     const navigate = useNavigate();
 
-    const updateSchool = () => {
-            setActiveSchool(document.getElementById("FormSelect").value);
-            setValue("school", document.getElementById("FormSelect").value);
+    const loadTermInitial = async () => {
+        await initialContents;
 
-            let currSchool = document.getElementById("FormSelect").value
-            for(let i of schools){
-                if(i.abbrev == currSchool){
-                    setTermDescription(i.termDescription);
-                    break;
-                }
+        let currSchool = document.getElementById("FormSelect").value
+        for(let i of schools){
+            if(i.abbrev === currSchool){
+                setTermDescription(i.termDescription);
+                break;
             }
+        }
+    }
+
+    const updateSchool = () => {
+        setActiveSchool(document.getElementById("FormSelect").value);
+        setValue("school", document.getElementById("FormSelect").value);
+
+        let currSchool = document.getElementById("FormSelect").value
+        for(let i of schools){
+            if(i.abbrev === currSchool){
+                setTermDescription(i.termDescription);
+                break;
+            }
+        }
     }
 
     // Stryker disable next-line Regex
     const isodate_regex = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
 
     return (
-        <Form id = "form" onSubmit={handleSubmit(submitAction)}>
+        <Form id = "form" onLoad={loadTermInitial()} onSubmit={handleSubmit(submitAction)}>
 
             <Row>
 

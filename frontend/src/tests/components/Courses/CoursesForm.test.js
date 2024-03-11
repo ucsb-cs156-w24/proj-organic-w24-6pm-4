@@ -139,7 +139,7 @@ describe("CoursesForm tests", () => {
         expect(screen.queryByText(/EndDate date is required./)).not.toBeInTheDocument();
     });
 
-    test("preloads term info", async () => {
+    test("preloads term info and changes info properly", async () => {
         setup();
 
         render(
@@ -149,6 +149,15 @@ describe("CoursesForm tests", () => {
                 </Router>
             </QueryClientProvider>
         );
+
+        await screen.findByTestId("FormSelect-option-ucsb");
+
+        expect(screen.getByText("Enter quarter, e.g. F23, W24, S24, M24")).toBeInTheDocument();
+
+        const schoolSelect = screen.getByTestId("FormSelect");
+        fireEvent.change(schoolSelect, {target : { value : "umn"}});
+
+        expect(screen.getByText("Enter quarter, e.g. F24, W25, S25, M25")).toBeInTheDocument();
 
     });
 
