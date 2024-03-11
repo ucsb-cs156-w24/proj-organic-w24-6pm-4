@@ -17,8 +17,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
         // Stryker disable next-line all : don't test internal caching of React Query
         ["/api/Schools/all"],
         // Stryker disable next-line all : GET is the default
-        { method: "GET", url: "/api/Schools/all" },
-        []
+        { method: "GET", url: "/api/Schools/all" }, []
         );
     
     // Stryker disable all
@@ -26,6 +25,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
         register,
         formState: { errors },
         handleSubmit,
+        setValue,
     } = useForm(
         { defaultValues: initialContents || {}, 
         mode: "onChange", 
@@ -103,17 +103,18 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
 
             <Row>
                 <Col>
-        <Form.Group className="mb-3" onChange={() => { updateSchool() }}>
+        <Form.Group className="mb-3" onChange={() => { 
+            setActiveSchool(document.getElementById("FormSelect").value);
+            setValue("school", document.getElementById("FormSelect").value);
+            }}>
             <Form.Label htmlForm="school">School</Form.Label>
             <Form.Control
-                id = "school"
                 data-testid = "CoursesForm-school"
-                // behavior is buggy, may just be storybook
-                // only updates after textbox is selected
-                value = { activeSchool || initialSchool }
-                type = "text"
+                id = "school"
+                type = "hidden"
+                value = { activeSchool }
                 isInvalid={Boolean(errors.school)}
-                {...register("school", { required: true })}
+                {...register("school", {required: true})}
             >
             </Form.Control>
             <SchoolsDropdown schools={schools} initialContents={initialContents}></SchoolsDropdown>

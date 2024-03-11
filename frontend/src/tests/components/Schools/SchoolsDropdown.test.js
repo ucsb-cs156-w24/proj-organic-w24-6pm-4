@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import SchoolsDropdown from "main/components/Schools/SchoolsDropdown";
@@ -6,6 +6,8 @@ import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 import { coursesFixtures } from "fixtures/coursesFixtures";
+
+const mockedNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
@@ -26,7 +28,7 @@ describe("SchoolsDropdown tests", () => {
             </QueryClientProvider>
         );
 
-        expect(await screen.getByTestId(`${testId}-option-No school selected`)).toBeInTheDocument();
+        expect(screen.getByTestId(`${testId}-option-No school selected`)).toBeInTheDocument();
 
     });
 
@@ -39,7 +41,7 @@ describe("SchoolsDropdown tests", () => {
             </QueryClientProvider>
         );
 
-        expect(await screen.getByTestId(`${testId}-option-No school selected`)).toBeInTheDocument();
+        expect(screen.getByTestId(`${testId}-option-No school selected`)).toBeInTheDocument();
         expect(await screen.findByTestId(`${testId}-option-ucsb`)).toBeInTheDocument();
         expect(await screen.findByTestId(`${testId}-option-umn`)).toBeInTheDocument();
         expect(await screen.findByTestId(`${testId}-option-ucsd`)).toBeInTheDocument();
@@ -58,8 +60,7 @@ describe("SchoolsDropdown tests", () => {
             </QueryClientProvider>
         );
 
-        expect(await screen.getByTestId(`${testId}-option-No school selected`)).toBeInTheDocument();
-
+        expect(screen.getByTestId(`${testId}-option-No school selected`)).toBeInTheDocument();
         expect(screen.getByTestId(`${testId}`)).toHaveValue("No school selected");
 
         let dropdown = screen.getByTestId(`${testId}`);

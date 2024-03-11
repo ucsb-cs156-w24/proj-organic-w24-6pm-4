@@ -54,6 +54,8 @@ describe("CourseCreatePage tests", () => {
     });
 
     test("on submit, makes request to backend", async () => {
+        axiosMock.onGet("/api/Schools/all").reply(200, SchoolsFixtures.threeSchools);
+
         const queryClient = new QueryClient();
         const course = {
             id: 1,
@@ -65,7 +67,6 @@ describe("CourseCreatePage tests", () => {
             githubOrg: "ucsb-cs156-f23"
         };
 
-        axiosMock.onGet("/api/Schools/all").reply(SchoolsFixtures.threeSchools);
         axiosMock.onPost("/api/courses/post").reply(202, course);
 
         render(
@@ -77,11 +78,11 @@ describe("CourseCreatePage tests", () => {
         );
 
         await waitFor(() => {
-            expect(screen.getByTestId("CoursesForm-name")).toBeInTheDocument();
+            expect(screen.getByTestId("FormSelect-option-ucsb")).toBeInTheDocument();
         });
 
         const nameField = screen.getByTestId("CoursesForm-name");
-        const schoolField = screen.getByTestId("CoursesForm-school");
+        const schoolField = screen.getByTestId("FormSelect");
         const termField = screen.getByTestId("CoursesForm-term");
         const startDateField = screen.getByTestId("CoursesForm-startDate");
         const endDateField = screen.getByTestId("CoursesForm-endDate");
@@ -89,7 +90,7 @@ describe("CourseCreatePage tests", () => {
         const submitButton = screen.getByTestId("CoursesForm-submit");
 
         fireEvent.change(nameField, { target: { value: 'CS156' } });
-        fireEvent.change(schoolField, { target: { value: 'ucsb' } });
+        fireEvent.change(schoolField, { target: { value: "ucsb" } });
         fireEvent.change(termField, { target: { value: 'F23' } });
         fireEvent.change(startDateField, { target: { value: '2023-09-24T12:00:00' } });
         fireEvent.change(endDateField, { target: { value: '2023-12-15T12:00:00' } });

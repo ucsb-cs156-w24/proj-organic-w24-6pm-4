@@ -106,19 +106,22 @@ describe("CoursesForm tests", () => {
         await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
 
         const nameField = screen.getByTestId("CoursesForm-name");
+        const schoolField = screen.getByTestId("CoursesForm-school");
+        const schoolSelect = screen.getByTestId("FormSelect");
         const termField = screen.getByTestId("CoursesForm-term");
         const startDateField = screen.getByTestId("CoursesForm-startDate");
         const endDateField = screen.getByTestId("CoursesForm-endDate");
         const githubOrgField = screen.getByTestId("CoursesForm-githubOrg")
         const submitButton = screen.getByTestId("CoursesForm-submit");
-        const schoolField = screen.getByTestId("FormSelect");
 
         fireEvent.change(nameField, { target: { value: "CMPSC 156" } });
-        fireEvent.change(schoolField, { target: { value: 'ucsd' } });
+        fireEvent.change(schoolSelect, {target : { value : 'ucsb'}});
         fireEvent.change(termField, { target: { value: 'f23' } });
         fireEvent.change(startDateField, { target: { value: '2022-01-02T12:00' } });
         fireEvent.change(endDateField, { target: { value: '2022-02-02T12:00' } });
         fireEvent.change(githubOrgField, { target: { value: 'cs156-f23'}})
+
+        expect(schoolField).toHaveValue("ucsb");
 
         fireEvent.click(submitButton);
 
@@ -126,6 +129,7 @@ describe("CoursesForm tests", () => {
 
         await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
 
+        // expect(screen.getByText(/School is required./)).not.toBeInTheDocument();
         expect(screen.queryByText(/StartDate date is required./)).not.toBeInTheDocument();
         expect(screen.queryByText(/EndDate date is required./)).not.toBeInTheDocument();
 
