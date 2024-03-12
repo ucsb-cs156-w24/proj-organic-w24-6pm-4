@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for components/Courses/CoursesForm.js</title>
+    <title>Code coverage report for components/Courses/CourseForm.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/Courses</a> CoursesForm.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/Courses</a> CourseForm.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -401,7 +401,7 @@
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 &nbsp;
-function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) {
+function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 &nbsp;
     // Stryker disable all
     const {
@@ -430,7 +430,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                         &lt;Form.Group className="mb-3" &gt;
                             &lt;Form.Label htmlFor="id"&gt;Id&lt;/Form.Label&gt;
                             &lt;Form.Control
-                                data-testid="CoursesForm-id"
+                                data-testid="CourseForm-id"
                                 id="id"
                                 type="text"
                                 {...register("id")}
@@ -445,7 +445,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     &lt;Form.Group className="mb-3" &gt;
                         &lt;Form.Label htmlFor="name"&gt;Name&lt;/Form.Label&gt;
                         &lt;Form.Control
-                            data-testid="CoursesForm-name"
+                            data-testid="CourseForm-name"
                             id="name"
                             type="text"
                             isInvalid={Boolean(errors.name)}
@@ -463,7 +463,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     &lt;Form.Group className="mb-3" &gt;
                         &lt;Form.Label htmlFor="school"&gt;School&lt;/Form.Label&gt;
                         &lt;Form.Control
-                            data-testid="CoursesForm-school"
+                            data-testid="CourseForm-school"
                             id="school"
                             type="text"
                             isInvalid={Boolean(errors.school)}
@@ -478,7 +478,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     &lt;Form.Group className="mb-3" &gt;
                         &lt;Form.Label htmlFor="term"&gt;Term&lt;/Form.Label&gt;
                         &lt;Form.Control
-                            data-testid="CoursesForm-term"
+                            data-testid="CourseForm-term"
                             id="term"
                             type="text"
                             isInvalid={Boolean(errors.term)}
@@ -496,7 +496,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     &lt;Form.Group className="mb-3" &gt;
                         &lt;Form.Label htmlFor="startDate"&gt;StartDate(iso format)&lt;/Form.Label&gt;
                         &lt;Form.Control
-                            data-testid="CoursesForm-startDate"
+                            data-testid="CourseForm-startDate"
                             id="startDate"
                             type="datetime-local"
                             isInvalid={Boolean(errors.startDate)}
@@ -509,9 +509,9 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                 &lt;/Col&gt;
                 &lt;Col&gt;
                     &lt;Form.Group className="mb-3" &gt;
-                        &lt;Form.Label htmlFor=""&gt;EndDate(iso format)&lt;/Form.Label&gt;
+                        &lt;Form.Label htmlFor="endDate"&gt;EndDate(iso format)&lt;/Form.Label&gt;
                         &lt;Form.Control
-                            data-testid="CoursesForm-endDate"
+                            data-testid="CourseForm-endDate"
                             id="endDate"
                             type="datetime-local"
                             isInvalid={Boolean(errors.endDate)}
@@ -529,7 +529,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     &lt;Form.Group className="mb-3" &gt;
                         &lt;Form.Label htmlFor="githubOrg"&gt;GithubOrg&lt;/Form.Label&gt;
                         &lt;Form.Control
-                            data-testid="CoursesForm-githubOrg"
+                            data-testid="CourseForm-githubOrg"
                             id="githubOrg"
                             type="text"
                             isInvalid={Boolean(errors.githubOrg)}
@@ -546,14 +546,14 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                 &lt;Col&gt;
                     &lt;Button
                         type="submit"
-                        data-testid="CoursesForm-submit"
+                        data-testid="CourseForm-submit"
                     &gt;
                         {buttonLabel}
                     &lt;/Button&gt;
                     &lt;Button
                         variant="Secondary"
                         onClick={() =&gt; navigate(-1)}
-                        data-testid="CoursesForm-cancel"
+                        data-testid="CourseForm-cancel"
                     &gt;
                         Cancel
                     &lt;/Button&gt;
@@ -564,14 +564,14 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
     )
 }
 &nbsp;
-export default CoursesForm</pre></td></tr></table></pre>
+export default CourseForm</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Mon Mar 11 2024 11:07:42 GMT-0700 (Pacific Daylight Time)
+                at Tue Mar 12 2024 16:04:17 GMT-0700 (Pacific Daylight Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>
