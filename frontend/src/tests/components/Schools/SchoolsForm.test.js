@@ -1,6 +1,6 @@
 import { render, waitFor, fireEvent, screen } from "@testing-library/react";
-import SchoolForm from "main/components/School/SchoolForm";
-import { schoolsFixtures } from "fixtures/schoolsFixtures";
+import SchoolsForm from "main/components/Schools/SchoolsForm";
+import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const mockedNavigate = jest.fn();
@@ -10,12 +10,12 @@ jest.mock('react-router-dom', () => ({
     useNavigate: () => mockedNavigate
 }));
 
-describe("SchoolForm tests", () => {
+describe("SchoolsForm tests", () => {
 
     test("renders correctly", async () => {
         render(
             <Router  >
-                <SchoolForm/>
+                <SchoolsForm/>
             </Router>
         );
         await screen.findByText(/Abbreviation/);
@@ -25,23 +25,23 @@ describe("SchoolForm tests", () => {
     test("renders correctly when passing in a School", async () => {
         render(
             <Router  >
-                <SchoolForm initialContents={schoolsFixtures.oneSchool} />
+                <SchoolsForm initialContents={SchoolsFixtures.oneSchool} />
             </Router>
         );
-        await screen.findByTestId(/SchoolForm-abbrev/);
+        await screen.findByTestId(/SchoolsForm-abbrev/);
         expect(screen.getByText(/Abbreviation/)).toBeInTheDocument();
-        expect(screen.getByTestId(/SchoolForm-abbrev/)).toHaveValue("ucsb");
+        expect(screen.getByTestId(/SchoolsForm-abbrev/)).toHaveValue("ucsb");
     });
 
     test("Correct Error messsages on bad input", async () => {
         render(
             <Router  >
-                <SchoolForm/>
+                <SchoolsForm/>
             </Router>
         );
-        await screen.findByTestId("SchoolForm-abbrev");
-        const abbrevField = screen.getByTestId("SchoolForm-abbrev");
-        const submitButton = screen.getByTestId("SchoolForm-submit");
+        await screen.findByTestId("SchoolsForm-abbrev");
+        const abbrevField = screen.getByTestId("SchoolsForm-abbrev");
+        const submitButton = screen.getByTestId("SchoolsForm-submit");
 
         fireEvent.change(abbrevField, { target: { value: 'Bad-Input' } });
         fireEvent.click(submitButton);
@@ -52,11 +52,11 @@ describe("SchoolForm tests", () => {
     test("Correct Error messsages on missing input", async () => {
         render(
             <Router  >
-                <SchoolForm/>
+                <SchoolsForm/>
             </Router>
         );
-        await screen.findByTestId("SchoolForm-submit");
-        const submitButton = screen.getByTestId("SchoolForm-submit");
+        await screen.findByTestId("SchoolsForm-submit");
+        const submitButton = screen.getByTestId("SchoolsForm-submit");
 
         fireEvent.click(submitButton);
 
@@ -71,17 +71,17 @@ describe("SchoolForm tests", () => {
         const mockSubmitAction = jest.fn();
         render(
             <Router  >
-                <SchoolForm submitAction={mockSubmitAction} />
+                <SchoolsForm submitAction={mockSubmitAction} />
             </Router>
         );
-        await screen.findByTestId("SchoolForm-abbrev");
+        await screen.findByTestId("SchoolsForm-abbrev");
 
-        const abbrevField = screen.getByTestId("SchoolForm-abbrev");
-        const nameField = screen.getByTestId("SchoolForm-name");
-        const termRegexField = screen.getByTestId("SchoolForm-termRegex");
-        const termDescriptionField = screen.getByTestId("SchoolForm-termDescription");
-        const termErrorField = screen.getByTestId("SchoolForm-termError");
-        const submitButton = screen.getByTestId("SchoolForm-submit");
+        const abbrevField = screen.getByTestId("SchoolsForm-abbrev");
+        const nameField = screen.getByTestId("SchoolsForm-name");
+        const termRegexField = screen.getByTestId("SchoolsForm-termRegex");
+        const termDescriptionField = screen.getByTestId("SchoolsForm-termDescription");
+        const termErrorField = screen.getByTestId("SchoolsForm-termError");
+        const submitButton = screen.getByTestId("SchoolsForm-submit");
 
         fireEvent.change(abbrevField, { target: { value: 'ucsb' } });
         fireEvent.change(nameField, { target: { value: 'UC Santa Barbara' } });
@@ -90,7 +90,7 @@ describe("SchoolForm tests", () => {
         fireEvent.change(termErrorField, { target: { value: 'Quarter must be entered in the correct format' } });
         fireEvent.click(submitButton);
 
-        await screen.findByTestId(/SchoolForm-abbrev/);
+        await screen.findByTestId(/SchoolsForm-abbrev/);
         expect(screen.queryByText(/Abbreviation is required./)).not.toBeInTheDocument();
         expect(screen.queryByText(/Abbreviation must be lowercase letters (_ and . allowed), e.g. ucsb/)).not.toBeInTheDocument();
         expect(screen.queryByText(/Name is required./)).not.toBeInTheDocument();
@@ -102,11 +102,11 @@ describe("SchoolForm tests", () => {
     test("that navigate(-1) is called when Cancel is clicked", async () => {
         render(
             <Router  >
-                <SchoolForm/>
+                <SchoolsForm/>
             </Router>
         );
-        await screen.findByTestId("SchoolForm-cancel");
-        const cancelButton = screen.getByTestId("SchoolForm-cancel");
+        await screen.findByTestId("SchoolsForm-cancel");
+        const cancelButton = screen.getByTestId("SchoolsForm-cancel");
 
         fireEvent.click(cancelButton);
 

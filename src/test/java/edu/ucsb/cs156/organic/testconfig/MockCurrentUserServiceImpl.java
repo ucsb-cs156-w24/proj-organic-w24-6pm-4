@@ -36,7 +36,7 @@ public class MockCurrentUserServiceImpl extends CurrentUserServiceImpl {
     String fullName = "Fake User";
     boolean emailVerified = true;
     boolean admin=false;
-    Instant lastOnline = Instant.ofEpochSecond(100);
+    String lastOnline = Instant.ofEpochSecond(100).toString();
 
     org.springframework.security.core.userdetails.User user = null;
 
