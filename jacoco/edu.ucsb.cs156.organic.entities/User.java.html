@@ -8,6 +8,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Data
@@ -32,11 +34,11 @@ public class User {
   private List&lt;UserEmail&gt; emails;
 
   @Builder.Default
-  private Instant lastOnline = Instant.now();
+  private String lastOnline = Instant.now().toString();
 
   @Override
   public String toString() {
-<span class="fc" id="L39">    return String.format(&quot;User: githubId=%d githubLogin=%s admin=%s&quot;, githubId, githubLogin, this.admin);</span>
+<span class="fc" id="L41">    return String.format(&quot;User: githubId=%d githubLogin=%s admin=%s&quot;, githubId, githubLogin, this.admin);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
