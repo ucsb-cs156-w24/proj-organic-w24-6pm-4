@@ -1,7 +1,7 @@
 import { fireEvent, render, waitFor, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import CoursesEditPage from "main/pages/CoursesEditPage";
+import CourseEditPage from "main/pages/CourseEditPage";
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
@@ -33,7 +33,7 @@ jest.mock('react-router-dom', () => {
     };
 });
 
-describe("CoursesEditPage tests", () => {
+describe("CourseEditPage tests", () => {
 
     describe("when the backend doesn't return data", () => {
 
@@ -44,7 +44,7 @@ describe("CoursesEditPage tests", () => {
             axiosMock.resetHistory();
             axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
             axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
-            axiosMock.onGet("/api/courses/get", { params: { id: 17 } }).timeout();
+            axiosMock.onGet("/api/course/get", { params: { id: 17 } }).timeout();
         });
 
         const queryClient = new QueryClient();
@@ -55,12 +55,12 @@ describe("CoursesEditPage tests", () => {
             render(
                 <QueryClientProvider client={queryClient}>
                     <MemoryRouter>
-                        <CoursesEditPage />
+                        <CourseEditPage />
                     </MemoryRouter>
                 </QueryClientProvider>
             );
             await screen.findByText("Edit Course");
-            expect(screen.queryByTestId("CoursesForm-name")).not.toBeInTheDocument();
+            expect(screen.queryByTestId("CourseForm-name")).not.toBeInTheDocument();
             restoreConsole();
         });
     });
@@ -74,7 +74,7 @@ describe("CoursesEditPage tests", () => {
             axiosMock.resetHistory();
             axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
             axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
-            axiosMock.onGet("/api/courses/get", { params: { id: 17 } }).reply(200, {
+            axiosMock.onGet("/api/course/get", { params: { id: 17 } }).reply(200, {
                 id: 17,
                 name: "CS 156",
                 school: "UCSB",
@@ -83,7 +83,7 @@ describe("CoursesEditPage tests", () => {
                 endDate: "2023-12-15T00:00",
                 githubOrg: "ucsb-cs156-f23"
             });
-            axiosMock.onPut('/api/courses/update').reply(200, {
+            axiosMock.onPut('/api/course/update').reply(200, {
                 id: "17",
                 name: "CS 148",
                 school: "UCSB",
@@ -99,7 +99,7 @@ describe("CoursesEditPage tests", () => {
             render(
                 <QueryClientProvider client={queryClient}>
                     <MemoryRouter>
-                        <CoursesEditPage />
+                        <CourseEditPage />
                     </MemoryRouter>
                 </QueryClientProvider>
             );
@@ -110,21 +110,21 @@ describe("CoursesEditPage tests", () => {
             render(
                 <QueryClientProvider client={queryClient}>
                     <MemoryRouter>
-                        <CoursesEditPage />
+                        <CourseEditPage />
                     </MemoryRouter>
                 </QueryClientProvider>
             );
 
-            await screen.findByTestId("CoursesForm-name");
+            await screen.findByTestId("CourseForm-name");
 
-            const idField = screen.getByTestId("CoursesForm-id");
-            const nameField = screen.getByTestId("CoursesForm-name");
-            const schoolField = screen.getByTestId("CoursesForm-school");
-            const termField = screen.getByTestId("CoursesForm-term");
-            const startField = screen.getByTestId("CoursesForm-startDate");
-            const endField = screen.getByTestId("CoursesForm-endDate");
-            const githubOrgField = screen.getByTestId("CoursesForm-githubOrg");
-            const submitButton = screen.getByTestId("CoursesForm-submit");
+            const idField = screen.getByTestId("CourseForm-id");
+            const nameField = screen.getByTestId("CourseForm-name");
+            const schoolField = screen.getByTestId("CourseForm-school");
+            const termField = screen.getByTestId("CourseForm-term");
+            const startField = screen.getByTestId("CourseForm-startDate");
+            const endField = screen.getByTestId("CourseForm-endDate");
+            const githubOrgField = screen.getByTestId("CourseForm-githubOrg");
+            const submitButton = screen.getByTestId("CourseForm-submit");
 
             expect(idField).toHaveValue("17");
             expect(nameField).toHaveValue("CS 156");
@@ -141,21 +141,21 @@ describe("CoursesEditPage tests", () => {
             render(
                 <QueryClientProvider client={queryClient}>
                     <MemoryRouter>
-                        <CoursesEditPage />
+                        <CourseEditPage />
                     </MemoryRouter>
                 </QueryClientProvider>
             );
 
-            await screen.findByTestId("CoursesForm-name");
+            await screen.findByTestId("CourseForm-name");
 
-            const idField = screen.getByTestId("CoursesForm-id");
-            const nameField = screen.getByTestId("CoursesForm-name");
-            const schoolField = screen.getByTestId("CoursesForm-school");
-            const termField = screen.getByTestId("CoursesForm-term");
-            const startField = screen.getByTestId("CoursesForm-startDate");
-            const endField = screen.getByTestId("CoursesForm-endDate");
-            const githubOrgField = screen.getByTestId("CoursesForm-githubOrg");
-            const submitButton = screen.getByTestId("CoursesForm-submit");
+            const idField = screen.getByTestId("CourseForm-id");
+            const nameField = screen.getByTestId("CourseForm-name");
+            const schoolField = screen.getByTestId("CourseForm-school");
+            const termField = screen.getByTestId("CourseForm-term");
+            const startField = screen.getByTestId("CourseForm-startDate");
+            const endField = screen.getByTestId("CourseForm-endDate");
+            const githubOrgField = screen.getByTestId("CourseForm-githubOrg");
+            const submitButton = screen.getByTestId("CourseForm-submit");
 
             expect(idField).toHaveValue("17");
             expect(nameField).toHaveValue("CS 156");
@@ -177,7 +177,7 @@ describe("CoursesEditPage tests", () => {
 
             await waitFor(() => expect(mockToast).toBeCalled());
             expect(mockToast).toBeCalledWith("Course Updated - id: 17 name: CS 148");
-            expect(mockNavigate).toBeCalledWith({ "to": "/courses" });
+            expect(mockNavigate).toBeCalledWith({ "to": "/course" });
 
             expect(axiosMock.history.put.length).toBe(1); // times called
             expect(axiosMock.history.put[0].params).toEqual({ id: 17, name: "CS 148", endDate: "2023-03-12T00:00", startDate: "2024-01-10T00:00", school: "UCSB", term: "w23", githubOrg: "ucsb-cs156-w23" });

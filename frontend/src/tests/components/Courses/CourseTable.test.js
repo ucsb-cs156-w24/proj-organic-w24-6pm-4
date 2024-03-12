@@ -1,6 +1,6 @@
-import CoursesTable from "main/components/Courses/CoursesTable"
+import CourseTable from "main/components/Courses/CourseTable"
 import { fireEvent, render, waitFor, screen } from "@testing-library/react";
-import { coursesFixtures } from "fixtures/coursesFixtures";
+import { courseFixtures } from "fixtures/courseFixtures";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import { currentUserFixtures } from "fixtures/currentUserFixtures";
@@ -23,7 +23,7 @@ describe("UserTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <CoursesTable courses={coursesFixtures.threeCourses} currentUser={currentUser} />
+          <CourseTable courses={courseFixtures.threeCourses} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -31,7 +31,7 @@ describe("UserTable tests", () => {
 
     const expectedHeaders = ["id", "Name", "School", "Term", "StartDate", "EndDate", "GitHub Org"];
     const expectedFields = ["id", "name", "school", "term", "startDate", "endDate", "githubOrg"];
-    const testId = "CoursesTable";
+    const testId = "CourseTable";
 
     expectedHeaders.forEach((headerText) => {
       const header = screen.getByText(headerText);
@@ -61,13 +61,13 @@ describe("UserTable tests", () => {
 
     const expectedHeaders = ["id", "Name", "School", "Term", "StartDate", "EndDate", "GitHub Org"];
     const expectedFields = ["id", "name", "school", "term", "startDate", "endDate", "githubOrg"];
-    const testId = "CoursesTable";
+    const testId = "CourseTable";
 
     // act
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <CoursesTable courses={[]} currentUser={currentUser} />
+          <CourseTable courses={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
     );
@@ -92,7 +92,7 @@ describe("UserTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-            <CoursesTable courses={coursesFixtures.threeCourses} currentUser={currentUser} />
+            <CourseTable courses={courseFixtures.threeCourses} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -100,7 +100,7 @@ describe("UserTable tests", () => {
 
     const expectedHeaders = ["id", "Name", "School", "Term", "StartDate", "EndDate", "GitHub Org"];
     const expectedFields = ["id", "name", "school", "term", "startDate", "endDate", "githubOrg"];
-    const testId = "CoursesTable";
+    const testId = "CourseTable";
 
     expectedHeaders.forEach((headerText) => {
       const header = screen.getByText(headerText);
@@ -132,20 +132,20 @@ describe("UserTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-            <CoursesTable courses={coursesFixtures.threeCourses} currentUser={currentUser} />
+            <CourseTable courses={courseFixtures.threeCourses} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
-    await waitFor(() => { expect(screen.getByTestId(`CoursesTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
+    await waitFor(() => { expect(screen.getByTestId(`CourseTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
 
-    const editButton = screen.getByTestId(`CoursesTable-cell-row-0-col-Edit-button`);
+    const editButton = screen.getByTestId(`CourseTable-cell-row-0-col-Edit-button`);
     expect(editButton).toBeInTheDocument();
 
     fireEvent.click(editButton);
 
-    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/courses/edit/1'));
+    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/course/edit/1'));
 
   });
 
@@ -157,15 +157,15 @@ describe("UserTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-            <CoursesTable courses={coursesFixtures.threeCourses} currentUser={currentUser} />
+            <CourseTable courses={courseFixtures.threeCourses} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
-    await waitFor(() => { expect(screen.getByTestId(`CoursesTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
+    await waitFor(() => { expect(screen.getByTestId(`CourseTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
 
-    const deleteButton = screen.getByTestId(`CoursesTable-cell-row-0-col-Delete-button`);
+    const deleteButton = screen.getByTestId(`CourseTable-cell-row-0-col-Delete-button`);
     expect(deleteButton).toBeInTheDocument();
 
     fireEvent.click(deleteButton);

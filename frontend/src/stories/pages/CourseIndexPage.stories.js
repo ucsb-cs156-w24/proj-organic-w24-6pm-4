@@ -1,7 +1,7 @@
 import React from 'react';
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import { coursesFixtures } from "fixtures/coursesFixtures";
+import { courseFixtures } from "fixtures/courseFixtures";
 import { rest } from "msw";
 
 import CourseIndexPage from "main/pages/CourseIndexPage";
@@ -22,10 +22,10 @@ Empty.parameters = {
         rest.get('/api/systemInfo', (_req, res, ctx) => {
             return res(ctx.json(systemInfoFixtures.showingNeither));
         }),
-        rest.get('/api/courses/all', (_req, res, ctx) => {
-            return res(ctx.json(coursesFixtures.threeCourses));
+        rest.get('/api/course/getAll', (_req, res, ctx) => {
+            return res(ctx.json(courseFixtures.threeCourses));
         }),
-        rest.delete('/api/courses', (req, res, ctx) => {
+        rest.delete('/api/course', (req, res, ctx) => {
             window.alert("DELETE: " + JSON.stringify(req.url));
             return res(ctx.status(200),ctx.json({}));
         }),
@@ -42,10 +42,10 @@ ThreeItemsInstructorUser.parameters = {
         rest.get('/api/systemInfo', (_req, res, ctx) => {
             return res(ctx.json(systemInfoFixtures.showingNeither));
         }),
-        rest.get('/api/courses/all', (_req, res, ctx) => {
-            return res(ctx.json(coursesFixtures.threeCourses));
+        rest.get('/api/course/getAll', (_req, res, ctx) => {
+            return res(ctx.json(courseFixtures.threeCourses));
         }),
-        rest.delete('/api/courses', (req, res, ctx) => {
+        rest.delete('/api/course', (req, res, ctx) => {
             window.alert("DELETE: " + JSON.stringify(req.url));
             return res(ctx.status(200),ctx.json({}));
         }),
@@ -62,10 +62,10 @@ ThreeItemsAdminUser.parameters = {
         rest.get('/api/systemInfo', (_req, res, ctx) => {
             return res(ctx.json(systemInfoFixtures.showingNeither));
         }),
-        rest.get('/api/courses/all', (_req, res, ctx) => {
-            return res(ctx.json(coursesFixtures.threeCourses));
+        rest.get('/api/course/getAll', (_req, res, ctx) => {
+            return res(ctx.json(courseFixtures.threeCourses));
         }),
-        rest.delete('/api/courses', (req, res, ctx) => {
+        rest.delete('/api/course', (req, res, ctx) => {
             window.alert("DELETE: " + JSON.stringify(req.url));
             return res(ctx.status(200),ctx.json({}));
         }),
