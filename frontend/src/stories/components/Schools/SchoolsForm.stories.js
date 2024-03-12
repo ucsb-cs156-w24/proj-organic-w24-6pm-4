@@ -1,16 +1,16 @@
 import React from 'react';
-import SchoolForm from "main/components/School/SchoolForm"
-import { schoolsFixtures } from 'fixtures/schoolsFixtures';
+import SchoolsForm from "main/components/Schools/SchoolsForm"
+import { SchoolsFixtures } from 'fixtures/SchoolsFixtures';
 
 export default {
-    title: 'components/School/SchoolForm',
-    component: SchoolForm
+    title: 'components/Schools/SchoolsForm',
+    component: SchoolsForm
 };
 
 
 const Template = (args) => {
     return (
-        <SchoolForm {...args} />
+        <SchoolsForm {...args} />
     )
 };
 
@@ -27,7 +27,7 @@ Create.args = {
 export const Update = Template.bind({});
 
 Update.args = {
-    initialContents: schoolsFixtures.oneSchool,
+    initialContents: SchoolsFixtures.oneSchool,
     buttonLabel: "Update",
     submitAction: (data) => {
         console.log("Submit was clicked with data: ", data); 
