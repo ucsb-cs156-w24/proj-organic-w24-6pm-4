@@ -37,7 +37,7 @@ export default function CourseIndexPage() {
       <BasicLayout>
         <div className="pt-2">
           {createButton()}
-          <h1>Course</h1>
+          <h1>Courses</h1>
           <CourseTable courses={courses} currentUser={currentUser} />
         </div>
       </BasicLayout>
