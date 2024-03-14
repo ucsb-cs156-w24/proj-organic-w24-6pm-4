@@ -8,6 +8,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Data
@@ -32,7 +34,7 @@ public class User {
   private List<UserEmail> emails;
 
   @Builder.Default
-  private Instant lastOnline = Instant.now();
+  private String lastOnline = Instant.now().toString();
 
   @Override
   public String toString() {

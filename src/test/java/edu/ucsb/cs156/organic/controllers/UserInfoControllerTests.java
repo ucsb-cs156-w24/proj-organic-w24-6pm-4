@@ -78,7 +78,7 @@ public class UserInfoControllerTests extends ControllerTestCase {
   @Test
   public void currentUser__update_last_online() throws Exception {
     CurrentUser currentUser = currentUserService.getCurrentUser();
-    Instant beforeUpdate = currentUser.getUser().getLastOnline();
+    String beforeUpdate = currentUser.getUser().getLastOnline();
 
     MvcResult response = mockMvc.perform(post("/api/currentUser/last-online").with(csrf()))
         .andExpect(status().isOk()).andReturn();
@@ -87,13 +87,13 @@ public class UserInfoControllerTests extends ControllerTestCase {
 
     verify(userRepository).save(userCaptor.capture());
     User savedUser = userCaptor.getValue();
-
-    assertTrue(savedUser.getLastOnline().isAfter(beforeUpdate),
-        String.format(
-            "savedUser.getLastOnline() is %s which should be after the beforeUpdate value of %s should be updated",
-            savedUser.getLastOnline().toString(), beforeUpdate.toString()));
+    
+    assertTrue(Instant.parse(savedUser.getLastOnline()).isAfter(Instant.parse(beforeUpdate)),
+    String.format(
+      "savedUser.getLastOnline() is %s which should be after the beforeUpdate value of %s should be updated",
+      savedUser.getLastOnline(), beforeUpdate));
   }
-
+ 
   @WithMockUser(roles = { "USER" })
   @Test
   public void currentUser__get_emails() throws Exception {

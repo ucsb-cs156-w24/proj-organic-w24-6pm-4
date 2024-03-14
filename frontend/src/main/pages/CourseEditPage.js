@@ -1,20 +1,20 @@
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import { useParams } from "react-router-dom";
-import CoursesForm from "main/components/Courses/CoursesForm";
+import CourseForm from "main/components/Courses/CourseForm";
 import { Navigate } from 'react-router-dom'
 import { useBackend, useBackendMutation } from "main/utils/useBackend";
 import { toast } from "react-toastify";
 
-export default function CoursesEditPage({storybook=false}) {
+export default function CourseEditPage({storybook=false}) {
   let { id } = useParams();
 
   const { data: course, _error, _status } =
     useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
-      [`/api/courses?id=${id}`],
+      [`/api/course?id=${id}`],
       {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
         method: "GET",
-        url: `/api/courses/get`,
+        url: `/api/course/get`,
         params: {
           id
         }
@@ -23,7 +23,7 @@ export default function CoursesEditPage({storybook=false}) {
 
 
   const objectToAxiosPutParams = (course) => ({
-    url: "/api/courses/update",
+    url: "/api/course/update",
     method: "PUT",
     params: {
       id: course.id,
@@ -44,7 +44,7 @@ export default function CoursesEditPage({storybook=false}) {
     objectToAxiosPutParams,
     { onSuccess },
     // Stryker disable next-line all : hard to set up test for caching
-    [`/api/courses?id=${id}`]
+    [`/api/course?id=${id}`]
   );
 
   const { isSuccess } = mutation
@@ -54,7 +54,7 @@ export default function CoursesEditPage({storybook=false}) {
   }
 
   if (isSuccess && !storybook) {
-    return <Navigate to="/courses" />
+    return <Navigate to="/course" />
   }
 
   return (
@@ -62,7 +62,7 @@ export default function CoursesEditPage({storybook=false}) {
       <div className="pt-2">
         <h1>Edit Course</h1>
         {
-          course && <CoursesForm initialContents={course} submitAction={onSubmit} buttonLabel="Update" />
+          course && <CourseForm initialContents={course} submitAction={onSubmit} buttonLabel="Update" />
         }
       </div>
     </BasicLayout>

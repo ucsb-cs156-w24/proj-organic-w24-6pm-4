@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import CoursesCreatePage from "main/pages/CoursesCreatePage";
+import CourseCreatePage from "main/pages/CourseCreatePage";
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
@@ -47,7 +47,7 @@ describe("CourseCreatePage tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <CoursesCreatePage />
+                    <CourseCreatePage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -67,12 +67,12 @@ describe("CourseCreatePage tests", () => {
             githubOrg: "ucsb-cs156-f23"
         };
 
-        axiosMock.onPost("/api/courses/post").reply(202, course);
+        axiosMock.onPost("/api/course/create").reply(202, course);
 
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <CoursesCreatePage />
+                    <CourseCreatePage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -81,13 +81,13 @@ describe("CourseCreatePage tests", () => {
             expect(screen.getByTestId("FormSelect-option-ucsb")).toBeInTheDocument();
         });
 
-        const nameField = screen.getByTestId("CoursesForm-name");
+        const nameField = screen.getByTestId("CourseForm-name");
         const schoolField = screen.getByTestId("FormSelect");
-        const termField = screen.getByTestId("CoursesForm-term");
-        const startDateField = screen.getByTestId("CoursesForm-startDate");
-        const endDateField = screen.getByTestId("CoursesForm-endDate");
-        const githubOrgField = screen.getByTestId("CoursesForm-githubOrg");
-        const submitButton = screen.getByTestId("CoursesForm-submit");
+        const termField = screen.getByTestId("CourseForm-term");
+        const startDateField = screen.getByTestId("CourseForm-startDate");
+        const endDateField = screen.getByTestId("CourseForm-endDate");
+        const githubOrgField = screen.getByTestId("CourseForm-githubOrg");
+        const submitButton = screen.getByTestId("CourseForm-submit");
 
         fireEvent.change(nameField, { target: { value: 'CS156' } });
         fireEvent.change(schoolField, { target: { value: "ucsb" } });
@@ -113,7 +113,7 @@ describe("CourseCreatePage tests", () => {
         });
 
         expect(mockToast).toBeCalledWith("New course created - id: 1");
-        expect(mockNavigate).toBeCalledWith({ "to": "/courses" });
+        expect(mockNavigate).toBeCalledWith({ "to": "/course" });
     });
 
 
