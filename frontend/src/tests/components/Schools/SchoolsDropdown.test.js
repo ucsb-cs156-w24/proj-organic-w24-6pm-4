@@ -5,7 +5,7 @@ import SchoolsDropdown from "main/components/Schools/SchoolsDropdown";
 import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
 
 import { QueryClient, QueryClientProvider } from "react-query";
-import { coursesFixtures } from "fixtures/coursesFixtures";
+import { courseFixtures } from "fixtures/courseFixtures";
 
 const mockedNavigate = jest.fn();
 
@@ -36,7 +36,7 @@ describe("SchoolsDropdown tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <SchoolsDropdown schools={SchoolsFixtures.threeSchools} initialContents={coursesFixtures.oneCourse}/>
+                    <SchoolsDropdown schools={SchoolsFixtures.threeSchools} initialContents={courseFixtures.oneCourse}/>
                 </Router>
             </QueryClientProvider>
         );
