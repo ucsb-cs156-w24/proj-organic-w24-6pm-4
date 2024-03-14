@@ -2,17 +2,17 @@
 import React from 'react';
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import { coursesFixtures } from 'fixtures/coursesFixtures';
+import { courseFixtures } from 'fixtures/courseFixtures';
 import { rest } from "msw";
 
-import CoursesEditPage from 'main/pages/CoursesEditPage';
+import CourseEditPage from 'main/pages/CourseEditPage';
 
 export default {
-    title: 'pages/CoursesEditPage',
-    component: CoursesEditPage
+    title: 'pages/CourseEditPage',
+    component: CourseEditPage
 };
 
-const Template = () => <CoursesEditPage storybook={true}/>;
+const Template = () => <CourseEditPage storybook={true}/>;
 
 export const Default = Template.bind({});
 Default.parameters = {
@@ -23,10 +23,10 @@ Default.parameters = {
         rest.get('/api/systemInfo', (_req, res, ctx) => {
             return res(ctx.json(systemInfoFixtures.showingNeither));
         }),
-        rest.get('/api/courses', (_req, res, ctx) => {
-            return res(ctx.json(coursesFixtures.threeCourses[0]));
+        rest.get('/api/course', (_req, res, ctx) => {
+            return res(ctx.json(courseFixtures.threeCourses[0]));
         }),
-        rest.put('/api/courses', async (req, res, ctx) => {
+        rest.put('/api/course', async (req, res, ctx) => {
             var reqBody = await req.text();
             window.alert("PUT: " + req.url + " and body: " + reqBody);
             return res(ctx.status(200),ctx.json({}));

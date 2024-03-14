@@ -1,13 +1,13 @@
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import CoursesForm from "main/components/Courses/CoursesForm";
+import CourseForm from "main/components/Courses/CourseForm";
 import { Navigate } from 'react-router-dom'
 import { useBackendMutation } from "main/utils/useBackend";
 import { toast } from "react-toastify";
 
-export default function CoursesCreatePage({ storybook=false }) {
+export default function CourseCreatePage({storybook=false}) {
 
     const objectToAxiosParams = (course) => ({
-        url: "/api/courses/post",
+        url: "/api/course/create",
         method: "POST",
         params: {
         name: course.name,
@@ -27,7 +27,7 @@ export default function CoursesCreatePage({ storybook=false }) {
         objectToAxiosParams,
         { onSuccess }, 
         // Stryker disable next-line all : hard to set up test for caching
-        ["/api/courses/all"] // mutation makes this key stale so that pages relying on it reload
+        ["/api/course/getAll"] // mutation makes this key stale so that pages relying on it reload
         );
 
     const { isSuccess } = mutation
@@ -37,7 +37,7 @@ export default function CoursesCreatePage({ storybook=false }) {
     }
 
     if (isSuccess && !storybook) {
-        return <Navigate to="/courses" />
+        return <Navigate to="/course" />
     }
 
     return (
@@ -45,7 +45,7 @@ export default function CoursesCreatePage({ storybook=false }) {
         <div className="pt-2">
             <h1>Create New Course</h1>
 
-            <CoursesForm submitAction={onSubmit} />
+            <CourseForm submitAction={onSubmit} />
 
         </div>
         </BasicLayout>

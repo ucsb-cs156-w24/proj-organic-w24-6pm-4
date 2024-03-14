@@ -36,7 +36,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Tag(name = "Courses")
-@RequestMapping("/api/courses")
+@RequestMapping("/api/course")
 @RestController
 @Slf4j
 public class CoursesController extends ApiController {
@@ -52,7 +52,7 @@ public class CoursesController extends ApiController {
 
     @Operation(summary = "List all courses")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
-    @GetMapping("/all")
+    @GetMapping("/getAll")
     public Iterable<Course> allCourses() {
         User u = getCurrentUser().getUser();
         log.info("u={}", u);
@@ -84,7 +84,7 @@ public class CoursesController extends ApiController {
 
     @Operation(summary = "Create a new course")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/post")
+    @PostMapping("/create")
     public Course postCourse(
             @Parameter(name = "name", description = "course name, e.g. CMPSC 156") @RequestParam String name,
             @Parameter(name = "school", description = "school abbreviation e.g. UCSB") @RequestParam String school,
@@ -119,7 +119,7 @@ public class CoursesController extends ApiController {
 
     @Operation(summary = "Add a staff member to a course")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/addStaff")
+    @PostMapping("/staff/create")
     public Staff addStaff(
             @Parameter(name = "courseId") @RequestParam Long courseId,
             @Parameter(name = "githubLogin") @RequestParam String githubLogin)
@@ -143,9 +143,9 @@ public class CoursesController extends ApiController {
         return courseStaff;
     }
 
-    @Operation(summary = "Get Staff for course")
+    @Operation(summary = "Get Staffs for the course")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/getStaff")
+    @GetMapping("/staff/all")
     public Iterable<Staff> getStaff(
             @Parameter(name = "courseId") @RequestParam Long courseId)
             throws JsonProcessingException {

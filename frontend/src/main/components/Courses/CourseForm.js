@@ -1,42 +1,28 @@
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { useBackend } from 'main/utils/useBackend';
 
-import { useState } from "react";
+function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
-import SchoolsDropdown from '../Schools/SchoolsDropdown';
-
-function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) {
-
-    const [activeSchool, setActiveSchool] = useState()
-
-    const {data: schools, error: _error, status: _status} = 
-        useBackend(
-        // Stryker disable next-line all : don't test internal caching of React Query
-        ["/api/Schools/all"],
-        // Stryker disable next-line all : GET is the default
-        { method: "GET", url: "/api/Schools/all" }, []
-        );
-    
     // Stryker disable all
     const {
         register,
         formState: { errors },
         handleSubmit,
-        setValue,
     } = useForm(
         { defaultValues: initialContents || {}, }
     );
     // Stryker restore all
 
     const navigate = useNavigate();
-    
+
     // Stryker disable next-line Regex
     const isodate_regex = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
 
     return (
-        <Form id = "form" onSubmit={handleSubmit(submitAction)}>
+
+        <Form onSubmit={handleSubmit(submitAction)}>
+
 
             <Row>
 
@@ -45,7 +31,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                         <Form.Group className="mb-3" >
                             <Form.Label htmlFor="id">Id</Form.Label>
                             <Form.Control
-                                data-testid="CoursesForm-id"
+                                data-testid="CourseForm-id"
                                 id="id"
                                 type="text"
                                 {...register("id")}
@@ -60,7 +46,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="name">Name</Form.Label>
                         <Form.Control
-                            data-testid="CoursesForm-name"
+                            data-testid="CourseForm-name"
                             id="name"
                             type="text"
                             isInvalid={Boolean(errors.name)}
@@ -75,31 +61,25 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
 
             <Row>
                 <Col>
-        <Form.Group className="mb-3" onChange={() => { 
-            setActiveSchool(document.getElementById("FormSelect").value);
-            setValue("school", document.getElementById("FormSelect").value);
-            }}>
-            <Form.Label htmlForm="school">School</Form.Label>
-            <Form.Control
-                data-testid = "CoursesForm-school"
-                id = "school"
-                type = "hidden"
-                value = { activeSchool }
-                isInvalid={Boolean(errors.school)}
-                {...register("school", {required: true})}
-            >
-            </Form.Control>
-            <SchoolsDropdown schools={schools} initialContents={initialContents}></SchoolsDropdown>
-            <Form.Control.Feedback type="invalid">
-                {errors.school && 'School is required.'}
-            </Form.Control.Feedback>
-        </Form.Group>
+                    <Form.Group className="mb-3" >
+                        <Form.Label htmlFor="school">School</Form.Label>
+                        <Form.Control
+                            data-testid="CourseForm-school"
+                            id="school"
+                            type="text"
+                            isInvalid={Boolean(errors.school)}
+                            {...register("school", { required: true })}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {errors.school && 'School is required. '}
+                        </Form.Control.Feedback>
+                    </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="term">Term</Form.Label>
                         <Form.Control
-                            data-testid="CoursesForm-term"
+                            data-testid="CourseForm-term"
                             id="term"
                             type="text"
                             isInvalid={Boolean(errors.term)}
@@ -111,12 +91,13 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     </Form.Group>
                 </Col>
             </Row>
+
             <Row>
                 <Col>
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="startDate">StartDate(iso format)</Form.Label>
                         <Form.Control
-                            data-testid="CoursesForm-startDate"
+                            data-testid="CourseForm-startDate"
                             id="startDate"
                             type="datetime-local"
                             isInvalid={Boolean(errors.startDate)}
@@ -129,9 +110,9 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                 </Col>
                 <Col>
                     <Form.Group className="mb-3" >
-                        <Form.Label htmlFor="">EndDate(iso format)</Form.Label>
+                        <Form.Label htmlFor="endDate">EndDate(iso format)</Form.Label>
                         <Form.Control
-                            data-testid="CoursesForm-endDate"
+                            data-testid="CourseForm-endDate"
                             id="endDate"
                             type="datetime-local"
                             isInvalid={Boolean(errors.endDate)}
@@ -149,7 +130,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="githubOrg">GithubOrg</Form.Label>
                         <Form.Control
-                            data-testid="CoursesForm-githubOrg"
+                            data-testid="CourseForm-githubOrg"
                             id="githubOrg"
                             type="text"
                             isInvalid={Boolean(errors.githubOrg)}
@@ -166,14 +147,14 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                 <Col>
                     <Button
                         type="submit"
-                        data-testid="CoursesForm-submit"
+                        data-testid="CourseForm-submit"
                     >
                         {buttonLabel}
                     </Button>
                     <Button
                         variant="Secondary"
                         onClick={() => navigate(-1)}
-                        data-testid="CoursesForm-cancel"
+                        data-testid="CourseForm-cancel"
                     >
                         Cancel
                     </Button>
@@ -184,4 +165,4 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
     )
 }
 
-export default CoursesForm
+export default CourseForm
