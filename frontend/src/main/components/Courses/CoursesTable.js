@@ -61,6 +61,8 @@ import React from "react";
          columns.push(ButtonColumn("Delete", "danger", deleteCallback, "CoursesTable"));
      }
 
+     columns.push(ButtonColumn("Join", "primary", null, "CoursesTable"));
+        /*Have to change from null to something else eventually.*/
      return <OurTable
          data={courses}
          columns={columns}
