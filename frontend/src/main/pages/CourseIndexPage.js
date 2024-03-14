@@ -32,21 +32,11 @@ export default function CourseIndexPage() {
       { method: "GET", url: "/api/course/getAll" },
       []
     );
-    if(hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR")){
-      return (
-        <BasicLayout>
-          <div className="pt-2">
-            {createButton()}
-            <h1>Course</h1>
-            <CoursesTable courses={courses} currentUser={currentUser} />
-          </div>
-        </BasicLayout>
-      )
-    }
-
+    
     return (
       <BasicLayout>
         <div className="pt-2">
+          {hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR") ? createButton() : null}
           <h1>Course</h1>
           <CourseTable courses={courses} currentUser={currentUser} />
         </div>
