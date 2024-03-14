@@ -283,40 +283,40 @@ public class CoursesControllerTests extends ControllerTestCase {
     }
 
     @WithMockUser(roles = { "ADMIN", "USER" })
-@Test
-public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exception {
-    // arrange
-    Course courseBefore = Course.builder()
-            .name("CS16")
-            .school("UCSB")
-            .term("F23")
-            .startDate(LocalDateTime.parse("2023-12-01T00:00:00"))
-            .endDate(LocalDateTime.parse("2023-09-30T00:00:00"))
-            .githubOrg("ucsb-cs16-f23")
-            .build();
+    @Test
+    public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exception {
+        // arrange
+        Course courseBefore = Course.builder()
+                .name("CS16")
+                .school("UCSB")
+                .term("F23")
+                .startDate(LocalDateTime.parse("2023-12-01T00:00:00"))
+                .endDate(LocalDateTime.parse("2023-09-30T00:00:00"))
+                .githubOrg("ucsb-cs16-f23")
+                .build();
 
-    Course courseAfter = Course.builder()
-            .id(222L)
-            .name("CS16")
-            .school("UCSB")
-            .term("F23")
-            .startDate(LocalDateTime.parse("2023-12-01T00:00:00"))
-            .endDate(LocalDateTime.parse("2023-09-30T00:00:00"))
-            .githubOrg("ucsb-cs16-f23")
-            .build();
+        Course courseAfter = Course.builder()
+                .id(222L)
+                .name("CS16")
+                .school("UCSB")
+                .term("F23")
+                .startDate(LocalDateTime.parse("2023-12-01T00:00:00"))
+                .endDate(LocalDateTime.parse("2023-09-30T00:00:00"))
+                .githubOrg("ucsb-cs16-f23")
+                .build();
 
-    when(courseRepository.save(eq(courseBefore))).thenReturn(courseAfter);
+        when(courseRepository.save(eq(courseBefore))).thenReturn(courseAfter);
 
-     // act and assert
-     mockMvc.perform(
-        post("/api/courses/post?name=CS16&school=UCSB&term=F23&startDate=2023-12-31T00:00:00&endDate=2023-09-01T00:00:00&githubOrg=ucsb-cs16-f23")
-                .with(csrf()))
-        .andExpect(status().isBadRequest()) // Expecting a bad request status
-        .andExpect(jsonPath("$.type").value("IllegalArgumentException")) // Expecting the error type
-        .andExpect(jsonPath("$.message").value("End date must be after start date.")); // Expecting the error message
+        // act and assert
+        mockMvc.perform(
+                post("/api/course/create?name=CS16&school=UCSB&term=F23&startDate=2023-12-01T00:00:00&endDate=2023-09-30T00:00:00&githubOrg=ucsb-cs16-f23")
+                        .with(csrf()))
+                .andExpect(status().isBadRequest()) // Expecting a bad request status
+                .andExpect(jsonPath("$.type").value("IllegalArgumentException")) // Expecting the error type
+                .andExpect(jsonPath("$.message").value("End date must be after start date.")); // Expecting the error message
 
-        verify(courseRepository, times(0)).save(courseBefore); // Verification
-}
+                verify(courseRepository, times(0)).save(courseBefore); // Verification
+    }
 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
