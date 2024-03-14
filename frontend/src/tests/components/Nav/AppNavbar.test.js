@@ -40,6 +40,7 @@ describe("AppNavbar tests", () => {
         const adminMenu = screen.getByTestId("appnavbar-admin-dropdown");
         expect(adminMenu).toBeInTheDocument();
         expect(await screen.findByText("Courses")).toBeInTheDocument(); 
+        expect(await screen.findByText("Schools")).toBeInTheDocument(); 
     });
 
     test("renders correctly for instructor user", async () => {
@@ -58,6 +59,8 @@ describe("AppNavbar tests", () => {
         const adminMenu = screen.queryByTestId("appnavbar-admin-dropdown");
         expect(adminMenu).not.toBeInTheDocument();
         expect(await screen.findByText("Courses")).toBeInTheDocument(); 
+        const schools = screen.queryByText("Schools");
+        expect(schools).not.toBeInTheDocument(); 
     });
 
     test("renders correctly for user that hasn't signed in", async () => {
@@ -78,6 +81,8 @@ describe("AppNavbar tests", () => {
         expect(adminMenu).not.toBeInTheDocument();
         const courses = screen.queryByText("Courses");
         expect(courses).not.toBeInTheDocument(); 
+        const schools = screen.queryByText("Schools");
+        expect(schools).not.toBeInTheDocument(); 
     });
 
     test("renders H2Console and Swagger links correctly", async () => {

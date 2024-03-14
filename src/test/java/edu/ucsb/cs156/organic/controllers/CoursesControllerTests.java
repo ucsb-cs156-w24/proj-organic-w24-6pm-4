@@ -116,7 +116,7 @@ public class CoursesControllerTests extends ControllerTestCase {
         when(courseRepository.findAll()).thenReturn(expectedCourses);
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/courses/all"))
+        MvcResult response = mockMvc.perform(get("/api/course/getAll"))
                 .andExpect(status().isOk()).andReturn();
 
         // assert
@@ -139,7 +139,7 @@ public class CoursesControllerTests extends ControllerTestCase {
         when(courseRepository.findCoursesStaffedByUser(any())).thenReturn(expectedCourses);
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/courses/all"))
+        MvcResult response = mockMvc.perform(get("/api/course/getAll"))
                 .andExpect(status().isOk()).andReturn();
 
         // assert
@@ -149,10 +149,10 @@ public class CoursesControllerTests extends ControllerTestCase {
         assertEquals(expectedJson, responseString);
     }
 
-         // Tests for GET /api/courses/get?id=...
+         // Tests for GET /api/course/get?id=...
          @Test
          public void logged_out_users_cannot_get_by_id() throws Exception {
-                 mockMvc.perform(get("/api/courses/get?id=1"))
+                 mockMvc.perform(get("/api/course/get?id=1"))
                                  .andExpect(status().is(403)); // logged out users can't get by id
          }
  
@@ -164,7 +164,7 @@ public class CoursesControllerTests extends ControllerTestCase {
                  when(courseRepository.findById(eq(1L))).thenReturn(Optional.of(course1));
 
                  // act
-                 MvcResult response = mockMvc.perform(get("/api/courses/get?id=1"))
+                 MvcResult response = mockMvc.perform(get("/api/course/get?id=1"))
                                  .andExpect(status().isOk()).andReturn();
  
                  // assert
@@ -183,7 +183,7 @@ public class CoursesControllerTests extends ControllerTestCase {
                  when(courseRepository.findById(eq(7L))).thenReturn(Optional.empty());
  
                  // act
-                 MvcResult response = mockMvc.perform(get("/api/courses/get?id=7"))
+                 MvcResult response = mockMvc.perform(get("/api/course/get?id=7"))
                                  .andExpect(status().isNotFound()).andReturn();
         
                  // assert
@@ -212,7 +212,7 @@ public class CoursesControllerTests extends ControllerTestCase {
                                 eq(courseStaff1.getGithubId()))).thenReturn(Optional.of(courseStaff1));
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/courses/get?id=1"))
+                MvcResult response = mockMvc.perform(get("/api/course/get?id=1"))
                                 .andExpect(status().isOk()).andReturn();
 
 
@@ -235,7 +235,7 @@ public class CoursesControllerTests extends ControllerTestCase {
                 when(courseRepository.findById(eq(course1.getId()))).thenReturn(Optional.of(course1));
 
                 // act
-                mockMvc.perform(get("/api/courses/get?id=1"))
+                mockMvc.perform(get("/api/course/get?id=1"))
                    .andExpect(status().isForbidden());
 
 
@@ -271,7 +271,7 @@ public class CoursesControllerTests extends ControllerTestCase {
 
         // act
         MvcResult response = mockMvc.perform(
-                post("/api/courses/post?name=CS16&school=UCSB&term=F23&startDate=2023-09-01T00:00:00&endDate=2023-12-31T00:00:00&githubOrg=ucsb-cs16-f23")
+                post("/api/course/create?name=CS16&school=UCSB&term=F23&startDate=2023-09-01T00:00:00&endDate=2023-12-31T00:00:00&githubOrg=ucsb-cs16-f23")
                         .with(csrf()))
                 .andExpect(status().isOk()).andReturn();
 
@@ -344,7 +344,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
 
         // act
         MvcResult response = mockMvc.perform(
-                post("/api/courses/addStaff?courseId=1&githubLogin=scottpchow23")
+                post("/api/course/staff/create?courseId=1&githubLogin=scottpchow23")
                         .with(csrf()))
                 .andExpect(status().isOk()).andReturn();
 
@@ -364,7 +364,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
                 // act
 
                 MvcResult response = mockMvc.perform(
-                                post("/api/courses/addStaff?courseId=42&githubLogin=scottpchow23")
+                                post("/api/course/staff/create?courseId=42&githubLogin=scottpchow23")
                                                 .with(csrf()))
                                 .andExpect(status().isNotFound()).andReturn();
 
@@ -386,7 +386,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
                 // act
 
                 MvcResult response = mockMvc.perform(
-                                post("/api/courses/addStaff?courseId=1&githubLogin=sadGaucho")
+                                post("/api/course/staff/create?courseId=1&githubLogin=sadGaucho")
                                                 .with(csrf()))
                                 .andExpect(status().isNotFound()).andReturn();
 
@@ -428,7 +428,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
         // act
 
         MvcResult response = mockMvc.perform(
-                get("/api/courses/getStaff?courseId=1")
+                get("/api/course/staff/all?courseId=1")
                         .with(csrf()))
                 .andExpect(status().isOk()).andReturn();
 
@@ -449,7 +449,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
                 // act
 
                 MvcResult response = mockMvc.perform(
-                                get("/api/courses/getStaff?courseId=42")
+                                get("/api/course/staff/all?courseId=42")
                                                 .with(csrf()))
                                 .andExpect(status().isNotFound()).andReturn();
 
@@ -480,7 +480,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                delete("/api/courses/staff?id=15")
+                                delete("/api/course/staff?id=15")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -502,7 +502,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                delete("/api/courses/staff?id=15")
+                                delete("/api/course/staff?id=15")
                                                 .with(csrf()))
                                 .andExpect(status().isNotFound()).andReturn();
 
@@ -522,7 +522,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
         // act
 
         MvcResult response = mockMvc.perform(
-                put("/api/courses/update?id=42&name=CS16&school=UCSB&term=F23&startDate=2023-09-01T00:00:00&endDate=2023-12-31T00:00:00&githubOrg=ucsb-cs16-f23")
+                put("/api/course/update?id=42&name=CS16&school=UCSB&term=F23&startDate=2023-09-01T00:00:00&endDate=2023-12-31T00:00:00&githubOrg=ucsb-cs16-f23")
                                 .with(csrf()))
                 .andExpect(status().isNotFound()).andReturn();
         // assert
@@ -546,7 +546,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
         when(courseRepository.save(eq(courseAfter))).thenReturn(courseAfter);
 
         String urlTemplate = String.format(
-                "/api/courses/update?id=%d&name=%s&school=%s&term=%s&startDate=%s&endDate=%s&githubOrg=%s",
+                "/api/course/update?id=%d&name=%s&school=%s&term=%s&startDate=%s&endDate=%s&githubOrg=%s",
                 courseAfter.getId(), courseAfter.getName(), courseAfter.getSchool(), courseAfter.getTerm(),
                 courseAfter.getStartDate().toString(), courseAfter.getEndDate().toString(), courseAfter.getGithubOrg());
         MvcResult response = mockMvc.perform(
@@ -589,7 +589,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
         // act
         // get urlTemplate from courseAfter using string interpolation
         String urlTemplate = String.format(
-                "/api/courses/update?id=%d&name=%s&school=%s&term=%s&startDate=%s&endDate=%s&githubOrg=%s",
+                "/api/course/update?id=%d&name=%s&school=%s&term=%s&startDate=%s&endDate=%s&githubOrg=%s",
                 courseAfter.getId(), courseAfter.getName(), courseAfter.getSchool(), courseAfter.getTerm(),
                 courseAfter.getStartDate().toString(), courseAfter.getEndDate().toString(), courseAfter.getGithubOrg());
         MvcResult response = mockMvc.perform(
@@ -642,7 +642,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
                 .thenReturn(notStaff);
         // act
         MvcResult response = mockMvc.perform(
-                put("/api/courses/update?id=1&name=CS16&school=UCSB&term=F23&startDate=2023-09-01T00:00:00&endDate=2023-12-31T00:00:00&githubOrg=ucsb-cs16-f23")
+                put("/api/course/update?id=1&name=CS16&school=UCSB&term=F23&startDate=2023-09-01T00:00:00&endDate=2023-12-31T00:00:00&githubOrg=ucsb-cs16-f23")
                         .with(csrf()))
                 .andExpect(status().isForbidden()).andReturn();
 
@@ -689,7 +689,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
 
         // act
         MvcResult response = mockMvc.perform(
-                put("/api/courses/update?id=1&name=CS32&school=UCSB&term=F23&startDate=2023-09-01T00:00:00&endDate=2023-12-31T00:00:00&githubOrg=ucsb-cs32-f23")
+                put("/api/course/update?id=1&name=CS32&school=UCSB&term=F23&startDate=2023-09-01T00:00:00&endDate=2023-12-31T00:00:00&githubOrg=ucsb-cs32-f23")
                         .with(csrf()))
                 .andExpect(status().isForbidden()).andReturn();
 
@@ -715,7 +715,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
         // act
 
         MvcResult response = mockMvc.perform(
-                delete("/api/courses/delete?id=42")
+                delete("/api/course/delete?id=42")
                                 .with(csrf()))
                 .andExpect(status().isNotFound()).andReturn();
         // assert
@@ -745,7 +745,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
 
         // act
         MvcResult response = mockMvc.perform(
-                delete("/api/courses/delete?id=1")
+                delete("/api/course/delete?id=1")
                         .with(csrf()))
                 .andExpect(status().isOk()).andReturn();
 
@@ -786,7 +786,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
                         .of(courseStaff));
         // act
         MvcResult response = mockMvc.perform(
-                delete("/api/courses/delete?id=1")
+                delete("/api/course/delete?id=1")
                         .with(csrf()))
                 .andExpect(status().isOk()).andReturn();
 
@@ -824,7 +824,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
                 .thenReturn(notStaff);
         // act
         MvcResult response = mockMvc.perform(
-                delete("/api/courses/delete?id=1")
+                delete("/api/course/delete?id=1")
                         .with(csrf()))
                 .andExpect(status().isForbidden()).andReturn();
 
@@ -860,7 +860,7 @@ public void an_admin_user_cannot_post_a_new_course_with_bad_endDate() throws Exc
 
         // act
         MvcResult response = mockMvc.perform(
-                delete("/api/courses/delete?id=1")
+                delete("/api/course/delete?id=1")
                         .with(csrf()))
                 .andExpect(status().isForbidden()).andReturn();
 

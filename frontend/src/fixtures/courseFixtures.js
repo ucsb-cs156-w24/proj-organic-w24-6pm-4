@@ -1,4 +1,4 @@
-const coursesFixtures = {
+const courseFixtures = {
     oneCourse: {
         "id": 1,
         "name": "CS156",
@@ -40,4 +40,4 @@ const coursesFixtures = {
 };
 
 
-export { coursesFixtures };
+export { courseFixtures };

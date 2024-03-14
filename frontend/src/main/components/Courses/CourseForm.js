@@ -2,8 +2,7 @@ import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-
-function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) {
+function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
     // Stryker disable all
     const {
@@ -35,7 +34,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                         <Form.Group className="mb-3" >
                             <Form.Label htmlFor="id">Id</Form.Label>
                             <Form.Control
-                                data-testid="CoursesForm-id"
+                                data-testid="CourseForm-id"
                                 id="id"
                                 type="text"
                                 {...register("id")}
@@ -50,7 +49,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="name">Name</Form.Label>
                         <Form.Control
-                            data-testid="CoursesForm-name"
+                            data-testid="CourseForm-name"
                             id="name"
                             type="text"
                             isInvalid={Boolean(errors.name)}
@@ -68,7 +67,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="school">School</Form.Label>
                         <Form.Control
-                            data-testid="CoursesForm-school"
+                            data-testid="CourseForm-school"
                             id="school"
                             type="text"
                             isInvalid={Boolean(errors.school)}
@@ -83,7 +82,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="term">Term</Form.Label>
                         <Form.Control
-                            data-testid="CoursesForm-term"
+                            data-testid="CourseForm-term"
                             id="term"
                             type="text"
                             isInvalid={Boolean(errors.term)}
@@ -101,7 +100,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="startDate">StartDate(iso format)</Form.Label>
                         <Form.Control
-                            data-testid="CoursesForm-startDate"
+                            data-testid="CourseForm-startDate"
                             id="startDate"
                             type="datetime-local"
                             isInvalid={Boolean(errors.startDate)}
@@ -114,9 +113,9 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                 </Col>
                 <Col>
                     <Form.Group className="mb-3" >
-                        <Form.Label htmlFor="">EndDate(iso format)</Form.Label>
+                        <Form.Label htmlFor="endDate">EndDate(iso format)</Form.Label>
                         <Form.Control
-                            data-testid="CoursesForm-endDate"
+                            data-testid="CourseForm-endDate"
                             id="endDate"
                             type="datetime-local"
                             isInvalid={Boolean(errors.endDate)}
@@ -134,7 +133,7 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="githubOrg">GithubOrg</Form.Label>
                         <Form.Control
-                            data-testid="CoursesForm-githubOrg"
+                            data-testid="CourseForm-githubOrg"
                             id="githubOrg"
                             type="text"
                             isInvalid={Boolean(errors.githubOrg)}
@@ -151,14 +150,14 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
                 <Col>
                     <Button
                         type="submit"
-                        data-testid="CoursesForm-submit"
+                        data-testid="CourseForm-submit"
                     >
                         {buttonLabel}
                     </Button>
                     <Button
                         variant="Secondary"
                         onClick={() => navigate(-1)}
-                        data-testid="CoursesForm-cancel"
+                        data-testid="CourseForm-cancel"
                     >
                         Cancel
                     </Button>
@@ -169,4 +168,4 @@ function CoursesForm({ initialContents, submitAction, buttonLabel = "Create" }) 
     )
 }
 
-export default CoursesForm
+export default CourseForm
