@@ -6,7 +6,7 @@ import CourseIndexPage from "main/pages/CourseIndexPage";
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import { coursesFixtures } from "fixtures/coursesFixtures";
+import { courseFixtures } from "fixtures/courseFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import mockConsole from "jest-mock-console";
@@ -26,7 +26,7 @@ describe("CourseIndexPage tests", () => {
 
     const axiosMock = new AxiosMockAdapter(axios);
 
-    const testId = "CoursesTable";
+    const testId = "CourseTable";
 
     const setupAdminUser = () => {
         axiosMock.reset();
@@ -53,7 +53,7 @@ describe("CourseIndexPage tests", () => {
         // arrange
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/courses/all").reply(200, []);
+        axiosMock.onGet("/api/course/getAll").reply(200, []);
 
         // act
         render(
@@ -69,7 +69,7 @@ describe("CourseIndexPage tests", () => {
             expect(screen.getByText(/Create Course/)).toBeInTheDocument();
         });
         const button = screen.getByText(/Create Course/);
-        expect(button).toHaveAttribute("href", "/courses/create");
+        expect(button).toHaveAttribute("href", "/course/create");
         expect(button).toHaveAttribute("style", "float: right;");
     });
 
@@ -96,7 +96,7 @@ describe("CourseIndexPage tests", () => {
         // arrange
         setupInstructorUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/courses/all").reply(200, []);
+        axiosMock.onGet("/api/course/getAll").reply(200, []);
 
         // act
         render(
@@ -112,7 +112,7 @@ describe("CourseIndexPage tests", () => {
             expect(screen.getByText(/Create Course/)).toBeInTheDocument();
         });
         const button = screen.getByText(/Create Course/);
-        expect(button).toHaveAttribute("href", "/courses/create");
+        expect(button).toHaveAttribute("href", "/course/create");
         expect(button).toHaveAttribute("style", "float: right;");
     });
 
@@ -120,7 +120,7 @@ describe("CourseIndexPage tests", () => {
         // arrange
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/courses/all").reply(200, coursesFixtures.threeCourses);
+        axiosMock.onGet("/api/course/getAll").reply(200, courseFixtures.threeCourses);
 
         // act
         render(
@@ -142,7 +142,7 @@ describe("CourseIndexPage tests", () => {
         // arrange
         setupInstructorUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/courses/all").reply(200, coursesFixtures.threeCourses);
+        axiosMock.onGet("/api/course/getAll").reply(200, courseFixtures.threeCourses);
 
         // act
         render(
@@ -164,7 +164,7 @@ describe("CourseIndexPage tests", () => {
         // arrange
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/courses/all").timeout();
+        axiosMock.onGet("/api/course/getAll").timeout();
         const restoreConsole = mockConsole();
 
         // act
@@ -188,7 +188,7 @@ describe("CourseIndexPage tests", () => {
         // arrange
         setupInstructorUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/courses/all").timeout();
+        axiosMock.onGet("/api/course/getAll").timeout();
         const restoreConsole = mockConsole();
 
         // act
@@ -212,8 +212,8 @@ describe("CourseIndexPage tests", () => {
         // arrange
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/courses/all").reply(200, coursesFixtures.threeCourses);
-        axiosMock.onDelete("/api/courses/delete").reply(200, "Course with id 1 was deleted");
+        axiosMock.onGet("/api/course/getAll").reply(200, courseFixtures.threeCourses);
+        axiosMock.onDelete("/api/course/delete").reply(200, "Course with id 1 was deleted");
 
         // act
         render(
@@ -244,8 +244,8 @@ describe("CourseIndexPage tests", () => {
         // arrange
         setupInstructorUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/courses/all").reply(200, coursesFixtures.threeCourses);
-        axiosMock.onDelete("/api/courses/delete").reply(200, "Course with id 1 was deleted");
+        axiosMock.onGet("/api/course/getAll").reply(200, courseFixtures.threeCourses);
+        axiosMock.onDelete("/api/course/delete").reply(200, "Course with id 1 was deleted");
 
         // act
         render(
