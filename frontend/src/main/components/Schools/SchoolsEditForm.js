@@ -2,7 +2,7 @@ import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-function SchoolForm({ initialContents, submitAction, buttonLabel = "Create" }) {
+function SchoolsForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
     // Stryker disable all
     const {
@@ -16,34 +16,30 @@ function SchoolForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
     const navigate = useNavigate();
 
-    // Stryker disable next-line Regex
-    const abbrev_regex = /^([a-z._])+$/;
-
     return (
 
         <Form onSubmit={handleSubmit(submitAction)}>
             <Row>
+                {initialContents && (
                 <Col>
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="abbrev">Abbreviation</Form.Label>
                         <Form.Control
-                            data-testid="SchoolForm-abbrev"
+                            data-testid="SchoolsForm-abbrev"
                             id="abbrev"
                             type="text"
-                            isInvalid={Boolean(errors.abbrev)}
-                            {...register("abbrev", { required: true, pattern: abbrev_regex })}
+                            {...register("abbrev")}
+                            value={initialContents.id}
+                            disabled
                         />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.abbrev?.type === 'required' && 'Abbreviation is required. '}
-                            {errors.abbrev?.type === 'pattern' && 'Abbreviation must be lowercase letters (_ and . allowed), e.g. ucsb'}
-                        </Form.Control.Feedback>
                     </Form.Group>
                 </Col>
+                )}
                 <Col>
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="name">Name</Form.Label>
                         <Form.Control
-                            data-testid="SchoolForm-name"
+                            data-testid="SchoolsForm-name"
                             id="name"
                             type="text"
                             isInvalid={Boolean(errors.name)}
@@ -58,7 +54,7 @@ function SchoolForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="termRegex">Term Regex</Form.Label>
                         <Form.Control
-                            data-testid="SchoolForm-termRegex"
+                            data-testid="SchoolsForm-termRegex"
                             id="termRegex"
                             type="text"
                             isInvalid={Boolean(errors.termRegex)}
@@ -76,7 +72,7 @@ function SchoolForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="termDescription">Term Description</Form.Label>
                         <Form.Control
-                            data-testid="SchoolForm-termDescription"
+                            data-testid="SchoolsForm-termDescription"
                             id="termDescription"
                             type="text"
                             isInvalid={Boolean(errors.termDescription)}
@@ -94,7 +90,7 @@ function SchoolForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     <Form.Group className="mb-3" >
                         <Form.Label htmlFor="termError">Term Error</Form.Label>
                         <Form.Control
-                            data-testid="SchoolForm-termError"
+                            data-testid="SchoolsForm-termError"
                             id="termError"
                             type="text"
                             isInvalid={Boolean(errors.termError)}
@@ -111,14 +107,14 @@ function SchoolForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                 <Col>
                     <Button
                         type="submit"
-                        data-testid="SchoolForm-submit"
+                        data-testid="SchoolsForm-submit"
                     >
                         {buttonLabel}
                     </Button>
                     <Button
                         variant="Secondary"
                         onClick={() => navigate(-1)}
-                        data-testid="SchoolForm-cancel"
+                        data-testid="SchoolsForm-cancel"
                     >
                         Cancel
                     </Button>
@@ -128,4 +124,4 @@ function SchoolForm({ initialContents, submitAction, buttonLabel = "Create" }) {
     )
 }
 
-export default SchoolForm;
+export default SchoolsForm;

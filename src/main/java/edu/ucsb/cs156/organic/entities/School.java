@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Builder
 @Entity(name = "Schools")
 public class School {
@@ -14,6 +14,9 @@ public class School {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  private String name;
   private String abbrev;
+  private String name;
+  private String termRegex;
+  private String termDescription;
+  private String termError;
 }
