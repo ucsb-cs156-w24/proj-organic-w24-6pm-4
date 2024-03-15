@@ -2,7 +2,7 @@
     "databaseChangeLog": [
       {
         "changeSet": {
-          "id": "School-1",
+          "id": "school0_",
           "author": "DerekD",
           "preConditions": [
             {
@@ -27,7 +27,7 @@
                       "autoIncrement": true,
                       "constraints": {
                         "primaryKey": true,
-                        "primaryKeyName": "CONSTRAINT_69"
+                        "primaryKeyName": "CONSTRAINT_27"
                       },
                       "name": "ID",
                       "type": "BIGINT"
@@ -47,19 +47,19 @@
                   },
                   {
                     "column": {
-                      "name": "TERMREGEX",
+                      "name": "TERM_REGEX",
                       "type": "VARCHAR(255)"
                     }
                   },
                   {
                     "column": {
-                      "name": "TERMDESCRIPTION",
+                      "name": "TERM_DESCRIPTION",
                       "type": "VARCHAR(255)"
                     }
                   },
                   {
                     "column": {
-                      "name": "TERMERROR",
+                      "name": "TERM_ERROR",
                       "type": "VARCHAR(255)"
                     }
                   }
