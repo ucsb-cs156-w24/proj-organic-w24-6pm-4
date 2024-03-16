@@ -23,9 +23,6 @@ Default.parameters = {
         rest.get('/api/systemInfo', (_req, res, ctx) => {
             return res(ctx.json(systemInfoFixtures.showingNeither));
         }),
-        rest.get('/api/course', (_req, res, ctx) => {
-            return res(ctx.json(courseFixtures.threeCourses[0]));
-        }),
         rest.put('/api/course', async (req, res, ctx) => {
             var reqBody = await req.text();
             window.alert("PUT: " + req.url + " and body: " + reqBody);
