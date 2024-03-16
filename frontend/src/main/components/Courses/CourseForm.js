@@ -1,36 +1,18 @@
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { useBackend } from 'main/utils/useBackend';
 
-import { useState } from "react";
-
-import SchoolsDropdown from '../Schools/SchoolsDropdown';
 function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
-    const [activeSchool, setActiveSchool] = useState()
-
-    const {data: schools, error: _error, status: _status} = 
-        useBackend(
-        // Stryker disable next-line all : don't test internal caching of React Query
-        ["/api/Schools/all"],
-        // Stryker disable next-line all : GET is the default
-        { method: "GET", url: "/api/Schools/all" }, []
-        );
-
-
-    
     // Stryker disable all
     const {
         register,
         formState: { errors },
         handleSubmit,
-        setValue,
     } = useForm(
         { defaultValues: initialContents || {}, }
     );
     // Stryker restore all
-    
 
     const navigate = useNavigate();
 
@@ -79,25 +61,19 @@ function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
             <Row>
                 <Col>
-                    <Form.Group className="mb-3" onChange={() => { 
-                        setActiveSchool(document.getElementById("FormSelect").value);
-                        setValue("school", document.getElementById("FormSelect").value);
-                    }}>
-                    <Form.Label htmlForm="school">School</Form.Label>
-                    <Form.Control
-                        data-testid = "CoursesForm-school"
-                        id = "school"
-                        type = "hidden"
-                        value = { activeSchool }
-                        isInvalid={Boolean(errors.school)}
-                        {...register("school", {required: true})}
-                    >
-                    </Form.Control>
-                <SchoolsDropdown schools={schools} initialContents={initialContents}></SchoolsDropdown>
-            <Form.Control.Feedback type="invalid">
-                {errors.school && 'School is required.'}
-            </Form.Control.Feedback>
-        </Form.Group>
+                    <Form.Group className="mb-3" >
+                        <Form.Label htmlFor="school">School</Form.Label>
+                        <Form.Control
+                            data-testid="CourseForm-school"
+                            id="school"
+                            type="text"
+                            isInvalid={Boolean(errors.school)}
+                            {...register("school", { required: true })}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {errors.school && 'School is required. '}
+                        </Form.Control.Feedback>
+                    </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group className="mb-3" >
