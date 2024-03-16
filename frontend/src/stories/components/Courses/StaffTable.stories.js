@@ -1,42 +1,42 @@
 import React from 'react';
-import CourseTable from "main/components/Courses/CourseTable";
-import { courseFixtures } from 'fixtures/courseFixtures';
+import StaffTable from "main/components/Courses/StaffTable";
+import { staffFixtures } from 'fixtures/staffFixtures';
 import { currentUserFixtures } from 'fixtures/currentUserFixtures';
 import { rest } from "msw";
 
 export default {
-    title: 'components/Courses/CourseTable',
-    component: CourseTable
+    title: 'components/Courses/StaffTable',
+    component: StaffTable
 };
 
 const Template = (args) => {
     return (
-        <CourseTable {...args} />
+        <StaffTable {...args} />
     )
 };
 
 export const Empty = Template.bind({});
 
 Empty.args = {
-    courses: []
+    staffs: []
 };
 
 export const ThreeItemsOrdinaryUser = Template.bind({});
 
 ThreeItemsOrdinaryUser.args = {
-    courses: courseFixtures.threeCourses,
+    staffs: staffFixtures.threeStaffs,
     currentUser: currentUserFixtures.userOnly,
 };
 
 export const ThreeItemsAdminUser = Template.bind({});
 ThreeItemsAdminUser.args = {
-    courses: courseFixtures.threeCourses,
+    staffs: staffFixtures.threeStaffs,
     currentUser: currentUserFixtures.adminUser,
 }
 
 ThreeItemsAdminUser.parameters = {
     msw: [
-        rest.delete('/api/course/delete', (req, res, ctx) => {
+        rest.delete('/api/course/staff', (req, res, ctx) => {
             window.alert("DELETE: " + JSON.stringify(req.url));
             return res(ctx.status(200),ctx.json({}));
         }),
