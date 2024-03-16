@@ -3,6 +3,7 @@ import React from 'react';
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import { courseFixtures } from 'fixtures/courseFixtures';
+import { SchoolsFixtures } from 'fixtures/SchoolsFixtures';
 import { rest } from "msw";
 
 import CourseEditPage from 'main/pages/CourseEditPage';
@@ -26,6 +27,9 @@ Default.parameters = {
         rest.get('/api/course', (_req, res, ctx) => {
             return res(ctx.json(courseFixtures.threeCourses[0]));
         }),
+        rest.get('/api/Schools', (_req, res, ctx) => {
+            return res(ctx.json(SchoolsFixtures.threeSchools));
+        }),
         rest.put('/api/course', async (req, res, ctx) => {
             var reqBody = await req.text();
             window.alert("PUT: " + req.url + " and body: " + reqBody);
@@ -33,6 +37,3 @@ Default.parameters = {
         }),
     ],
 }
-
-
-
