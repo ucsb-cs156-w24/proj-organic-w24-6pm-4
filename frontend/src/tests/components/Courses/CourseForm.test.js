@@ -31,12 +31,10 @@ describe("CourseForm tests", () => {
     
     test("renders correctly", async () => {
 
-       render(
-            <QueryClientProvider client={queryClient}>
-                <Router>
-                    <CourseForm />
-                </Router>
-            </QueryClientProvider>
+        render(
+            <Router  >
+                <CourseForm />
+            </Router>
         );
         await screen.findByText(/Name/);
         await screen.findByText(/Create/);
@@ -46,13 +44,10 @@ describe("CourseForm tests", () => {
     test("renders correctly when passing in a Courses", async () => {
 
         render(
-            <QueryClientProvider client={queryClient}>
-                <Router>
-                    <CourseForm initialContents={courseFixtures.oneCourse}/>
-                </Router>
-            </QueryClientProvider>
+            <Router  >
+                <CourseForm initialContents={courseFixtures.oneCourse} />
+            </Router>
         );
-
         await screen.findByTestId(/CourseForm-id/);
         expect(screen.getByText(/Id/)).toBeInTheDocument();
         expect(screen.getByTestId(/CourseForm-id/)).toHaveValue("1");
@@ -60,13 +55,11 @@ describe("CourseForm tests", () => {
 
 
     test("Correct Error messsages on missing input", async () => {
-        
+
         render(
-            <QueryClientProvider client={queryClient}>
-                <Router>
-                    <CourseForm />
-                </Router>
-            </QueryClientProvider>
+            <Router  >
+                <CourseForm />
+            </Router>
         );
         await screen.findByTestId("CourseForm-submit");
         const submitButton = screen.getByTestId("CourseForm-submit");
@@ -88,11 +81,9 @@ describe("CourseForm tests", () => {
 
 
         render(
-            <QueryClientProvider client={queryClient}>
-                <Router>
-                    <CourseForm submitAction={mockSubmitAction}/>
-                </Router>
-            </QueryClientProvider>
+            <Router  >
+                <CourseForm submitAction={mockSubmitAction} />
+            </Router>
         );
         await screen.findByTestId("CourseForm-name");
 
@@ -123,11 +114,9 @@ describe("CourseForm tests", () => {
     test("that navigate(-1) is called when Cancel is clicked", async () => {
 
         render(
-            <QueryClientProvider client={queryClient}>
-                <Router>
-                    <CourseForm />
-                </Router>
-            </QueryClientProvider>
+            <Router  >
+                <CourseForm />
+            </Router>
         );
         await screen.findByTestId("CourseForm-cancel");
         const cancelButton = screen.getByTestId("CourseForm-cancel");
