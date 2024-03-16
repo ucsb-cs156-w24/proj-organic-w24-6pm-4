@@ -79,10 +79,7 @@ function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
             <Row>
                 <Col>
-        <Form.Group className="mb-3" onChange={() => { 
-            setActiveSchool(document.getElementById("FormSelect").value);
-            setValue("school", document.getElementById("FormSelect").value);
-            }}>
+        <Form.Group className="mb-3" onChange={() => { updateSchool() }}>
             <Form.Label htmlForm="school">School</Form.Label>
             <Form.Control
                 data-testid = "CourseForm-school"
