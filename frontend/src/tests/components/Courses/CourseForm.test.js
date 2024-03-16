@@ -3,6 +3,11 @@ import CourseForm from "main/components/Courses/CourseForm";
 import { courseFixtures } from "fixtures/courseFixtures";
 import { BrowserRouter as Router } from "react-router-dom";
 
+import { QueryClient, QueryClientProvider } from "react-query";
+import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
+import axios from "axios";
+import AxiosMockAdapter from "axios-mock-adapter";
+
 const mockedNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
@@ -12,7 +17,18 @@ jest.mock('react-router-dom', () => ({
 
 
 describe("CourseForm tests", () => {
+    
+    const axiosMock = new AxiosMockAdapter(axios);
 
+    const setup = () => {
+        axiosMock.reset();
+        axiosMock.resetHistory();
+
+        axiosMock.onGet("/api/Schools/all").reply(200, SchoolsFixtures.threeSchools);
+    }
+
+    const queryClient = new QueryClient();
+    
     test("renders correctly", async () => {
 
         render(
