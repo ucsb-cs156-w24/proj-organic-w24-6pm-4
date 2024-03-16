@@ -1,6 +1,6 @@
 import { render, waitFor, fireEvent, screen } from "@testing-library/react";
-import CoursesForm from "main/components/Courses/CoursesForm";
-import { coursesFixtures } from "fixtures/coursesFixtures";
+import CourseForm from "main/components/Courses/CourseForm";
+import { courseFixtures } from "fixtures/courseFixtures";
 import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
@@ -11,7 +11,7 @@ jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useNavigate: () => mockedNavigate
 }));
-describe("CoursesForm tests", () => {
+describe("CourseForm tests", () => {
     const axiosMock = new AxiosMockAdapter(axios);
     const setup = () => {
         axiosMock.reset();
@@ -22,7 +22,7 @@ describe("CoursesForm tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <CoursesForm />
+                    <CourseForm />
                 </Router>
             </QueryClientProvider>
         );
@@ -45,7 +45,7 @@ describe("CoursesForm tests", () => {
         
         await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
         expect(screen.getByText(/Id/)).toBeInTheDocument();
-        expect(screen.getByTestId(/CoursesForm-id/)).toHaveValue("1");
+        expect(screen.getByTestId(/CourseForm-id/)).toHaveValue("1");
         expect(screen.getByTestId("FormSelect-option-ucsb")).toBeInTheDocument();
     });
     test("Correct Error messsages on missing input", async () => {
@@ -53,7 +53,7 @@ describe("CoursesForm tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <CoursesForm />
+                    <CourseForm />
                 </Router>
             </QueryClientProvider>
         );
@@ -80,14 +80,14 @@ describe("CoursesForm tests", () => {
         await screen.findByTestId("CoursesForm-name");
         await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
 
-        const nameField = screen.getByTestId("CoursesForm-name");
-        const schoolField = screen.getByTestId("CoursesForm-school");
+        const nameField = screen.getByTestId("CourseForm-name");
+        const schoolField = screen.getByTestId("CourseForm-school");
         const schoolSelect = screen.getByTestId("FormSelect");
-        const termField = screen.getByTestId("CoursesForm-term");
-        const startDateField = screen.getByTestId("CoursesForm-startDate");
-        const endDateField = screen.getByTestId("CoursesForm-endDate");
-        const githubOrgField = screen.getByTestId("CoursesForm-githubOrg")
-        const submitButton = screen.getByTestId("CoursesForm-submit");
+        const termField = screen.getByTestId("CourseForm-term");
+        const startDateField = screen.getByTestId("CourseForm-startDate");
+        const endDateField = screen.getByTestId("CourseForm-endDate");
+        const githubOrgField = screen.getByTestId("CourseForm-githubOrg")
+        const submitButton = screen.getByTestId("CourseForm-submit");
 
         fireEvent.change(nameField, { target: { value: "CMPSC 156" } });
         fireEvent.change(schoolSelect, {target : { value : 'ucsb'}});
@@ -110,12 +110,12 @@ describe("CoursesForm tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <CoursesForm />
+                    <CourseForm />
                 </Router>
             </QueryClientProvider>
         );
-        await screen.findByTestId("CoursesForm-cancel");
-        const cancelButton = screen.getByTestId("CoursesForm-cancel");
+        await screen.findByTestId("CourseForm-cancel");
+        const cancelButton = screen.getByTestId("CourseForm-cancel");
         fireEvent.click(cancelButton);
         await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith(-1));
     });
