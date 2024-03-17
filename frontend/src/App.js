@@ -5,16 +5,21 @@ import HomePage from "main/pages/HomePage";
 import LoadingPage from "main/pages/LoadingPage";
 import LoginPage from "main/pages/LoginPage";
 import ProfilePage from "main/pages/ProfilePage";
-import CoursesEditPage from "main/pages/CoursesEditPage";
+import CourseEditPage from "main/pages/CourseEditPage";
 
 import AdminUsersPage from "main/pages/AdminUsersPage";
 import AdminJobsPage from "main/pages/AdminJobsPage";
 
-import CoursesCreatePage from "main/pages/CoursesCreatePage";
+import CourseCreatePage from "main/pages/CourseCreatePage";
 import CourseIndexPage from "main/pages/CourseIndexPage";
 
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 import NotFoundPage from "main/pages/NotFoundPage";
+import StaffIndexPage from "main/pages/StaffIndexPage";
+
+import SchoolsCreatePage from "main/pages/Schools/SchoolsCreatePage";
+import SchoolsIndexPage from "main/pages/Schools/SchoolsIndexPage";
+import SchoolsEditPage from "main/pages/Schools/SchoolsEditPage";
 
 function App() {
   const { data: currentUser } = useCurrentUser();
@@ -34,9 +39,23 @@ function App() {
 
   const courseRoutes = (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR")) ? (
     <>
-      <Route path="/courses/create" element={<CoursesCreatePage />} />
-      <Route path="/courses" element={<CourseIndexPage />} />
-      <Route path="/courses/edit/:id" element={<CoursesEditPage />} />
+      <Route path="/course/create" element={<CourseCreatePage />} />
+      <Route path="/course" element={<CourseIndexPage />} />
+      <Route path="/course/edit/:id" element={<CourseEditPage />} />
+    </>
+  ) : null;
+  
+  const schoolRoutes = (hasRole(currentUser, "ROLE_ADMIN")) ? (
+    <>
+      <Route path="/Schools/create" element={<SchoolsCreatePage />} />
+      <Route path="/Schools" element={<SchoolsIndexPage />} />
+      <Route path="/Schools/edit/:abbrev" element={<SchoolsEditPage />} />
+    </>
+  ) : null;
+
+  const staffRoutes = hasRole(currentUser, "ROLE_USER") ? (
+    <>
+      <Route path="/course/:courseId/staff" element={<StaffIndexPage />} />
     </>
   ) : null;
 
@@ -77,8 +96,10 @@ function App() {
         <Routes>
           {homeRoute}
           {adminRoutes}
+          {schoolRoutes}
           {userRoutes}
           {courseRoutes}
+          {staffRoutes}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       )}

@@ -1,12 +1,12 @@
 import { fireEvent, render, waitFor, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import CourseIndexPage from "main/pages/CourseIndexPage";
+import StaffIndexPage from "main/pages/StaffIndexPage";
 
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import { courseFixtures } from "fixtures/courseFixtures";
+import { staffFixtures } from "fixtures/staffFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import mockConsole from "jest-mock-console";
@@ -18,15 +18,31 @@ jest.mock('react-toastify', () => {
     return {
         __esModule: true,
         ...originalModule,
+        
         toast: (x) => mockToast(x)
     };
 });
 
-describe("CourseIndexPage tests", () => {
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => {
+    const originalModule = jest.requireActual('react-router-dom');
+    return {
+        __esModule: true,
+        ...originalModule,
+        useParams: () => ({
+            courseId: 1
+        }),
+        Navigate: (x) => { mockNavigate(x); return null; }
+    };
+});
+
+
+
+describe("StaffIndexPage tests", () => {
 
     const axiosMock = new AxiosMockAdapter(axios);
 
-    const testId = "CourseTable";
+    const testId = "StaffTable";
 
     const setupAdminUser = () => {
         axiosMock.reset();
@@ -42,65 +58,65 @@ describe("CourseIndexPage tests", () => {
         axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
     }
 
-    test("Renders with Create Button for admin user", async () => {
+    test("Renders with Add Button for admin user", async () => {
         // arrange
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/course/getAll").reply(200, []);
+        axiosMock.onGet("/api/course/staff/all", { params: { courseId: 1 } }).reply(200, []);
 
         // act
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <CourseIndexPage />
+                    <StaffIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
 
         // assert
         await waitFor( ()=>{
-            expect(screen.getByText(/Create Course/)).toBeInTheDocument();
+            expect(screen.getByText(/Add Staff Member/)).toBeInTheDocument();
         });
-        const button = screen.getByText(/Create Course/);
-        expect(button).toHaveAttribute("href", "/course/create");
+        const button = screen.getByText(/Add Staff Member/);
+        expect(button).toHaveAttribute("href", "/course/1/staff/create");
         expect(button).toHaveAttribute("style", "float: right;");
     });
 
-    test("Renders with Create Button for instructor user", async () => {
+    test("Renders with Add Button for instructor user", async () => {
         // arrange
         setupInstructorUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/course/getAll").reply(200, []);
+        axiosMock.onGet("/api/course/staff/all", { params: { courseId: 1 } }).reply(200, []);
 
         // act
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <CourseIndexPage />
+                    <StaffIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
 
         // assert
         await waitFor( ()=>{
-            expect(screen.getByText(/Create Course/)).toBeInTheDocument();
+            expect(screen.getByText(/Add Staff Member/)).toBeInTheDocument();
         });
-        const button = screen.getByText(/Create Course/);
-        expect(button).toHaveAttribute("href", "/course/create");
+        const button = screen.getByText(/Add Staff Member/);
+        expect(button).toHaveAttribute("href", "/course/1/staff/create");
         expect(button).toHaveAttribute("style", "float: right;");
     });
 
-    test("renders three courses correctly for admin", async () => {    
+    test("renders three staffs correctly for admin", async () => {    
         // arrange
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/course/getAll").reply(200, courseFixtures.threeCourses);
+        axiosMock.onGet("/api/course/staff/all", { params: { courseId: 1 } }).reply(200, staffFixtures.threeStaffs);
 
         // act
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <CourseIndexPage />
+                    <StaffIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -112,17 +128,17 @@ describe("CourseIndexPage tests", () => {
 
     });
 
-    test("renders three courses correctly for instructor", async () => {      
+    test("renders three staffs correctly for instructor", async () => {      
         // arrange
         setupInstructorUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/course/getAll").reply(200, courseFixtures.threeCourses);
+        axiosMock.onGet("/api/course/staff/all", { params: { courseId: 1 } }).reply(200, staffFixtures.threeStaffs);
 
         // act
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <CourseIndexPage />
+                    <StaffIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -138,14 +154,14 @@ describe("CourseIndexPage tests", () => {
         // arrange
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/course/getAll").timeout();
+        axiosMock.onGet("/api/course/staff/all").timeout();
         const restoreConsole = mockConsole();
 
         // act
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <CourseIndexPage />
+                    <StaffIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -162,14 +178,14 @@ describe("CourseIndexPage tests", () => {
         // arrange
         setupInstructorUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/course/getAll").timeout();
+        axiosMock.onGet("/api/course/staff/all").timeout();
         const restoreConsole = mockConsole();
 
         // act
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <CourseIndexPage />
+                    <StaffIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -186,14 +202,14 @@ describe("CourseIndexPage tests", () => {
         // arrange
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/course/getAll").reply(200, courseFixtures.threeCourses);
-        axiosMock.onDelete("/api/course/delete").reply(200, "Course with id 1 was deleted");
+        axiosMock.onGet("/api/course/staff/all", { params: { courseId: 1 } }).reply(200, staffFixtures.threeStaffs);
+        axiosMock.onDelete("/api/course/staff", { params: { id: 3 } }).reply(200, "Staff with id 3 was deleted");
 
         // act
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <CourseIndexPage />
+                    <StaffIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -203,14 +219,14 @@ describe("CourseIndexPage tests", () => {
 
         expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
 
-        const deleteButton = screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`);
+        const deleteButton = screen.getByTestId(`${testId}-cell-row-2-col-Delete-button`);
         expect(deleteButton).toBeInTheDocument();
 
         // act
         fireEvent.click(deleteButton);
 
         // assert
-        await waitFor(() => { expect(mockToast).toBeCalledWith("Course with id 1 was deleted") });
+        await waitFor(() => { expect(mockToast).toBeCalledWith("Staff with id 3 was deleted") });
 
     });
 
@@ -218,14 +234,14 @@ describe("CourseIndexPage tests", () => {
         // arrange
         setupInstructorUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/course/getAll").reply(200, courseFixtures.threeCourses);
-        axiosMock.onDelete("/api/course/delete").reply(200, "Course with id 1 was deleted");
+        axiosMock.onGet("/api/course/staff/all", { params: { courseId: 1 } }).reply(200, staffFixtures.threeStaffs);
+        axiosMock.onDelete("/api/course/staff", { params: { id: 3 } }).reply(200, "Staff with id 3 was deleted");
 
         // act
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <CourseIndexPage />
+                    <StaffIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -235,14 +251,14 @@ describe("CourseIndexPage tests", () => {
 
         expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
 
-        const deleteButton = screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`);
+        const deleteButton = screen.getByTestId(`${testId}-cell-row-2-col-Delete-button`);
         expect(deleteButton).toBeInTheDocument();
 
         // act
         fireEvent.click(deleteButton);
 
         // assert
-        await waitFor(() => { expect(mockToast).toBeCalledWith("Course with id 1 was deleted") });
+        await waitFor(() => { expect(mockToast).toBeCalledWith("Staff with id 3 was deleted") });
 
     });
 
