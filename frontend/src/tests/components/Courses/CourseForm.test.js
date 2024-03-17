@@ -2,6 +2,10 @@ import { render, waitFor, fireEvent, screen } from "@testing-library/react";
 import CourseForm from "main/components/Courses/CourseForm";
 import { courseFixtures } from "fixtures/courseFixtures";
 import { BrowserRouter as Router } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
+import axios from "axios";
+import AxiosMockAdapter from "axios-mock-adapter";
 
 const mockedNavigate = jest.fn();
 
@@ -27,7 +31,7 @@ describe("CourseForm tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <CoursesForm />
+                    <CourseForm />
                 </Router>
             </QueryClientProvider>
         );
@@ -38,25 +42,35 @@ describe("CourseForm tests", () => {
 
     test("renders correctly when passing in a Courses", async () => {
         setup();
+        axiosMock.onGet("/api/Schools/all").reply(200, SchoolsFixtures.threeSchools);
+
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <CourseForm />
+                    <CourseForm initialContents={courseFixtures.oneCourse}/>
                 </Router>
             </QueryClientProvider>
         );
+
         await screen.findByTestId(/CourseForm-id/);
+
+        expect(screen.getByTestId("CourseForm-school")).toHaveValue("ucsb");
+
+        await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
+
         expect(screen.getByText(/Id/)).toBeInTheDocument();
         expect(screen.getByTestId(/CourseForm-id/)).toHaveValue("1");
+        expect(screen.getByTestId("FormSelect-option-ucsb")).toBeInTheDocument();
     });
 
 
     test("Correct Error messsages on missing input", async () => {
         setup();
+
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <CourseForm initialContents={coursesFixtures.oneCourse}/>
+                    <CourseForm />
                 </Router>
             </QueryClientProvider>
         );
@@ -77,19 +91,21 @@ describe("CourseForm tests", () => {
     test("No Error messsages on good input", async () => {
 
         const mockSubmitAction = jest.fn();
-        setup();
 
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <CourseForm />
+                    <CourseForm submitAction={mockSubmitAction}/>
                 </Router>
             </QueryClientProvider>
         );
         await screen.findByTestId("CourseForm-name");
 
+        await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
+
         const nameField = screen.getByTestId("CourseForm-name");
         const schoolField = screen.getByTestId("CourseForm-school");
+        const schoolSelect = screen.getByTestId("FormSelect");
         const termField = screen.getByTestId("CourseForm-term");
         const startDateField = screen.getByTestId("CourseForm-startDate");
         const endDateField = screen.getByTestId("CourseForm-endDate");
@@ -97,11 +113,15 @@ describe("CourseForm tests", () => {
         const submitButton = screen.getByTestId("CourseForm-submit");
 
         fireEvent.change(nameField, { target: { value: "CMPSC 156" } });
-        fireEvent.change(schoolField, { target: { value: 'ucsb' } });
+        fireEvent.change(schoolSelect, {target : { value : 'ucsb'}});
         fireEvent.change(termField, { target: { value: 'f23' } });
         fireEvent.change(startDateField, { target: { value: '2022-01-02T12:00' } });
         fireEvent.change(endDateField, { target: { value: '2022-02-02T12:00' } });
         fireEvent.change(githubOrgField, { target: { value: 'cs156-f23'}})
+        fireEvent.click(submitButton);
+
+        expect(schoolField).toHaveValue("ucsb");
+
         fireEvent.click(submitButton);
 
         await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
@@ -113,12 +133,14 @@ describe("CourseForm tests", () => {
 
 
     test("that navigate(-1) is called when Cancel is clicked", async () => {
-        setup();
+
+        render(
             <QueryClientProvider client={queryClient}>
                 <Router>
                     <CourseForm />
                 </Router>
             </QueryClientProvider>
+        );
         await screen.findByTestId("CourseForm-cancel");
         const cancelButton = screen.getByTestId("CourseForm-cancel");
 
