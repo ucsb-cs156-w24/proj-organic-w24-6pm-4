@@ -24,7 +24,6 @@ function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
         formState: { errors },
         handleSubmit,
         setValue,
-        setValue,
     } = useForm(
         { defaultValues: initialContents || {}, 
         mode: "onChange", 
@@ -101,22 +100,22 @@ function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
             <Row>
                 <Col>
-        <Form.Group className="mb-3" onChange={() => { updateSchool() }}>
-            <Form.Label htmlForm="school">School</Form.Label>
-            <Form.Control
-                data-testid = "CourseForm-school"
-                id = "school"
-                type = "hidden"
-                value = { activeSchool }
-                isInvalid={Boolean(errors.school)}
-                {...register("school", {required: true})}
-            >
-            </Form.Control>
-            <SchoolsDropdown schools={schools} initialContents={initialContents}></SchoolsDropdown>
-            <Form.Control.Feedback type="invalid">
-                {errors.school && 'School is required.'}
-            </Form.Control.Feedback>
-        </Form.Group>
+                    <Form.Group className="mb-3" onChange={() => { updateSchool() }}>
+                        <Form.Label htmlForm="school">School</Form.Label>
+                        <Form.Control
+                            data-testid = "CourseForm-school"
+                            id = "school"
+                            type = "hidden"
+                            value = { activeSchool }
+                            isInvalid={Boolean(errors.school)}
+                            {...register("school", {required: true})}
+                        >
+                        </Form.Control>
+                        <SchoolsDropdown schools={schools} initialContents={initialContents}></SchoolsDropdown>
+                        <Form.Control.Feedback type="invalid">
+                            {errors.school && 'School is required.'}
+                        </Form.Control.Feedback>
+                    </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group className="mb-3" >

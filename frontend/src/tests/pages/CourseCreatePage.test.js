@@ -9,7 +9,6 @@ import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
 
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
-import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
 
 const mockToast = jest.fn();
 jest.mock('react-toastify', () => {
