@@ -1,6 +1,7 @@
 import React from 'react';
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import { SchoolsFixtures } from 'fixtures/SchoolsFixtures';
 import { rest } from "msw";
 
 import CourseCreatePage from "main/pages/CourseCreatePage";
@@ -20,6 +21,9 @@ Default.parameters = {
         }),
         rest.get('/api/systemInfo', (_req, res, ctx) => {
             return res(ctx.json(systemInfoFixtures.showingNeither));
+        }),
+        rest.get('/api/Schools', (_req, res, ctx) => {
+            return res(ctx.json(SchoolsFixtures.threeSchools));
         }),
         rest.post('/api/course/create', (req, res, ctx) => {
             window.alert("POST: " + JSON.stringify(req.url));
