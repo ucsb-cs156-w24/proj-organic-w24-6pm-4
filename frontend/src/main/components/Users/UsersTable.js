@@ -6,13 +6,19 @@ import { useBackendMutation } from "main/utils/useBackend";
 export default function UsersTable({ users, showToggleButtons = false }) {
     // toggleAdmin
     function cellToAxiosParamsToggleAdmin(cell) {
-        return {
-            url: "/api/admin/users/toggleAdmin",
-            method: "POST",
-            params: {
-                githubId: cell.row.values.githubId
+        // Stryker disable next-line all
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm("Are you sure you want to toggle Admin?") == true)
+        {
+            return {
+                url: "/api/admin/users/toggleAdmin",
+                method: "POST",
+                params: {
+                    githubId: cell.row.values.githubId
+                }
             }
         }
+        
     }
 
     // Stryker disable all : hard to test for query caching
