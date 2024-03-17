@@ -5,9 +5,10 @@ import CourseEditPage from "main/pages/CourseEditPage";
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
+
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
-
 import mockConsole from "jest-mock-console";
 
 const mockToast = jest.fn();
@@ -77,7 +78,7 @@ describe("CourseEditPage tests", () => {
             axiosMock.onGet("/api/course/get", { params: { id: 17 } }).reply(200, {
                 id: 17,
                 name: "CS 156",
-                school: "UCSB",
+                school: "ucsb",
                 term: "f23",
                 startDate: "2023-09-29T00:00",
                 endDate: "2023-12-15T00:00",
@@ -86,7 +87,7 @@ describe("CourseEditPage tests", () => {
             axiosMock.onPut('/api/course/update').reply(200, {
                 id: "17",
                 name: "CS 148",
-                school: "UCSB",
+                school: "ucsb",
                 term: "w23",
                 startDate: "2024-01-10T00:00",
                 endDate: "2023-03-12T00:00",
@@ -106,6 +107,7 @@ describe("CourseEditPage tests", () => {
         });
 
         test("Is populated with the data provided", async () => {
+            axiosMock.onGet("/api/Schools/all").reply(200, SchoolsFixtures.threeSchools);
 
             render(
                 <QueryClientProvider client={queryClient}>
@@ -115,11 +117,11 @@ describe("CourseEditPage tests", () => {
                 </QueryClientProvider>
             );
 
-            await screen.findByTestId("CourseForm-name");
+            await screen.findByTestId("FormSelect-option-ucsb");
 
             const idField = screen.getByTestId("CourseForm-id");
             const nameField = screen.getByTestId("CourseForm-name");
-            const schoolField = screen.getByTestId("CourseForm-school");
+            const schoolField = screen.getByTestId("FormSelect");
             const termField = screen.getByTestId("CourseForm-term");
             const startField = screen.getByTestId("CourseForm-startDate");
             const endField = screen.getByTestId("CourseForm-endDate");
@@ -128,7 +130,7 @@ describe("CourseEditPage tests", () => {
 
             expect(idField).toHaveValue("17");
             expect(nameField).toHaveValue("CS 156");
-            expect(schoolField).toHaveValue("UCSB");
+            expect(schoolField).toHaveValue("ucsb");
             expect(termField).toHaveValue("f23");
             expect(startField).toHaveValue("2023-09-29T00:00");
             expect(endField).toHaveValue("2023-12-15T00:00");
@@ -137,6 +139,7 @@ describe("CourseEditPage tests", () => {
         });
 
         test("Changes when you click Update", async () => {
+            axiosMock.onGet("/api/Schools/all").reply(200, SchoolsFixtures.threeSchools);
 
             render(
                 <QueryClientProvider client={queryClient}>
@@ -146,11 +149,11 @@ describe("CourseEditPage tests", () => {
                 </QueryClientProvider>
             );
 
-            await screen.findByTestId("CourseForm-name");
+            await screen.findByTestId("FormSelect-option-ucsb");
 
             const idField = screen.getByTestId("CourseForm-id");
             const nameField = screen.getByTestId("CourseForm-name");
-            const schoolField = screen.getByTestId("CourseForm-school");
+            const schoolField = screen.getByTestId("FormSelect");
             const termField = screen.getByTestId("CourseForm-term");
             const startField = screen.getByTestId("CourseForm-startDate");
             const endField = screen.getByTestId("CourseForm-endDate");
@@ -159,7 +162,7 @@ describe("CourseEditPage tests", () => {
 
             expect(idField).toHaveValue("17");
             expect(nameField).toHaveValue("CS 156");
-            expect(schoolField).toHaveValue("UCSB");
+            expect(schoolField).toHaveValue("ucsb");
             expect(termField).toHaveValue("f23");
             expect(startField).toHaveValue("2023-09-29T00:00");
             expect(endField).toHaveValue("2023-12-15T00:00");
@@ -167,7 +170,7 @@ describe("CourseEditPage tests", () => {
             expect(submitButton).toBeInTheDocument();
 
             fireEvent.change(nameField, { target: { value: "CS 148" } })
-            fireEvent.change(schoolField, { target: { value: "UCSB" } })
+            fireEvent.change(schoolField, { target: { value: "ucsb" } })
             fireEvent.change(termField, { target: { value: "w23" } })
             fireEvent.change(startField, { target: { value: "2024-01-10T00:00" } })
             fireEvent.change(endField, { target: { value: "2023-03-12T00:00" } })
@@ -180,7 +183,7 @@ describe("CourseEditPage tests", () => {
             expect(mockNavigate).toBeCalledWith({ "to": "/course" });
 
             expect(axiosMock.history.put.length).toBe(1); // times called
-            expect(axiosMock.history.put[0].params).toEqual({ id: 17, name: "CS 148", endDate: "2023-03-12T00:00", startDate: "2024-01-10T00:00", school: "UCSB", term: "w23", githubOrg: "ucsb-cs156-w23" });
+            expect(axiosMock.history.put[0].params).toEqual({ id: 17, name: "CS 148", endDate: "2023-03-12T00:00", startDate: "2024-01-10T00:00", school: "ucsb", term: "w23", githubOrg: "ucsb-cs156-w23" });
 
         });
 

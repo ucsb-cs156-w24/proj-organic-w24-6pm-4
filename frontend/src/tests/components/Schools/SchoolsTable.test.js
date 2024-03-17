@@ -79,7 +79,7 @@ describe("SchoolsTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-1-col-abbrev`)).toHaveTextContent("umn");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-name`)).toHaveTextContent("University of Minnesota");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-termRegex`)).toHaveTextContent("[WSMF]\\d\\d");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-termDescription`)).toHaveTextContent("Enter quarter, e.g. F23, W24, S24, M24");
+    expect(screen.getByTestId(`${testId}-cell-row-1-col-termDescription`)).toHaveTextContent("Enter quarter, e.g. F24, W25, S25, M25");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-termError`)).toHaveTextContent("Quarter must be entered in the correct format");
 
     const editButton = screen.getByTestId(`${testId}-cell-row-0-col-Edit-button`);
@@ -125,7 +125,7 @@ describe("SchoolsTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-1-col-abbrev`)).toHaveTextContent("umn");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-name`)).toHaveTextContent("University of Minnesota");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-termRegex`)).toHaveTextContent("[WSMF]\\d\\d");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-termDescription`)).toHaveTextContent("Enter quarter, e.g. F23, W24, S24, M24");
+    expect(screen.getByTestId(`${testId}-cell-row-1-col-termDescription`)).toHaveTextContent("Enter quarter, e.g. F24, W25, S25, M25");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-termError`)).toHaveTextContent("Quarter must be entered in the correct format");
 
     expect(screen.queryByText("Delete")).not.toBeInTheDocument();
