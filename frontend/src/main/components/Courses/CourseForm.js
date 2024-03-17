@@ -2,9 +2,7 @@ import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useBackend } from 'main/utils/useBackend';
-
 import { useState } from "react";
-
 import SchoolsDropdown from '../Schools/SchoolsDropdown';
 
 function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
@@ -25,6 +23,7 @@ function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
         register,
         formState: { errors },
         handleSubmit,
+        setValue,
         setValue,
     } = useForm(
         { defaultValues: initialContents || {}, 
@@ -67,7 +66,6 @@ function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
         <Form id = "form" onLoad={loadTermInitial()} onSubmit={handleSubmit(submitAction)}>
 
             <Row>
-
                 {initialContents && (
                     <Col>
                         <Form.Group className="mb-3" >

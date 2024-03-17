@@ -5,6 +5,7 @@ import CourseCreatePage from "main/pages/CourseCreatePage";
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
 
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";

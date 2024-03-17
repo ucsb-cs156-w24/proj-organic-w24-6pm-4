@@ -2,7 +2,6 @@ import { render, waitFor, fireEvent, screen } from "@testing-library/react";
 import CourseForm from "main/components/Courses/CourseForm";
 import { courseFixtures } from "fixtures/courseFixtures";
 import { BrowserRouter as Router } from "react-router-dom";
-
 import { QueryClient, QueryClientProvider } from "react-query";
 import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
 import axios from "axios";
@@ -45,6 +44,7 @@ describe("CourseForm tests", () => {
 
     test("renders correctly when passing in a course", async () => {
         setup();
+        axiosMock.onGet("/api/Schools/all").reply(200, SchoolsFixtures.threeSchools);
 
         render(
             <QueryClientProvider client={queryClient}>
@@ -57,6 +57,11 @@ describe("CourseForm tests", () => {
         await screen.findByTestId(/CourseForm-id/);
         
         await waitFor(() => {expect(screen.getByTestId("CourseForm-school")).toHaveValue("ucsb")});
+        await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
+
+
+        expect(screen.getByTestId("CourseForm-school")).toHaveValue("ucsb");
+
         await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
 
         expect(screen.getByText(/Id/)).toBeInTheDocument();
@@ -130,11 +135,9 @@ describe("CourseForm tests", () => {
 
         fireEvent.click(submitButton);
 
-        expect(screen.queryByText(/School is required./)).not.toBeInTheDocument();
-
         await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
 
-        // expect(screen.getByText(/School is required./)).not.toBeInTheDocument();
+        expect(screen.queryByText(/School is required./)).not.toBeInTheDocument();
         expect(screen.queryByText(/StartDate date is required./)).not.toBeInTheDocument();
         expect(screen.queryByText(/EndDate date is required./)).not.toBeInTheDocument();
     });
