@@ -2,9 +2,7 @@ import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useBackend } from 'main/utils/useBackend';
-
 import { useState } from "react";
-
 import SchoolsDropdown from '../Schools/SchoolsDropdown';
 
 function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
@@ -108,22 +106,22 @@ function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
             <Row>
                 <Col>
-        <Form.Group className="mb-3" onChange={() => { updateSchool() }}>
-            <Form.Label htmlForm="school">School</Form.Label>
-            <Form.Control
-                data-testid = "CourseForm-school"
-                id = "school"
-                type = "hidden"
-                value = { activeSchool }
-                isInvalid={Boolean(errors.school)}
-                {...register("school", {required: true})}
-            >
-            </Form.Control>
-            <SchoolsDropdown schools={schools} initialContents={initialContents}></SchoolsDropdown>
-            <Form.Control.Feedback type="invalid">
-                {errors.school && 'School is required.'}
-            </Form.Control.Feedback>
-        </Form.Group>
+                    <Form.Group className="mb-3" onChange={() => { updateSchool() }}>
+                        <Form.Label htmlForm="school">School</Form.Label>
+                        <Form.Control
+                            data-testid = "CourseForm-school"
+                            id = "school"
+                            type = "hidden"
+                            value = { activeSchool }
+                            isInvalid={Boolean(errors.school)}
+                            {...register("school", {required: true})}
+                        >
+                        </Form.Control>
+                        <SchoolsDropdown schools={schools} initialContents={initialContents}></SchoolsDropdown>
+                        <Form.Control.Feedback type="invalid">
+                            {errors.school && 'School is required.'}
+                        </Form.Control.Feedback>
+                    </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group className="mb-3" >

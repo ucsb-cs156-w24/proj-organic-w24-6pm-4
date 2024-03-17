@@ -1,10 +1,10 @@
 import { render, waitFor, fireEvent, screen } from "@testing-library/react";
 import CourseForm from "main/components/Courses/CourseForm";
 import { courseFixtures } from "fixtures/courseFixtures";
-import { BrowserRouter as Router } from "react-router-dom";
-
-import { QueryClient, QueryClientProvider } from "react-query";
 import { SchoolsFixtures } from "fixtures/SchoolsFixtures";
+
+import { BrowserRouter as Router } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
@@ -134,7 +134,6 @@ describe("CourseForm tests", () => {
 
         await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
 
-        // expect(screen.getByText(/School is required./)).not.toBeInTheDocument();
         expect(screen.queryByText(/StartDate date is required./)).not.toBeInTheDocument();
         expect(screen.queryByText(/EndDate date is required./)).not.toBeInTheDocument();
     });
