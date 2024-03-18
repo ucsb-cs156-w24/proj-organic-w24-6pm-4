@@ -36,7 +36,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Tag(name = &quot;Courses&quot;)
-@RequestMapping(&quot;/api/courses&quot;)
+@RequestMapping(&quot;/api/course&quot;)
 @RestController
 <span class="fc" id="L41">@Slf4j</span>
 <span class="fc" id="L42">public class CoursesController extends ApiController {</span>
@@ -52,7 +52,7 @@ import java.util.Optional;
 
     @Operation(summary = &quot;List all courses&quot;)
     @PreAuthorize(&quot;hasAnyRole('ROLE_USER', 'ROLE_ADMIN')&quot;)
-    @GetMapping(&quot;/all&quot;)
+    @GetMapping(&quot;/getAll&quot;)
     public Iterable&lt;Course&gt; allCourses() {
 <span class="fc" id="L57">        User u = getCurrentUser().getUser();</span>
 <span class="fc" id="L58">        log.info(&quot;u={}&quot;, u);</span>
@@ -84,7 +84,7 @@ import java.util.Optional;
 
     @Operation(summary = &quot;Create a new course&quot;)
     @PreAuthorize(&quot;hasAnyRole('ROLE_ADMIN', 'ROLE_INSTRUCTOR')&quot;)
-    @PostMapping(&quot;/post&quot;)
+    @PostMapping(&quot;/create&quot;)
     public Course postCourse(
             @Parameter(name = &quot;name&quot;, description = &quot;course name, e.g. CMPSC 156&quot;) @RequestParam String name,
             @Parameter(name = &quot;school&quot;, description = &quot;school abbreviation e.g. UCSB&quot;) @RequestParam String school,
@@ -119,7 +119,7 @@ import java.util.Optional;
 
     @Operation(summary = &quot;Add a staff member to a course&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
-    @PostMapping(&quot;/addStaff&quot;)
+    @PostMapping(&quot;/staff/create&quot;)
     public Staff addStaff(
             @Parameter(name = &quot;courseId&quot;) @RequestParam Long courseId,
             @Parameter(name = &quot;githubLogin&quot;) @RequestParam String githubLogin)
@@ -143,9 +143,9 @@ import java.util.Optional;
 <span class="fc" id="L143">        return courseStaff;</span>
     }
 
-    @Operation(summary = &quot;Get Staff for course&quot;)
+    @Operation(summary = &quot;Get Staffs for the course&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
-    @GetMapping(&quot;/getStaff&quot;)
+    @GetMapping(&quot;/staff/all&quot;)
     public Iterable&lt;Staff&gt; getStaff(
             @Parameter(name = &quot;courseId&quot;) @RequestParam Long courseId)
             throws JsonProcessingException {

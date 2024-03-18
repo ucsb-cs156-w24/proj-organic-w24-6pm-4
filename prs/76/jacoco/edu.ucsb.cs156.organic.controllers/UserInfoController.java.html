@@ -46,9 +46,9 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
   @Operation(summary = &quot;Update user's last online time&quot;)
   @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
   @PostMapping(&quot;/last-online&quot;)
-  public ResponseEntity&lt;Instant&gt; updateLastOnline() {
+  public ResponseEntity&lt;String&gt; updateLastOnline() {
 <span class="fc" id="L50">    User user = super.getCurrentUser().getUser();</span>
-<span class="fc" id="L51">    Instant timeNow = Instant.now();</span>
+<span class="fc" id="L51">    String timeNow = Instant.now().toString();</span>
 <span class="fc" id="L52">    user.setLastOnline(timeNow);</span>
 <span class="fc" id="L53">    userRepository.save(user);</span>
 <span class="fc" id="L54">    return ResponseEntity.ok().body(timeNow);</span>
