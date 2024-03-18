@@ -22,6 +22,9 @@ describe("AppNavbar tests", () => {
         );
 
         expect(await screen.findByText("Welcome, cgaucho")).toBeInTheDocument();
+        const adminMenu = screen.queryByTestId("appnavbar-admin-dropdown");
+        expect(adminMenu).not.toBeInTheDocument();
+        expect(await screen.findByText("Courses")).toBeInTheDocument(); 
     });
 
     test("renders correctly for admin user", async () => {

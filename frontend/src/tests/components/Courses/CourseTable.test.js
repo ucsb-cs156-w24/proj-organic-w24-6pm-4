@@ -46,39 +46,15 @@ describe("UserTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");
 
-    const staffButton = screen.getByTestId(`${testId}-cell-row-0-col-Staff-button`);
-    expect(staffButton).toBeInTheDocument();
-    expect(staffButton).toHaveClass("btn-primary");
-
     const editButton = screen.queryByTestId(`${testId}-cell-row-0-col-Edit-button`);
     expect(editButton).not.toBeInTheDocument();
 
     const deleteButton = screen.queryByTestId(`${testId}-cell-row-0-col-Delete-button`);
     expect(deleteButton).not.toBeInTheDocument();
 
-  });
-
-  test("Staff button navigates to the staff page for ordinary user", async () => {
-
-    const currentUser = currentUserFixtures.userOnly;
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-            <CourseTable courses={courseFixtures.threeCourses} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>
-
-    );
-
-    await waitFor(() => { expect(screen.getByTestId(`CourseTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
-
-    const staffButton = screen.getByTestId(`CourseTable-cell-row-0-col-Staff-button`);
-    expect(staffButton).toBeInTheDocument();
-
-    fireEvent.click(staffButton);
-
-    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/course/1/staff'));
+    const joinButton = screen.getByTestId(`${testId}-cell-row-0-col-Join-button`);
+    expect(joinButton).toBeInTheDocument();
+    expect(joinButton).toHaveClass("btn-primary");
 
   });
 
@@ -143,10 +119,6 @@ describe("UserTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");
 
-    const staffButton = screen.getByTestId(`${testId}-cell-row-0-col-Staff-button`);
-    expect(staffButton).toBeInTheDocument();
-    expect(staffButton).toHaveClass("btn-primary");
-
     const editButton = screen.getByTestId(`${testId}-cell-row-0-col-Edit-button`);
     expect(editButton).toBeInTheDocument();
     expect(editButton).toHaveClass("btn-primary");
@@ -154,6 +126,10 @@ describe("UserTable tests", () => {
     const deleteButton = screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`);
     expect(deleteButton).toBeInTheDocument();
     expect(deleteButton).toHaveClass("btn-danger");
+
+    const joinButton = screen.getByTestId(`${testId}-cell-row-0-col-Join-button`);
+    expect(joinButton).toBeInTheDocument();
+    expect(joinButton).toHaveClass("btn-primary");
 
   });
 
@@ -178,30 +154,6 @@ describe("UserTable tests", () => {
     fireEvent.click(editButton);
 
     await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/course/edit/1'));
-
-  });
-
-  test("Staff button navigates to the staff page for admin user", async () => {
-
-    const currentUser = currentUserFixtures.adminUser;
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-            <CourseTable courses={courseFixtures.threeCourses} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>
-
-    );
-
-    await waitFor(() => { expect(screen.getByTestId(`CourseTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
-
-    const staffButton = screen.getByTestId(`CourseTable-cell-row-0-col-Staff-button`);
-    expect(staffButton).toBeInTheDocument();
-
-    fireEvent.click(staffButton);
-
-    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/course/1/staff'));
 
   });
 
