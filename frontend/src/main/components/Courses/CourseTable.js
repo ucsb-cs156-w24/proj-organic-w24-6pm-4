@@ -1,65 +1,65 @@
 import React from "react";
- import OurTable, { ButtonColumn } from "main/components/OurTable"
- import { useBackendMutation } from "main/utils/useBackend";
- import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/components/Utils/CourseUtils"
- import { useNavigate } from "react-router-dom";
- import { hasRole } from "main/utils/currentUser";
+import OurTable, { ButtonColumn } from "main/components/OurTable"
+import { useBackendMutation } from "main/utils/useBackend";
+import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/components/Utils/CourseUtils"
+import { useNavigate } from "react-router-dom";
+import { hasRole } from "main/utils/currentUser";
 
- export default function CourseTable({ courses, currentUser }) {
+export default function CourseTable({ courses, currentUser }) {
 
-     const navigate = useNavigate();
+    const navigate = useNavigate();
 
-     const editCallback = (cell) => {
-         navigate(`/course/edit/${cell.row.values.id}`);
-     };
+    const staffCallback = (cell) => {
+    navigate(`/course/${cell.row.values.id}/staff`);
+};
 
-     // Stryker disable all : hard to test for query caching
+    const editCallback = (cell) => {
+        navigate(`/course/edit/${cell.row.values.id}`);
+    };
 
-     const deleteMutation = useBackendMutation(
-         cellToAxiosParamsDelete,
-         { onSuccess: onDeleteSuccess },
-         ["/api/course/getAll"]
-     );
-     // Stryker restore all 
+    // Stryker disable all : hard to test for query caching
 
-     // Stryker disable next-line all : TODO try to make a good test for this
-     const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
+    const deleteMutation = useBackendMutation(
+        cellToAxiosParamsDelete,
+        { onSuccess: onDeleteSuccess },
+        ["/api/course/getAll"]
+    );
+    // Stryker restore all 
 
-     const columns = [
-         {
-             Header: 'id',
-             accessor: 'id',
-         },
-         {
-             Header: 'Name',
-             accessor: 'name',
-         },
-         {
-             Header: 'School',
-             accessor: 'school',
-         },
-         {
-             Header: 'Term',
-             accessor: 'term',
-         },
-         {
-             Header: 'StartDate',
-             accessor: 'startDate',
-         },
-         {
-             Header: 'EndDate',
-             accessor: 'endDate',
-         },
-         {
-             Header: 'GitHub Org',
-             accessor: 'githubOrg',
-         },
-     ];
+    // Stryker disable next-line all : TODO try to make a good test for this
+    const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
 
-     if (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_INSTRUCTOR")) {
-         columns.push(ButtonColumn("Edit", "primary", editCallback, "CourseTable"));
-         columns.push(ButtonColumn("Delete", "danger", deleteCallback, "CourseTable"));
-     }
+    const columns = [
+        {
+            Header: 'id',
+            accessor: 'id',
+        },
+        {
+            Header: 'Name',
+            accessor: 'name',
+        },
+        {
+            Header: 'School',
+            accessor: 'school',
+        },
+        {
+            Header: 'Term',
+            accessor: 'term',
+        },
+        {
+            Header: 'StartDate',
+            accessor: 'startDate',
+        },
+        {
+            Header: 'EndDate',
+            accessor: 'endDate',
+        },
+        {
+            Header: 'GitHub Org',
+            accessor: 'githubOrg',
+        },
+    ];
+
 
      columns.push(ButtonColumn("Join", "primary", null, "CourseTable"));
         /*Have to change from null to something else eventually.*/
