@@ -8,7 +8,7 @@ import { rest } from "msw";
 import CourseEditPage from 'main/pages/CourseEditPage';
 
 export default {
-    title: 'pages/Courses/CourseEditPage',
+    title: 'pages/CourseEditPage',
     component: CourseEditPage
 };
 
@@ -18,7 +18,7 @@ export const Default = Template.bind({});
 Default.parameters = {
     msw: [
         rest.get('/api/currentUser', (_req, res, ctx) => {
-            return res(ctx.json(apiCurrentUserFixtures.adminUser));
+            return res( ctx.json(apiCurrentUserFixtures.adminUser));
         }),
         rest.get('/api/systemInfo', (_req, res, ctx) => {
             return res(ctx.json(systemInfoFixtures.showingNeither));
