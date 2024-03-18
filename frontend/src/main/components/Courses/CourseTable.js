@@ -3,19 +3,10 @@ import OurTable, { ButtonColumn } from "main/components/OurTable"
 import { useBackendMutation } from "main/utils/useBackend";
 import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/components/Utils/CourseUtils"
 import { useNavigate } from "react-router-dom";
-import { hasRole } from "main/utils/currentUser";
 
 export default function CourseTable({ courses, currentUser }) {
 
     const navigate = useNavigate();
-
-    const staffCallback = (cell) => {
-    navigate(`/course/${cell.row.values.id}/staff`);
-};
-
-    const editCallback = (cell) => {
-        navigate(`/course/edit/${cell.row.values.id}`);
-    };
 
     // Stryker disable all : hard to test for query caching
 
@@ -26,8 +17,6 @@ export default function CourseTable({ courses, currentUser }) {
     );
     // Stryker restore all 
 
-    // Stryker disable next-line all : TODO try to make a good test for this
-    const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
 
     const columns = [
         {
