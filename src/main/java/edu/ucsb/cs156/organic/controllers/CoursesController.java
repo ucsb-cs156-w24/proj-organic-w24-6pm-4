@@ -94,6 +94,12 @@ public class CoursesController extends ApiController {
             @Parameter(name = "githubOrg", description = "for example ucsb-cs156-f23") @RequestParam String githubOrg)
             throws JsonProcessingException {
 
+
+            // Check if endDate is after startDate
+        if (endDate.isBefore(startDate)) {
+                throw new IllegalArgumentException("End date must be after start date.");
+        }
+
         Course course = Course.builder()
                 .name(name)
                 .school(school)

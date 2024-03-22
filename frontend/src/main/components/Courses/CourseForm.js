@@ -14,6 +14,9 @@ function CourseForm({ initialContents, submitAction, buttonLabel = "Create" }) {
     );
     // Stryker restore all
 
+
+
+
     const navigate = useNavigate();
 
     // Stryker disable next-line Regex
