@@ -91,7 +91,7 @@
                   {
                     "column": {
                       "name": "LAST_ONLINE",
-                      "type": "TIMESTAMP"
+                      "type": "VARCHAR(255)"
                     }
                   },
                   {

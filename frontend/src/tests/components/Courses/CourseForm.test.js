@@ -25,7 +25,7 @@ describe("CourseForm tests", () => {
     });
 
 
-    test("renders correctly when passing in a Courses", async () => {
+    test("renders correctly when passing in a course", async () => {
 
         render(
             <Router  >
@@ -76,7 +76,7 @@ describe("CourseForm tests", () => {
         const termField = screen.getByTestId("CourseForm-term");
         const startDateField = screen.getByTestId("CourseForm-startDate");
         const endDateField = screen.getByTestId("CourseForm-endDate");
-        const githubOrgField = screen.getByTestId("CourseForm-githubOrg")
+        const githubOrgField = screen.getByTestId("CourseForm-githubOrg");
         const submitButton = screen.getByTestId("CourseForm-submit");
 
         fireEvent.change(nameField, { target: { value: "CMPSC 156" } });
@@ -84,7 +84,7 @@ describe("CourseForm tests", () => {
         fireEvent.change(termField, { target: { value: 'f23' } });
         fireEvent.change(startDateField, { target: { value: '2022-01-02T12:00' } });
         fireEvent.change(endDateField, { target: { value: '2022-02-02T12:00' } });
-        fireEvent.change(githubOrgField, { target: { value: 'cs156-f23'}})
+        fireEvent.change(githubOrgField, { target: { value: 'cs156-f23'}});
         fireEvent.click(submitButton);
 
         await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
